@@ -20,8 +20,8 @@
 **Google Manager** - is the simple _**Python terminal-based application**_ that allows to manage Google account(s) via _**CLI**_. 
 
 The application is available in 2 versions:
-- interactive terminal-based application with graphic interface
-- simple **CLI** application
+- Interactive terminal-based application with graphic interface
+- Simple **CLI** application
 
 Documentation for both of them will be written below. In order to obtain more information about 
 `Google API` (Python SDK, in this case) see [references](#references).
