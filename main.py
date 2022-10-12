@@ -2,6 +2,9 @@ import sys
 
 from curses import wrapper
 
+from src.interactive_cli.curses_settings.init_curses_settings import init_curses_settings
+from src.interactive_cli.menu.menu_navigator import init_interactive_cli
+
 from src.cli.available_options import setup_available_options
 from src.cli.cli_actions_navigator import cli_execute
 
@@ -32,7 +35,8 @@ def cli(argv):
 
 
 def interactive_cli(stdscr):
-    pass
+    init_curses_settings()
+    init_interactive_cli(stdscr)
 
 
 def main(argv):
