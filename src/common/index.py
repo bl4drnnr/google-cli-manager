@@ -1,1 +1,3 @@
+LOGO = []
+
 CLI_OPERATIONS = []
