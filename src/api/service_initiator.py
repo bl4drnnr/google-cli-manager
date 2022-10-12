@@ -2,6 +2,7 @@ import os.path
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from google.oauth2 import service_account
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -27,12 +28,13 @@ def service_initiator(api_name, api_version, delegated_user=None):
             token.write(creds.to_json())
 
     if delegated_user is not None:
-        creds = None
+        delegated_credentials = service_account.Credentials.from_service_account_file('service.json', scopes=SCOPES)
+        creds = delegated_credentials.with_subject(delegated_user)
 
     try:
         service = build(api_name, api_version, credentials=creds)
         return service
     except HttpError as err:
-        print(err)
+        print(f'Error while initiation service: {err}')
 
 
