@@ -1,3 +1,5 @@
 LOGO = []
 
+SCOPES = {}
+
 CLI_OPERATIONS = []

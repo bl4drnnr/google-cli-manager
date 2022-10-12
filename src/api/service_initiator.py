@@ -6,8 +6,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from src.common.index import SCOPES
 
-def service_initiator():
+
+def service_initiator(api_name, api_version, delegated_user=None):
     creds = None
 
     if os.path.exists('token.json'):
@@ -24,10 +26,12 @@ def service_initiator():
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
-    try:
-        # service = build('docs', 'v1', credentials=creds)
+    if delegated_user is not None:
+        creds = None
 
-        # document = service.documents().get(documentId=DOCUMENT_ID).execute()
+    try:
+        service = build(api_name, api_version, credentials=creds)
+        return service
     except HttpError as err:
         print(err)
 
