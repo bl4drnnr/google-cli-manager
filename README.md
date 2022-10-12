@@ -5,8 +5,14 @@
 4. [Documentation](#documentation)
    1. [Interactive terminal-based application](#interactive-terminal-based-application)
    2. [CLI application](#cli-application)
-5. [References](#references)
-6. [License](#license)
+5. [Available endpoints](#available-endpoints)
+   1. [Admin workspace](#admin-workspace)
+   2. [Calendar](#calendar)
+   3. [Docs](#docs)
+   4. [Drive](#drive)
+   5. [Gmail](#gmail)
+6. [References](#references)
+7. [License](#license)
 
 ---
 
@@ -38,6 +44,16 @@ Below is listed step-by-step instruction on how to install `Google Manager` on y
 
 #### Interactive terminal-based application
 #### CLI application
+
+---
+
+### Available endpoints
+
+#### Admin workspace
+#### Calendar
+#### Docs
+#### Drive
+#### Gmail
 
 ---
 
