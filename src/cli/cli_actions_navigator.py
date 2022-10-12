@@ -1,2 +1,2 @@
-def actions_navigator():
+def cli_execute(operation, options):
     pass
