@@ -4,8 +4,9 @@ from curses import wrapper
 
 from src.cli.available_options import setup_available_options
 from src.cli.cli_actions_navigator import cli_execute
-from src.cli.exceptions import SingleArgument
-from src.cli.common import AVAILABLE_OPTIONS
+
+from src.exceptions.index import SingleArgument
+from src.common.index import CLI_OPERATIONS
 
 
 def cli(argv):
@@ -15,7 +16,7 @@ def cli(argv):
 
     for i in options.__dict__:
         if options.__dict__[i] is not None and options.__dict__[i]:
-            if i in AVAILABLE_OPTIONS:
+            if i in CLI_OPERATIONS:
                 operation.append(i)
             else:
                 set_options[i] = options.__dict__[i]
