@@ -2,3 +2,7 @@ vevn
 __pycache__
 .idea
 .DS_Store
+
+credentials.json
+token.json
+service.json
