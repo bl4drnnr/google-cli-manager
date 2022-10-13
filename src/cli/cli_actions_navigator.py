@@ -15,12 +15,7 @@ def cli_execute(operation, options):
     user_to_transfer = options['email_to']
 
     try:
-        if operation == 'offboard':
-            suspend_user_activity(off_board_user, FILE_NAME)
-            transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)
-            transfer_drive_ownership(off_board_user, user_to_transfer, FILE_NAME)
-            enable_email_forwarding(off_board_user, user_to_transfer, FILE_NAME)
-        elif operation == 'sua':
+        if operation == 'sua':
             suspend_user_activity(off_board_user, FILE_NAME)
         elif operation == 'tce':
             transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)

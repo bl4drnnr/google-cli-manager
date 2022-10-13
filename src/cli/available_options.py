@@ -11,16 +11,13 @@ def setup_available_options(argv):
     required.add_argument('-f', '--email-from',
                           metavar='',
                           required=True,
-                          help='Email of offboarded user.')
+                          help='Email of user to send data from (data "sender").')
     required.add_argument('-t', '--email-to',
                           metavar='',
                           required=True,
                           help='Email of data transfer receiver.')
-    parser.add_argument('--offboard',
-                        help='General offboarding. Triggers all functions below.',
-                        action='store_true')
     parser.add_argument('--sua',
-                        help='Suspend user activity and change OU to X-Knowde.',
+                        help='Suspend user activity.',
                         action='store_true')
     parser.add_argument('--tce',
                         help='Transfer calendar events.',

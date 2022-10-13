@@ -1,7 +1,8 @@
-def change_organizational_unit(email, user, service):
-    print('Changing user OU on X-Knowde...')
+def change_organizational_unit(email, service, ou):
+    print(f'Changing user OU on {ou}...')
     try:
-        user['orgUnitPath'] = '/X-Knowde'
+        user = service.users().get(userKey=email).execute()
+        user['orgUnitPath'] = f'/{ou}'
         service.users().update(userKey=email, body=user).execute()
         print('User\'s Google account activity has been successfully suspended!')
     except Exception as e:

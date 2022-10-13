@@ -3,6 +3,7 @@ def suspend_user(email, service):
     try:
         user = service.users().get(userKey=email).execute()
         user['suspended'] = True
-        return user
+        service.users().update(userKey=email, body=user).execute()
+        print('User\'s account activity has been successfully suspended!')
     except Exception as e:
         raise Exception(e)
