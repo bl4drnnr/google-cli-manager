@@ -30,7 +30,9 @@ def cli(argv):
     except SingleArgument:
         print('One operation argument is expected.')
         sys.exit()
+
     cli_execute(operation[0], set_options)
+
     sys.exit()
 
 

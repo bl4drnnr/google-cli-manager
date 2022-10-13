@@ -5,36 +5,33 @@ from google.oauth2.credentials import Credentials
 from google.oauth2 import service_account
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 
 from src.common.index import SCOPES
 
 
-def service_initiator(api_name, api_version, delegated_user=None):
+def init_services(client_secret_file, api_name, api_version, delegated_user=None):
     creds = None
 
     if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES[api_name])
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
+            flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, SCOPES[api_name])
+            creds = flow.run_local_server()
 
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
     if delegated_user is not None:
-        delegated_credentials = service_account.Credentials.from_service_account_file('service.json', scopes=SCOPES)
-        creds = delegated_credentials.with_subject(delegated_user)
+        credentials = service_account.Credentials.from_service_account_file(
+            'service.json', scopes=SCOPES[api_name])
+        creds = credentials.with_subject(delegated_user)
 
     try:
         service = build(api_name, api_version, credentials=creds)
         return service
-    except HttpError as err:
-        print(f'Error while initiation service: {err}')
-
-
+    except Exception as e:
+        print(f'An error occurred: {e}')

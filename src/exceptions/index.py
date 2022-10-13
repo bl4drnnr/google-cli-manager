@@ -6,10 +6,6 @@ class SingleArgument(Error):
     pass
 
 
-class NoToken(Error):
-    pass
-
-
 class WrongOption(Error):
     pass
 
