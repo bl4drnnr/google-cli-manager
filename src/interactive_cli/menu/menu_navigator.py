@@ -59,7 +59,7 @@ def navigate_functions_menu(stdscr, current_row_idx):
 
         if key == curses.KEY_UP and current_row_idx > 0:
             current_row_idx -= 1
-        elif key == curses.KEY_UP and current_row_idx < len(AVAILABLE_FUNCTIONS) - 1:
+        elif key == curses.KEY_DOWN and current_row_idx < len(AVAILABLE_FUNCTIONS) - 1:
             current_row_idx += 1
         elif key == ord('q') or key == ord('Q'):
             return
