@@ -1,7 +1,7 @@
 import sys
 import curses
 
-from src.common.index import LOGO, MENU
+from src.common.index import LOGO, MENU, AVAILABLE_FUNCTIONS
 
 
 def print_logo(stdscr, color_pair_id):
@@ -31,6 +31,20 @@ def print_introduction(stdscr):
     stdscr.addstr(' to confirm your choice.\n\n')
 
 
+def print_functions_introduction(stdscr):
+    print_logo(stdscr, 2)
+    stdscr.addstr('Here is list of available functions.\n\n', curses.A_BOLD)
+
+    stdscr.addstr('Use ')
+    stdscr.addstr('ARROWS', curses.A_BOLD)
+    stdscr.addstr(' on your keyboard for navigations.\n')
+    stdscr.addstr('Press ')
+    stdscr.addstr('ENTER', curses.A_BOLD)
+    stdscr.addstr(' to confirm your choice.\n\n')
+
+    stdscr.addstr('Press Q to get back to main menu.\n\n', curses.A_BOLD)
+
+
 def print_documentation(stdscr):
     print_logo(stdscr, 2)
     stdscr.addstr('All functions and deeper descriptions were already described\n')
@@ -44,8 +58,8 @@ def print_documentation(stdscr):
     stdscr.addstr(' and what type of credentials\n')
     stdscr.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
-    stdscr.addstr('DESCRIPTION OF AVAILABLE FUNCTIONS\n\n')
-    stdscr.addstr('CREDENTIALS\n\n')
+    stdscr.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('### CREDENTIALS ###\n\n', curses.A_BOLD | curses.A_UNDERLINE)
 
     stdscr.addstr('In case of any issues, don\'t hesitate to text me - ')
     stdscr.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
@@ -90,3 +104,15 @@ def print_menu(stdscr, current_row_idx):
 
     stdscr.refresh()
 
+
+def print_functions_menu(stdscr, current_row_idx):
+    stdscr.clear()
+
+    print_functions_introduction(stdscr)
+    for idx, row in enumerate(AVAILABLE_FUNCTIONS):
+        if idx == current_row_idx:
+            stdscr.addstr(f' > {row}')
+        else:
+            stdscr.addstr(row)
+
+    stdscr.refresh()

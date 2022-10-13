@@ -25,3 +25,11 @@ MENU = [
     'Documentation\n',
     'Exit\n'
 ]
+
+AVAILABLE_FUNCTIONS = [
+    'Suspend user activity\n',
+    'Change user Organizational Unit\n',
+    'Transfer GDrive ownership\n',
+    'Transfer Google Calendar events\n'
+    'Enable email forwarding\n'
+]
