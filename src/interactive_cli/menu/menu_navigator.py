@@ -64,7 +64,7 @@ def navigate_functions_menu(stdscr, current_row_idx):
         elif key == ord('q') or key == ord('Q'):
             return
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            pass
+            selected_command = AVAILABLE_FUNCTIONS[current_row_idx].split('\n')[0]
 
         print_functions_menu(stdscr, current_row_idx)
         stdscr.refresh()
