@@ -58,8 +58,8 @@ def print_documentation(stdscr):
     stdscr.addstr(' and what type of credentials\n')
     stdscr.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
-    stdscr.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n', curses.A_BOLD | curses.A_UNDERLINE)
-    stdscr.addstr('### CREDENTIALS ###\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
 
     stdscr.addstr('In case of any issues, don\'t hesitate to text me - ')
     stdscr.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
@@ -110,6 +110,7 @@ def print_functions_menu(stdscr, current_row_idx):
 
     print_functions_introduction(stdscr)
     for idx, row in enumerate(AVAILABLE_FUNCTIONS):
+
         if idx == current_row_idx:
             stdscr.addstr(f' > {row}')
         else:

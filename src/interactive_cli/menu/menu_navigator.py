@@ -61,7 +61,7 @@ def navigate_functions_menu(stdscr, current_row_idx):
             current_row_idx -= 1
         elif key == curses.KEY_UP and current_row_idx < len(AVAILABLE_FUNCTIONS) - 1:
             current_row_idx += 1
-        elif key == 'q':
+        elif key == ord('q') or key == ord('Q'):
             return
         elif key == curses.KEY_ENTER or key in [10, 13]:
             pass
