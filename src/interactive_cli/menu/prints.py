@@ -1,7 +1,7 @@
 import sys
 import curses
 
-from src.common.index import LOGO, MENU, AVAILABLE_FUNCTIONS
+from src.common.index import LOGO, MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT, pad_refresh, navigation_control
 
 
 def print_logo(stdscr, color_pair_id):
@@ -42,30 +42,46 @@ def print_functions_introduction(stdscr):
     stdscr.addstr('ENTER', curses.A_BOLD)
     stdscr.addstr(' to confirm your choice.\n\n')
 
-    stdscr.addstr('Press Q to get back to main menu.\n\n', curses.A_BOLD)
+    stdscr.addstr('Press Q to get back to main menu...\n\n', curses.A_BOLD)
 
 
 def print_documentation(stdscr):
-    print_logo(stdscr, 2)
-    stdscr.addstr('All functions and deeper descriptions were already described\n')
-    stdscr.addstr('in ')
-    stdscr.addstr('README', curses.A_BOLD)
-    stdscr.addstr(' file. Below will be listed only short definition for them\n')
-    stdscr.addstr('but, most important, how to work with different types of\n')
-    stdscr.addstr('Google Accounts', curses.A_BOLD)
-    stdscr.addstr(' like ')
-    stdscr.addstr('Service Account', curses.A_BOLD)
-    stdscr.addstr(' and what type of credentials\n')
-    stdscr.addstr('you will need in order to obtain access to different endpoints.\n\n')
+    height, width = stdscr.getmaxyx()
+    pad_pos = 0
+    pad = curses.newpad(PAD_HEIGHT, width)
 
-    stdscr.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
-    stdscr.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    print_logo(pad, 2)
+    pad.addstr('All functions and deeper descriptions were already described\n')
+    pad.addstr('in ')
+    pad.addstr('README', curses.A_BOLD)
+    pad.addstr(' file. Below will be listed only short definition for them\n')
+    pad.addstr('but, most important, how to work with different types of\n')
+    pad.addstr('Google Accounts', curses.A_BOLD)
+    pad.addstr(' like ')
+    pad.addstr('Service Account', curses.A_BOLD)
+    pad.addstr(' and what type of credentials\n')
+    pad.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
-    stdscr.addstr('In case of any issues, don\'t hesitate to text me - ')
-    stdscr.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n',
+                  curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Because of fact, that Google has a lot of services, there will be\n')
+    pad.addstr('described only ones which have been implemented in certain services.\n\n')
 
-    stdscr.addstr('Press any key to continue...')
-    stdscr.getch()
+    pad.addstr('Gmail\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+
+    pad.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('### BACKUPS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+
+    pad.addstr('In case of any issues, don\'t hesitate to text me - ')
+    pad.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+
+    pad.addstr('Press Q to get back to main menu...')
+
+    pad_refresh(pad, pad_pos, height, width)
+    navigation_control(pad, pad_pos, height, width)
 
 
 def print_exit(stdscr):
@@ -88,19 +104,19 @@ def print_menu(stdscr, current_row_idx):
     for idx, row in enumerate(MENU):
 
         if idx == current_row_idx:
-            if row == 'Exit\n':
-                stdscr.addstr(f' > {row}', curses.color_pair(3))
-            elif row == 'Start\n':
+            if row == 'Start\n':
                 stdscr.addstr(f' > {row}', curses.color_pair(2))
-            else:
-                stdscr.addstr(f' > {row}')
+            elif row == 'Documentation\n':
+                stdscr.addstr(f' > {row}', curses.color_pair(4))
+            elif row == 'Exit\n':
+                stdscr.addstr(f' > {row}', curses.color_pair(3))
         else:
-            if row == 'Exit\n':
-                stdscr.addstr(row, curses.color_pair(3))
-            elif row == 'Start\n':
+            if row == 'Start\n':
                 stdscr.addstr(row, curses.color_pair(2))
-            else:
-                stdscr.addstr(row)
+            elif row == 'Documentation\n':
+                stdscr.addstr(row, curses.color_pair(4))
+            elif row == 'Exit\n':
+                stdscr.addstr(row, curses.color_pair(3))
 
     stdscr.refresh()
 
@@ -112,7 +128,7 @@ def print_functions_menu(stdscr, current_row_idx):
     for idx, row in enumerate(AVAILABLE_FUNCTIONS):
 
         if idx == current_row_idx:
-            stdscr.addstr(f' > {row}')
+            stdscr.addstr(f' > {row}', curses.color_pair(1))
         else:
             stdscr.addstr(row)
 
