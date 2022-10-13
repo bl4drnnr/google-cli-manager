@@ -42,7 +42,7 @@ def print_functions_introduction(stdscr):
     stdscr.addstr('ENTER', curses.A_BOLD)
     stdscr.addstr(' to confirm your choice.\n\n')
 
-    stdscr.addstr('Press Q to get back to main menu.\n\n', curses.A_BOLD)
+    stdscr.addstr('Press Q to get back to main menu...\n\n', curses.A_BOLD)
 
 
 def print_documentation(stdscr):
@@ -78,8 +78,7 @@ def print_documentation(stdscr):
     pad.addstr('In case of any issues, don\'t hesitate to text me - ')
     pad.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
 
-    pad.addstr('Press any key to continue...')
-    pad.getch()
+    pad.addstr('Press Q to get back to main menu...')
 
     pad_refresh(pad, pad_pos, height, width)
     navigation_control(pad, pad_pos, height, width)
@@ -105,19 +104,19 @@ def print_menu(stdscr, current_row_idx):
     for idx, row in enumerate(MENU):
 
         if idx == current_row_idx:
-            if row == 'Exit\n':
-                stdscr.addstr(f' > {row}', curses.color_pair(3))
-            elif row == 'Start\n':
+            if row == 'Start\n':
                 stdscr.addstr(f' > {row}', curses.color_pair(2))
-            else:
-                stdscr.addstr(f' > {row}')
+            elif row == 'Documentation\n':
+                stdscr.addstr(f' > {row}', curses.color_pair(4))
+            elif row == 'Exit\n':
+                stdscr.addstr(f' > {row}', curses.color_pair(3))
         else:
-            if row == 'Exit\n':
-                stdscr.addstr(row, curses.color_pair(3))
-            elif row == 'Start\n':
+            if row == 'Start\n':
                 stdscr.addstr(row, curses.color_pair(2))
-            else:
-                stdscr.addstr(row)
+            elif row == 'Documentation\n':
+                stdscr.addstr(row, curses.color_pair(4))
+            elif row == 'Exit\n':
+                stdscr.addstr(row, curses.color_pair(3))
 
     stdscr.refresh()
 
@@ -129,7 +128,7 @@ def print_functions_menu(stdscr, current_row_idx):
     for idx, row in enumerate(AVAILABLE_FUNCTIONS):
 
         if idx == current_row_idx:
-            stdscr.addstr(f' > {row}')
+            stdscr.addstr(f' > {row}', curses.color_pair(1))
         else:
             stdscr.addstr(row)
 
