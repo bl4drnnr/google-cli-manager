@@ -59,7 +59,16 @@ def print_documentation(stdscr):
     stdscr.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
     stdscr.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('Because of fact, that Google has a lot of services, there will be\n')
+    stdscr.addstr('described only ones which have been implemented in certain services.\n\n')
+
+    stdscr.addstr('Gmail\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+
     stdscr.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr('### BACKUPS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
 
     stdscr.addstr('In case of any issues, don\'t hesitate to text me - ')
     stdscr.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
