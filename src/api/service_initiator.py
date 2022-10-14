@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from src.common.index import SCOPES
+from src.common.vars import SCOPES
 
 
 def init_services(client_secret_file, api_name, api_version, delegated_user=None):

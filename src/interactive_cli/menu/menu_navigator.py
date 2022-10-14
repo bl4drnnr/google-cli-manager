@@ -4,9 +4,10 @@ from src.interactive_cli.menu.prints import \
     print_menu, \
     print_functions_menu, \
     print_documentation, \
-    print_exit
+    print_exit, \
+    print_selected_command
 
-from src.common.index import MENU, AVAILABLE_FUNCTIONS
+from src.common.vars import MENU, AVAILABLE_FUNCTIONS
 
 
 # INIT INTERACTIVE CLI AND NAVIGATION
@@ -65,6 +66,7 @@ def navigate_functions_menu(stdscr, current_row_idx):
             return
         elif key == curses.KEY_ENTER or key in [10, 13]:
             selected_command = AVAILABLE_FUNCTIONS[current_row_idx].split('\n')[0]
+            print_selected_command(stdscr, selected_command)
 
         print_functions_menu(stdscr, current_row_idx)
         stdscr.refresh()
