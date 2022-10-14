@@ -5,8 +5,13 @@ LOGO = [
 ]
 
 SCOPES = {
-    'admin': ['https://www.googleapis.com/auth/admin.directory.user'],
-    'drive': ['https://www.googleapis.com/auth/drive'],
+    'admin': [
+        'https://www.googleapis.com/auth/admin.directory.user'
+    ],
+    'drive': [
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.appdata'
+    ],
     'gmail': [
         'https://mail.google.com/',
         'https://www.googleapis.com/auth/gmail.settings.basic',
@@ -15,10 +20,15 @@ SCOPES = {
         'https://www.googleapis.com/auth/drive.appdata',
         'https://www.googleapis.com/auth/userinfo.email'
     ],
-    'calendar': ['https://www.googleapis.com/auth/calendar']
+    'groupsmigration': [
+        'https://www.googleapis.com/auth/apps.groups.migration'
+    ],
+    'calendar': [
+        'https://www.googleapis.com/auth/calendar'
+    ]
 }
 
-CLI_OPERATIONS = ['sua', 'tce', 'tdo', 'ef']
+CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'ef']
 
 MENU = [
     'Start\n',
@@ -27,6 +37,7 @@ MENU = [
 ]
 
 AVAILABLE_FUNCTIONS = [
+    'Offboard user\n',
     'Suspend user activity\n',
     'Change user Organizational Unit\n',
     'Transfer GDrive ownership\n',
