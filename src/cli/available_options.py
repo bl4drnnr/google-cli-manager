@@ -9,11 +9,11 @@ def setup_available_options(argv):
                         action='help',
                         help='Display this message.')
     required.add_argument('-f', '--email-from',
-                          metavar='',
+                          metavar='email-from',
                           required=True,
                           help='Email of offboarded user.')
     required.add_argument('-t', '--email-to',
-                          metavar='',
+                          metavar='email-to',
                           required=True,
                           help='Email of data transfer receiver.')
     parser.add_argument('--offboard',
@@ -31,8 +31,14 @@ def setup_available_options(argv):
     parser.add_argument('--tce',
                         help='Transfer calendar events.',
                         action='store_true')
-    parser.add_argument('--ceb',
-                        help='Create email backup.',
+    parser.add_argument('--tgdo',
+                        help='Transfer Google Docs ownership',
+                        action='store_true')
+    parser.add_argument('--cebl',
+                        help='Create email backup (locally).',
+                        action='store_true')
+    parser.add_argument('--cebg',
+                        help='Create email backup (upload to Google Groups)',
                         action='store_true')
 
     return parser.parse_args(argv)

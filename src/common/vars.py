@@ -1,7 +1,7 @@
 LOGO = [
-    '+---------------+\n',
-    '| GOOGLE-MERGER |\n',
-    '+---------------+\n\n'
+    '+--------------------+\n',
+    '| GOOGLE-CLI-MANAGER |\n',
+    '+--------------------+\n\n'
 ]
 
 SCOPES = {
@@ -28,7 +28,7 @@ SCOPES = {
     ]
 }
 
-CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'ceb']
+CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo']
 
 MENU = [
     'Start\n',
@@ -37,12 +37,14 @@ MENU = [
 ]
 
 AVAILABLE_FUNCTIONS = [
-    'Offboard user\n',
+    'Offboard user\n\n',
     'Suspend user activity\n',
-    'Change user Organizational Unit\n',
+    'Change user Organizational Unit\n\n',
     'Transfer GDrive ownership\n',
     'Transfer Google Calendar events\n',
-    'Create email backup\n'
+    'Transfer Google Docs ownership\n\n',
+    'Create email backup (locally)\n',
+    'Create email backup (upload to Google Groups)\n'
 ]
 
 PAD_HEIGHT = 16384
