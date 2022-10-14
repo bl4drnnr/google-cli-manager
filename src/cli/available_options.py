@@ -31,8 +31,8 @@ def setup_available_options(argv):
     parser.add_argument('--tce',
                         help='Transfer calendar events.',
                         action='store_true')
-    parser.add_argument('--ef',
-                        help='Enable email forwarding.',
+    parser.add_argument('--ceb',
+                        help='Create email backup.',
                         action='store_true')
 
     return parser.parse_args(argv)

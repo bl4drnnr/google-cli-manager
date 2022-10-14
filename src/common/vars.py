@@ -28,7 +28,7 @@ SCOPES = {
     ]
 }
 
-CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'ef']
+CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'ceb']
 
 MENU = [
     'Start\n',
@@ -42,7 +42,7 @@ AVAILABLE_FUNCTIONS = [
     'Change user Organizational Unit\n',
     'Transfer GDrive ownership\n',
     'Transfer Google Calendar events\n',
-    'Enable email forwarding\n'
+    'Create email backup\n'
 ]
 
 PAD_HEIGHT = 16384
