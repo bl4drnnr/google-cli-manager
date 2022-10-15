@@ -28,7 +28,8 @@ def command_execution(stdscr, command):
 
         if len(valid_credentials_error) != 0:
             stdscr.addstr(valid_credentials_error, curses.color_pair(3))
-            stdscr.addstr('\n\nPress any key to get back...')
+            stdscr.addstr('\n\nPress any key to get back...\n\n')
+            stdscr.addstr('#################################', curses.A_BOLD)
             stdscr.getch()
             return
 

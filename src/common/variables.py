@@ -1,7 +1,7 @@
 LOGO = [
     '+--------------------+\n',
     '| GOOGLE-CLI-MANAGER |\n',
-    '+--------------------+\n\n'
+    '  +--------------------+\n\n'
 ]
 
 SCOPES = {
@@ -40,7 +40,7 @@ AVAILABLE_FUNCTIONS = [
     'Offboard user\n\n',
     'Suspend user activity\n',
     'Change user Organizational Unit\n\n',
-    'Transfer GDrive ownership\n',
+    'Transfer Google Drive ownership\n',
     'Transfer Google Calendar events\n',
     'Transfer Google Docs ownership\n\n',
     'Create email backup (locally)\n',

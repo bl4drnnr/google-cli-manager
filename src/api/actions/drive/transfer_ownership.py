@@ -1,5 +1,5 @@
 def transfer_ownership(email_from, email_to, service):
-    print(f'Transferring GDrive ownership from {email_from} to {email_to}...')
+    print(f'Transferring Google Drive ownership from {email_from} to {email_to}...')
     files = []
     page_token = None
     while True:

@@ -3,7 +3,7 @@ commands_docs = {
         'User offboarding - general procedure, that deactivate user\'s account by doing next:\n',
         '1. Suspend user\'s activity.\n',
         '2. Change user Organizational Unit to X-Knowde.\n',
-        '3. Transfer GDrive ownership.\n',
+        '3. Transfer Google Drive ownership.\n',
         '4. Transfer Google Calendar events.\n',
         '5. Enable email forwarding.\n\n'
     ],
@@ -15,8 +15,8 @@ commands_docs = {
         'Change Organizational Unit user belongs to.\n',
         'By default, change it to X-Knowde, but can be custom (from pool of existing ones).\n\n'
     ],
-    'Transfer GDrive ownership': [
-        'Transfer ownership of all files on GDrive.\n',
+    'Transfer Google Drive ownership': [
+        'Transfer ownership of all files on Google Drive.\n',
         'Ownership is transferred only for files that have been created by this user.\n\n'
     ],
     'Transfer Google Calendar events': [

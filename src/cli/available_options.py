@@ -28,7 +28,7 @@ def setup_available_options(argv):
                         help='Change user organizational unit.',
                         action='store_true')
     parser.add_argument('--tdo',
-                        help='Transfer GDrive ownership.',
+                        help='Transfer Google Drive ownership.',
                         action='store_true')
     parser.add_argument('--tce',
                         help='Transfer calendar events.',
