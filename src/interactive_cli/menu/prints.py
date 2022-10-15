@@ -1,28 +1,9 @@
-import os
 import sys
 import curses
 
-from src.common.vars import LOGO, MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT, pad_refresh, navigation_control
-from src.common.credential_file import generate_credentials_file
-
-from src.interactive_cli.menu.docs import commands_docs
-from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
-
-
-def print_raw_input(stdscr, prompt_string):
-    curses.echo()
-    stdscr.addstr(prompt_string)
-    stdscr.refresh()
-    user_input = stdscr.getstr()
-    return user_input.decode('utf-8')
-
-
-def print_logo(stdscr, color_pair_id):
-    h, w = stdscr.getmaxyx()
-
-    for idx, row in enumerate(LOGO):
-        x = w // 2 - len(row) // 2
-        stdscr.addstr(idx, x, row, curses.color_pair(color_pair_id))
+from src.common.variables import MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT
+from src.common.functions import pad_refresh, navigation_control, print_logo
+from src.interactive_cli.menu.menu_actions import command_execution
 
 
 def print_introduction(stdscr):
@@ -76,8 +57,18 @@ def print_documentation(stdscr):
     pad.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
     pad.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Every action requires user to have proper access.\n')
+    pad.addstr('In every case, in order to obtain access to functions, you will\n')
+    pad.addstr('need to provide ')
+    pad.addstr('OAuth 2.0 credentials.\n\n', curses.A_BOLD)
+
     pad.addstr('Some of operation are available only in Google Admin Workspace (G Suite).\n')
     pad.addstr('In order to have access to these operation you need to have proper accesses as user.\n')
+    pad.addstr('If you want to get access to other users\' data (what you probably want to do)\n')
+    pad.addstr('you need to have ')
+    pad.addstr('Service Account.\n', curses.A_BOLD)
+    pad.addstr('This type of account allows you to get access to other users\' data\n')
+    pad.addstr('by escalating privileges from you to this account.\n\n')
     pad.addstr('If you got any access error, please, ')
     pad.addstr('contact your Google Admin Workspace administrator.\n\n', curses.A_BOLD)
 
@@ -109,7 +100,7 @@ def print_documentation(stdscr):
     pad.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Transfer Google Calendar events ', curses.A_BOLD)
     pad.addstr('- transfers all user\'s Google Calendar events\nto another calendar. ')
-    pad.addstr('Receiver of events receives email with proposition to add those events ')
+    pad.addstr('Receiver of events receives email with\nproposition to add those events ')
     pad.addstr('to his private Google Calendar.\n\n')
 
     pad.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
@@ -143,33 +134,6 @@ def print_exit(stdscr):
     stdscr.addstr('Press any key to exit...')
     stdscr.getch()
     sys.exit()
-
-
-def command_execution(stdscr, command):
-    print_logo(stdscr, 4)
-
-    command_instructions = commands_docs[command]
-
-    for idx, row in enumerate(command_instructions):
-        if idx == 0:
-            stdscr.addstr(f' - {row}', curses.A_BOLD)
-        else:
-            stdscr.addstr(row)
-
-    if not os.path.exists('credentials.json'):
-        client_id = print_raw_input(stdscr, 'Please, provide client ID: ')
-        client_secret = print_raw_input(stdscr, 'Please, provide client secret: ')
-        project_id = print_raw_input(stdscr, 'Please, provide project ID: ')
-
-        valid_credentials_error = check_client_id_and_secret(client_id, client_secret)
-
-        if len(valid_credentials_error) != 0:
-            stdscr.addstr(valid_credentials_error, curses.color_pair(3))
-            stdscr.addstr('\n\nPress any key to get back...')
-            stdscr.getch()
-            return
-
-        generate_credentials_file(client_id, client_secret, project_id)
 
 
 def print_menu(stdscr, current_row_idx):
