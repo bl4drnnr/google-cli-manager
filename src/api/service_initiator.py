@@ -9,7 +9,7 @@ from googleapiclient.discovery import build
 from src.common.vars import SCOPES
 
 
-def init_services(client_secret_file, api_name, api_version, delegated_user=None):
+def init_services(api_name, api_version, delegated_user=None):
     creds = None
 
     if os.path.exists('token.json'):
@@ -19,7 +19,7 @@ def init_services(client_secret_file, api_name, api_version, delegated_user=None
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, SCOPES[api_name])
+            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES[api_name])
             creds = flow.run_local_server()
 
         with open('token.json', 'w') as token:
