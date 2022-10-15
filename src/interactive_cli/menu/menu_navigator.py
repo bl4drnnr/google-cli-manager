@@ -7,7 +7,7 @@ from src.interactive_cli.menu.prints import \
     print_exit, \
     print_selected_command
 
-from src.common.vars import MENU, AVAILABLE_FUNCTIONS
+from src.common.variables import MENU, AVAILABLE_FUNCTIONS
 
 
 # INIT INTERACTIVE CLI AND NAVIGATION

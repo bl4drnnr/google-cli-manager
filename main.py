@@ -9,7 +9,7 @@ from src.cli.available_options import setup_available_options
 from src.cli.cli_actions_navigator import cli_execute
 
 from src.exceptions.index import SingleArgument
-from src.common.vars import CLI_OPERATIONS
+from src.common.variables import CLI_OPERATIONS
 
 
 def cli(argv):
