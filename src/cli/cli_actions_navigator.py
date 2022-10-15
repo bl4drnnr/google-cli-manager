@@ -8,8 +8,6 @@ from src.api.services.calendar import transfer_calendar_events
 from src.api.services.admin import suspend_user_activity
 from src.api.services.admin import change_ou
 
-FILE_NAME = 'credentials.json'
-
 
 def cli_execute(operation, options):
     off_board_user = options['email_from']
@@ -17,21 +15,21 @@ def cli_execute(operation, options):
 
     try:
         if operation == 'offboard':
-            suspend_user_activity(off_board_user, FILE_NAME)
-            transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)
-            transfer_drive_ownership(off_board_user, user_to_transfer, FILE_NAME)
-            email_backup(off_board_user, user_to_transfer, FILE_NAME)
-            change_ou(off_board_user, '', '')
+            suspend_user_activity(off_board_user)
+            transfer_calendar_events(off_board_user, user_to_transfer)
+            transfer_drive_ownership(off_board_user, user_to_transfer)
+            email_backup(off_board_user, user_to_transfer)
+            change_ou(off_board_user, '')
         elif operation == 'sua':
-            suspend_user_activity(off_board_user, FILE_NAME)
+            suspend_user_activity(off_board_user)
         elif operation == 'tce':
-            transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)
+            transfer_calendar_events(off_board_user, user_to_transfer)
         elif operation == 'tdo':
-            transfer_drive_ownership(off_board_user, user_to_transfer, FILE_NAME)
+            transfer_drive_ownership(off_board_user, user_to_transfer)
         elif operation == 'cebl':
-            email_backup(off_board_user, user_to_transfer, FILE_NAME)
+            email_backup(off_board_user, user_to_transfer)
         elif operation == 'cebg':
-            email_backup(off_board_user, user_to_transfer, FILE_NAME)
+            email_backup(off_board_user, user_to_transfer)
         elif operation == 'tgdo':
             pass
         else:
