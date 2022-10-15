@@ -4,7 +4,7 @@
    1. [Creating project](#creating-project)
    2. [Service account](#service-account)
 3. [Installation](#installation)
-4. [Documentation](#documentation)
+4. [Types of execution](#types-of-execution)
    1. [Interactive CLI](#interactive-cli)
    2. [Classic terminal application](#classic-terminal-application)
 5. [Available endpoints](#available-endpoints)
@@ -41,6 +41,12 @@ just skip next steps, dedicated creating of project and go to [Service Account](
 
 #### Creating project
 1. Go to [Google Cloud project creation page](https://console.cloud.google.com/projectcreate).
+2. Provide project name and click `Create`.
+3. On the left side bard click `APIs & Services` and then `Credentials`.
+4. At the top click `Create Credentials` and select `OAuth client ID`.
+5. There, if you didn't it before, you will be invited to configure `OAuth consent screen`. If you already did that, go to next steps.
+   1. There, in `User Type` select `External` and click `Create`.
+6. 
 
 If you already have project on Google Cloud and you want to manage other users' data
 what you need to do, is to create **Service Account**.
@@ -68,7 +74,7 @@ Type `gmcli -h` to check if everything was installed correctly.
 
 ---
 
-### Documentation
+### Types of execution
 
 The program works in 2 modes. As Interactive terminal-based application and classic terminal application.
 
