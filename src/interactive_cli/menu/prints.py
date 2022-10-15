@@ -75,18 +75,53 @@ def print_documentation(stdscr):
     pad.addstr(' and what type of credentials\n')
     pad.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
+    pad.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Some of operation are available only in Google Admin Workspace (G Suite).\n')
+    pad.addstr('In order to have access to these operation you need to have proper accesses as user.\n')
+    pad.addstr('If you got any access error, please, ')
+    pad.addstr('contact your Google Admin Workspace administrator.\n\n', curses.A_BOLD)
+
     pad.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n',
                curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Because of fact, that Google has a lot of services, there will be\n')
     pad.addstr('described only ones which have been implemented in certain services.\n\n')
 
-    pad.addstr('Gmail\n\n', curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('General\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Offboard user ', curses.A_BOLD)
+    pad.addstr('- common offboarding procedure that includes a couple of operations.\n')
+    pad.addstr('Operation that is triggered while offboarding procedure:\n')
+    pad.addstr('1. Suspend user activity.\n')
+    pad.addstr('2. Changes user Organizational Unit.\n')
+    pad.addstr('3. Transfer GDrive ownership.\n')
+    pad.addstr('4. Transfer Google Calendar events ownership.\n')
+    pad.addstr('5. Backup of user\'s email by creating Google Group.\n\n')
 
-    pad.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('### BACKUPS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Suspend user activity ', curses.A_BOLD)
+    pad.addstr('- changes user\'s account status to "suspended", \nbut doesn\'t archive it.\n\n')
+
+    pad.addstr('Change user Organizational Unit ', curses.A_BOLD)
+    pad.addstr('- changes user\'s Organizational Unit (OU). \nOU should already exists in Workspace.\n\n')
+
+    pad.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Transfer GDrive ownership ', curses.A_BOLD)
+    pad.addstr('- transfers ownership of files on Google Drive, that\nhas been created by this user.\n\n')
+
+    pad.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Transfer Google Calendar events ', curses.A_BOLD)
+    pad.addstr('- transfers all user\'s Google Calendar events\nto another calendar. ')
+    pad.addstr('Receiver of events receives email with proposition to add those events ')
+    pad.addstr('to his private Google Calendar.\n\n')
+
+    pad.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Transfer Google Docs ownership ', curses.A_BOLD)
+    pad.addstr('- transfers ownership of files on Google Docs, that\nhas been created by this user.\n\n')
+
+    pad.addstr('Gmail\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Local email back up ', curses.A_BOLD)
+    pad.addstr('- creates backup of user\'s emails and saves it locally.\n\n')
+
+    pad.addstr('Google Groups email back up ', curses.A_BOLD)
+    pad.addstr('- creates backup of user\'s emails\nand uploads it in form of Google Group.\n\n')
 
     pad.addstr('In case of any issues, don\'t hesitate to text me - ')
     pad.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
