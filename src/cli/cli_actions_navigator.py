@@ -1,7 +1,7 @@
 import os
 import sys
 
-from src.exceptions.index import WrongOption, NoCredentialsFile
+from src.exceptions.index import WrongOption, NoCredentialsFile, NoOrganizationalUnitSet
 
 from src.api.services.email import email_backup
 from src.api.services.drive import transfer_drive_ownership
@@ -23,24 +23,22 @@ def cli_execute(operation, options):
             if 'client-id' not in options and 'client-secret' not in options and 'project-id' not in options:
                 raise NoCredentialsFile
             else:
-                client_id = input('Please, provide client ID: ')
-                client_secret = input('Please, provide client secret: ')
-                project_id = input('Please, provide project ID: ')
-
-                valid_credentials_error = check_client_id_and_secret(client_id, client_secret)
+                valid_credentials_error = check_client_id_and_secret(options['client-id'], options['client-secret'])
 
                 if len(valid_credentials_error) != 0:
                     print(valid_credentials_error)
 
-                generate_credentials_file(client_id, client_secret, project_id)
+                generate_credentials_file(options['client-id'], options['client-secret'], options['project-id'])
                 print('Credentials file has been generated!')
 
         if operation == 'offboard':
+            if 'org-unit' not in options:
+                raise NoOrganizationalUnitSet
             suspend_user_activity(user_from)
             transfer_calendar_events(user_from, user_to)
             transfer_drive_ownership(user_from, user_to)
             email_backup(user_from, user_to)
-            change_ou(user_from, '')
+            change_ou(user_from, options['org-unit'])
         elif operation == 'sua':
             suspend_user_activity(user_from)
         elif operation == 'tce':
@@ -61,4 +59,7 @@ def cli_execute(operation, options):
     except NoCredentialsFile:
         print('No credentials were set!')
         print('Please, check manual with documentation ("-h" or "--help") in order to set them.')
+        sys.exit()
+    except NoOrganizationalUnitSet:
+        print('No organizational unit set!')
         sys.exit()
