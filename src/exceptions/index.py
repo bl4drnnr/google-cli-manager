@@ -12,3 +12,7 @@ class WrongOption(Error):
 
 class WrongAttributes(Error):
     pass
+
+
+class NoCredentialsFile(Error):
+    pass

@@ -8,6 +8,7 @@ def setup_available_options(argv):
     parser.add_argument('-h', '--help',
                         action='help',
                         help='Display this message.')
+
     required.add_argument('-f', '--email-from',
                           metavar='email-from',
                           required=True,
@@ -16,6 +17,7 @@ def setup_available_options(argv):
                           metavar='email-to',
                           required=True,
                           help='Email of data transfer receiver.')
+
     parser.add_argument('--offboard',
                         help='General user offboard. Triggers all functions below.',
                         action='store_true')
@@ -40,5 +42,14 @@ def setup_available_options(argv):
     parser.add_argument('--cebg',
                         help='Create email backup (upload to Google Groups)',
                         action='store_true')
+    parser.add_argument('-c', '--client-id',
+                        metavar='',
+                        help='OAuth 2.0 client ID. Set only during first execution or if credentials were changed.')
+    parser.add_argument('-s', '--client-secret',
+                        metavar='',
+                        help='OAuth 2.0 client secret. Set only during first execution or if credentials were changed.')
+    parser.add_argument('-p', '--project-id',
+                        metavar='',
+                        help='Used for Google Admin Workspace. Set only during first execution or if credentials were changed.')
 
     return parser.parse_args(argv)
