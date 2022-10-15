@@ -6,6 +6,7 @@ from src.api.services.email import email_backup
 from src.api.services.drive import transfer_drive_ownership
 from src.api.services.calendar import transfer_calendar_events
 from src.api.services.admin import suspend_user_activity
+from src.api.services.admin import change_ou
 
 FILE_NAME = 'credentials.json'
 
@@ -19,14 +20,20 @@ def cli_execute(operation, options):
             suspend_user_activity(off_board_user, FILE_NAME)
             transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)
             transfer_drive_ownership(off_board_user, user_to_transfer, FILE_NAME)
+            email_backup(off_board_user, user_to_transfer, FILE_NAME)
+            change_ou(off_board_user, '', '')
         elif operation == 'sua':
             suspend_user_activity(off_board_user, FILE_NAME)
         elif operation == 'tce':
             transfer_calendar_events(off_board_user, user_to_transfer, FILE_NAME)
         elif operation == 'tdo':
             transfer_drive_ownership(off_board_user, user_to_transfer, FILE_NAME)
-        elif operation == 'ceb':
+        elif operation == 'cebl':
             email_backup(off_board_user, user_to_transfer, FILE_NAME)
+        elif operation == 'cebg':
+            email_backup(off_board_user, user_to_transfer, FILE_NAME)
+        elif operation == 'tgdo':
+            pass
         else:
             raise WrongOption
     except WrongOption:
