@@ -16,3 +16,7 @@ class WrongAttributes(Error):
 
 class NoCredentialsFile(Error):
     pass
+
+
+class NoOrganizationalUnitSet(Error):
+    pass
