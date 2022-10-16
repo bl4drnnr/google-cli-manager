@@ -4,6 +4,7 @@ from src.common.print_text import print_text
 
 
 def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):
+    print_text('Generating file with credentials...', stdscr)
     cs_data = '''{
         "installed": {
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",

@@ -17,6 +17,10 @@ def setup_available_options(argv):
                           metavar='email-to',
                           required=True,
                           help='Email of data transfer receiver.')
+    required.add_argument('-a', '--admin',
+                          metavar='admin',
+                          required=True,
+                          help='Admin email. Used to use Service Account.')
 
     parser.add_argument('--offboard',
                         help='General user offboard. Triggers all functions below.',

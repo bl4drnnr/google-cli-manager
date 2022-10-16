@@ -39,7 +39,6 @@ def command_execution(stdscr, command):
             stdscr.getch()
             return
 
-        stdscr.addstr('Generating file with credentials...', curses.A_BOLD)
         generate_credentials_file(client_id, client_secret, project_id, stdscr)
 
     user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
