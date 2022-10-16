@@ -3,6 +3,7 @@
 2. [Requirements](#requirements)
    1. [Creating project](#creating-project)
    2. [Creating service account](#creating-service-account)
+   3. [Delegating domain-wide authority to the service account](#delegating-domain-wide-authority-to-the-service-account)
 3. [Installation](#installation)
 4. [Types of execution](#types-of-execution)
    1. [Interactive CLI](#interactive-cli)
@@ -35,11 +36,19 @@ Documentation for both of them will be written below. In order to obtain more in
 Depending on functionality you want to use, you'll have to provide different type of authentication data.
 Every action requires to be authenticated using `OAuth 2.0`.
 
+It's important to mention, that depending on what you want to do, you will have to create and
+provide different types of credentials.
+
+So, there are 2 options:
+- If you want to use **API** only for managing your own account, what you need to do, is just [create project](#creating-project) and get `OAuth 2.0` credentials.
+- If you want to access other users' data (within same organization) you need [create project](#creating-project), get `OAuth 2.0` credentials, [Create service account](#creating-service-account) and [delegate domain wide authority to the service account](#delegating-domain-wide-authority-to-the-service-account).
+
+#### Creating project
+
 In order to obtain those credentials you need to create project on [Google Cloud](https://console.cloud.google.com/).
 If you want to use functionality to manage users' accounts within **Google Workspace**,
 just skip next steps, dedicated creating of project and go to [Creating service account](#creating-service-account) section.
 
-#### Creating project
 1. Go to [Google Cloud project creation page](https://console.cloud.google.com/projectcreate).
 2. Provide project name and click `Create`.
 3. On the left side bard click `APIs & Services` and then `Credentials`.
@@ -64,6 +73,8 @@ https://www.googleapis.com/auth/calendar
 12. As the `Application type` set `Desktop app` and provide name for it.
 13. You have got your `Client ID` and `Client Sercret`. Copy it or download as `JSON` file.
 
+#### Creating service account
+
 If you already have project on Google Cloud and you want to manage other users' data (within organization)
 what you need to do, is to create **Service Account**.
 
@@ -72,7 +83,6 @@ other users' accounts (within same organization) without strict access to their 
 Purpose of **Service Account** is to be _"proxy"_ account, that will escalate and execute
 commands from administrator (through **API**, in this case).
 
-#### Creating service account
 1. On the left side bard click `APIs & Services` and then `Credentials`.
 2. At the top click `Create Credentials` and select `Create service account`.
 3. At the next page grant `Owner` access.
@@ -82,6 +92,22 @@ commands from administrator (through **API**, in this case).
 7. Click the `Keys` tab.
 8. In the `Add key` drop-down list, select `Create new key`.
 9. Click `Create`.
+
+#### Delegating domain-wide authority to the service account
+
+If you have a Google Workspace account, an administrator of the organization can authorize an application to access user data on behalf of users in the Google Workspace domain. For example, an application that uses the Google Calendar API to add events to the calendars of all users in a Google Workspace domain would use a service account to access the Google Calendar API on behalf of users. Authorizing a service account to access data on behalf of users in a domain is sometimes referred to as "delegating domain-wide authority" to a service account.
+
+To delegate domain-wide authority to a service account, a super administrator of the Google Workspace domain must complete the following steps:
+
+1. From your Google Workspace domain's Admin console, go to **Main menu > Security > Access and data control > API Controls**.
+2. In the **Domain wide delegation** pane, select **Manage Domain Wide Delegation**.
+3. Click **Add new**.
+4. In the **Client ID** field, enter the service account's **Client ID**. You can find your service account's client ID in the Service accounts page.
+5. In the **OAuth scopes (comma-delimited)** field, enter the list of scopes that your application should be granted access to.
+```
+https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/drive,https://mail.google.com/,https://www.googleapis.com/auth/apps.groups.migration,https://www.googleapis.com/auth/drive.appdata,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/calendar
+```
+6. Click **Authorize**.
 
 For more information see [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account).
 
@@ -136,6 +162,7 @@ If you want to execute program in classic terminal application mode, it'll be en
 - [Google Drive API](https://developers.google.com/drive/api) - **Google Drive** for developers
 - [Google Docs API](https://developers.google.com/docs/api) - **Google Docs** for developers
 - [Google Workspace Admin SDK](https://developers.google.com/admin-sdk) - **Google Admin** for developers
+- [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account)
 
 ---
 
