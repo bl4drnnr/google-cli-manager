@@ -14,8 +14,6 @@ SCOPES = {
     ],
     'gmail': [
         'https://mail.google.com/',
-        # 'https://www.googleapis.com/auth/gmail.settings.basic',
-        # 'https://www.googleapis.com/auth/gmail.settings.sharing',
         'https://www.googleapis.com/auth/apps.groups.migration',
         'https://www.googleapis.com/auth/drive.appdata',
         'https://www.googleapis.com/auth/userinfo.email'

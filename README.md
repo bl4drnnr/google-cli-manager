@@ -2,7 +2,7 @@
 1. [Introduction](#introduction)
 2. [Requirements](#requirements)
    1. [Creating project](#creating-project)
-   2. [Service account](#service-account)
+   2. [Creating service account](#creating-service-account)
 3. [Installation](#installation)
 4. [Types of execution](#types-of-execution)
    1. [Interactive CLI](#interactive-cli)
@@ -37,7 +37,7 @@ Every action requires to be authenticated using `OAuth 2.0`.
 
 In order to obtain those credentials you need to create project on [Google Cloud](https://console.cloud.google.com/).
 If you want to use functionality to manage users' accounts within **Google Workspace**,
-just skip next steps, dedicated creating of project and go to [Service Account](#service-account) section.
+just skip next steps, dedicated creating of project and go to [Creating service account](#creating-service-account) section.
 
 #### Creating project
 1. Go to [Google Cloud project creation page](https://console.cloud.google.com/projectcreate).
@@ -72,7 +72,18 @@ other users' accounts (within same organization) without strict access to their 
 Purpose of **Service Account** is to be _"proxy"_ account, that will escalate and execute
 commands from administrator (through **API**, in this case).
 
-#### Service account
+#### Creating service account
+1. On the left side bard click `APIs & Services` and then `Credentials`.
+2. At the top click `Create Credentials` and select `Create service account`.
+3. At the next page grant `Owner` access.
+4. On the last page, provide email of user, who will have access for managing other users' data or **delegated user**.
+5. Click `Done`.
+6. Next, click the email address for the service account you created.
+7. Click the `Keys` tab.
+8. In the `Add key` drop-down list, select `Create new key`.
+9. Click `Create`.
+
+For more information see [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account).
 
 ---
 
