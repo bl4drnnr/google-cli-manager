@@ -1,11 +1,11 @@
 commands_docs = {
     'Offboard user': [
-        'User offboarding - general procedure, that deactivate user\'s account by doing next:\n',
+        'User offboarding - general procedure (organizations only), that deactivates user\'s account by doing next:\n',
         '1. Suspend user\'s activity.\n',
-        '2. Change user Organizational Unit to X-Knowde.\n',
+        '2. Change user Organizational Unit\n',
         '3. Transfer Google Drive ownership.\n',
         '4. Transfer Google Calendar events.\n',
-        '5. Enable email forwarding.\n\n'
+        '5. Create emails backup using Google Groups.\n\n'
     ],
     'Suspend user activity': [
         'Suspends user\'s activity\n',
@@ -13,7 +13,7 @@ commands_docs = {
     ],
     'Change user Organizational Unit': [
         'Changes Organizational Unit user belongs to.\n',
-        'By default, change it to X-Knowde, but can be custom (from pool of existing ones).\n\n'
+        'Can be used from pool of existing ones.\n\n'
     ],
     'Transfer Google Drive ownership': [
         'Transfers ownership of all files on Google Drive.\n',
@@ -22,7 +22,7 @@ commands_docs = {
     'Transfer Google Calendar events': [
         'Transfers events from one Google Calendar to another.\n',
         'Transfer is done by sending email with proposition to add events\n',
-        'to person how has to receive events of offboarded person.\n\n'
+        'to person how has to receive events of sender person.\n\n'
     ],
     'Transfer Google Docs ownership': [
         'Transfers ownership of all Docs files.\n',
