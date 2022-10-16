@@ -47,7 +47,7 @@ So, there are 2 options:
 
 In order to obtain those credentials you need to create project on [Google Cloud](https://console.cloud.google.com/).
 If you want to use functionality to manage users' accounts within **Google Workspace**,
-just skip next steps, dedicated creating of project and go to [Creating service account](#creating-service-account) section.
+just skip next steps, dedicated creating of project and go to [Creating Service Account](#creating-service-account) section.
 
 1. Go to [Google Cloud project creation page](https://console.cloud.google.com/projectcreate).
 2. Provide project name and click `Create`.
@@ -135,12 +135,41 @@ If you want to execute program in classic terminal application mode, it'll be en
 
 ### Available endpoints
 
+Remember, **some endpoints are available only within organization**, therefore,
+if you want to access them, you need to use [Service Account](#creating-service-account) and
+[Delegate Authority](#delegating-domain-wide-authority-to-the-service-account) in **Google Admin**.
+
+In case, if you don't have access to this functionality, please, contact
+your **Google Admin** administrator in order to obtain credentials.
+
 #### Admin workspace
+
+- **User offboarding** - general procedure (organizations only), that deactivates user's account by doing next:
+  1. Suspend user's activity.
+  2. Change user Organizational Unit.
+  3. Transfer Google Drive ownership.
+  4. Transfer Google Calendar events.
+  5. Create emails backup using Google Groups.
+
+- **Suspending user's activity** - Suspends user's activity. Account isn't archiving, therefor activity can be restored at any moment.
+- **Changing user Organizational Unit** - Changes Organizational Unit user belongs to. Can be used from pool of existing ones.
+
 #### Calendar
+
+- **Transfer Google Calendar events** - Transfers events from one Google Calendar to another. Transfer is done by sending email with proposition to add events to person how has to receive events of sender person.
+
 #### Docs
+
+- **Transfer Google Docs ownership** - Transfers ownership of all Docs files. Ownership is transferred only for files that have been created by this user.
+
 #### Drive
+
+- **Transfer Google Drive ownership** - Transfers ownership of all files on Google Drive. Ownership is transferred only for files that have been created by this user.
+
 #### Gmail
 
+- **Emails backup (locally)** - Creates backup of emails locally. Files saved as database and can be used as local backup, but also with purpose  the restoration and creating Google Group with backuped email.
+- **Email backup (upload to Google Groups)** - Creates backup of emails and uploads it as Google Group. Before using this option, you need to have already created group on Google Groups. In order to create group go to [Google Groups](https://groups.google.com/) and create groups. Created group's email will be used to upload backuped data.
 ---
 
 ### References

@@ -41,7 +41,7 @@ def command_execution(stdscr, command):
 
         generate_credentials_file(client_id, client_secret, project_id, stdscr)
 
-    user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
+    user_from = print_raw_input(stdscr, 'Please, provide email of data sender: ').strip()
     admin_user = print_raw_input(stdscr, 'Provide email of admin or delegated user (leave empty if no need): ').strip()
     if command == 'Offboard user':
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit (leave empty if no need): ').strip()

@@ -12,7 +12,7 @@ def setup_available_options(argv):
     required.add_argument('-f', '--email-from',
                           metavar='email-from',
                           required=True,
-                          help='Email of offboarded user.')
+                          help='Email of data sender user (offboarded user).')
     required.add_argument('-t', '--email-to',
                           metavar='email-to',
                           required=True,
@@ -23,7 +23,7 @@ def setup_available_options(argv):
                           help='Admin email. Used to use Service Account.')
 
     parser.add_argument('--offboard',
-                        help='General user offboard. Triggers all functions below.',
+                        help='General user offboard. Triggers a couple of functions (see documentation).',
                         action='store_true')
     parser.add_argument('--sua',
                         help='Suspend user activity.',
