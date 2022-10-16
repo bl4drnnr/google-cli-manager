@@ -1,4 +1,7 @@
-def merge_calendar(email_from, email_to, service):
+from src.common.print_text import print_text
+
+
+def merge_calendar(email_from, email_to, service, stdscr=None):
     rule = {
         'scope': {
             'type': 'user',
@@ -7,4 +10,6 @@ def merge_calendar(email_from, email_to, service):
         'role': 'owner'
     }
     service.acl().insert(calendarId=email_from, body=rule).execute()
-    print('All events have been transferred successfully.')
+
+    success = 'All events have been transferred successfully.'
+    print_text(success, stdscr)

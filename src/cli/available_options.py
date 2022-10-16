@@ -17,6 +17,10 @@ def setup_available_options(argv):
                           metavar='email-to',
                           required=True,
                           help='Email of data transfer receiver.')
+    required.add_argument('-a', '--admin',
+                          metavar='admin',
+                          required=True,
+                          help='Admin email. Used to use Service Account.')
 
     parser.add_argument('--offboard',
                         help='General user offboard. Triggers all functions below.',
@@ -44,7 +48,7 @@ def setup_available_options(argv):
                         action='store_true')
     parser.add_argument('-o', '--org-unit',
                         metavar='',
-                        help='Used for Google Admin Workspace. Organizational unit.')
+                        help='Used for Google Admin Workspace. Organizational unit. Set for --email-from')
     parser.add_argument('-c', '--client-id',
                         metavar='',
                         help='OAuth 2.0 client ID. Set only during first execution or if credentials were changed.')

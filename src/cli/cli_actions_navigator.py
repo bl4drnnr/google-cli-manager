@@ -17,40 +17,46 @@ from src.common.credential_file import generate_credentials_file
 def cli_execute(operation, options):
     user_from = options['email_from']
     user_to = options['email_to']
+    admin_user = options['admin']
 
     try:
         if not os.path.exists('credentials.json'):
-            if 'client-id' not in options and 'client-secret' not in options and 'project-id' not in options:
+            if 'client_id' not in options and 'client_secret' not in options and 'project_id' not in options:
                 raise NoCredentialsFile
             else:
-                valid_credentials_error = check_client_id_and_secret(options['client-id'], options['client-secret'])
+                valid_credentials_error = check_client_id_and_secret(options['client_id'], options['client_secret'])
 
                 if len(valid_credentials_error) != 0:
                     print(valid_credentials_error)
 
-                generate_credentials_file(options['client-id'], options['client-secret'], options['project-id'])
+                generate_credentials_file(options['client_id'], options['client_secret'], options['project_id'])
                 print('Credentials file has been generated!')
 
         if operation == 'offboard':
-            if 'org-unit' not in options:
+            if 'org_unit' not in options:
                 raise NoOrganizationalUnitSet
-            suspend_user_activity(user_from)
-            transfer_calendar_events(user_from, user_to)
-            transfer_drive_ownership(user_from, user_to)
-            email_backup(user_from, user_to)
-            change_ou(user_from, options['org-unit'])
+            suspend_user_activity(user_from, admin_user)
+            change_ou(user_from, options['org_unit'], admin_user)
+            transfer_calendar_events(user_from, user_to, admin_user)
+            transfer_drive_ownership(user_from, user_to, admin_user)
+            transfer_documents_ownership(user_from, user_to, admin_user)
+            email_backup(user_from, user_to, admin_user)
         elif operation == 'sua':
-            suspend_user_activity(user_from)
+            suspend_user_activity(user_from, admin_user)
+        elif operation == 'cou':
+            if 'org_unit' not in options:
+                raise NoOrganizationalUnitSet
+            change_ou(user_from, options['org_unit'], admin_user)
         elif operation == 'tce':
-            transfer_calendar_events(user_from, user_to)
+            transfer_calendar_events(user_from, user_to, admin_user)
         elif operation == 'tdo':
-            transfer_drive_ownership(user_from, user_to)
-        elif operation == 'cebl':
-            email_backup(user_from, user_to)
-        elif operation == 'cebg':
-            email_backup(user_from, user_to)
+            transfer_drive_ownership(user_from, user_to, admin_user)
         elif operation == 'tgdo':
-            transfer_documents_ownership(user_from, user_to)
+            transfer_documents_ownership(user_from, user_to, admin_user)
+        elif operation == 'cebl':
+            email_backup(user_from, user_to, admin_user)
+        elif operation == 'cebg':
+            email_backup(user_from, user_to, admin_user)
         else:
             raise WrongOption
     except WrongOption:

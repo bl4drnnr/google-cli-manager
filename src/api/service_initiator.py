@@ -25,13 +25,10 @@ def init_services(api_name, api_version, delegated_user=None):
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
-    if delegated_user is not None:
+    if delegated_user is not None or len(str(delegated_user)) != 0:
         credentials = service_account.Credentials.from_service_account_file(
             'service.json', scopes=SCOPES[api_name])
         creds = credentials.with_subject(delegated_user)
 
-    try:
-        service = build(api_name, api_version, credentials=creds)
-        return service
-    except Exception as e:
-        print(f'An error occurred: {e}')
+    service = build(api_name, api_version, credentials=creds)
+    return service
