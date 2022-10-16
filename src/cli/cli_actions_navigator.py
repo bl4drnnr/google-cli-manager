@@ -35,22 +35,27 @@ def cli_execute(operation, options):
             if 'org-unit' not in options:
                 raise NoOrganizationalUnitSet
             suspend_user_activity(user_from)
+            change_ou(user_from, options['org-unit'])
             transfer_calendar_events(user_from, user_to)
             transfer_drive_ownership(user_from, user_to)
+            transfer_documents_ownership(user_from, user_to)
             email_backup(user_from, user_to)
-            change_ou(user_from, options['org-unit'])
         elif operation == 'sua':
             suspend_user_activity(user_from)
+        elif operation == 'cou':
+            if 'org-unit' not in options:
+                raise NoOrganizationalUnitSet
+            change_ou(user_from, options['org-unit'])
         elif operation == 'tce':
             transfer_calendar_events(user_from, user_to)
         elif operation == 'tdo':
             transfer_drive_ownership(user_from, user_to)
+        elif operation == 'tgdo':
+            transfer_documents_ownership(user_from, user_to)
         elif operation == 'cebl':
             email_backup(user_from, user_to)
         elif operation == 'cebg':
             email_backup(user_from, user_to)
-        elif operation == 'tgdo':
-            transfer_documents_ownership(user_from, user_to)
         else:
             raise WrongOption
     except WrongOption:

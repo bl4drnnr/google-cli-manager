@@ -1,11 +1,17 @@
+import curses
+
 from src.api.service_initiator import init_services
 
 from src.api.actions.docs.tranfer_ownership import transfer_ownership
 
 
-def transfer_documents_ownership(email_from, email_to):
+def transfer_documents_ownership(email_from, email_to, stdscr=None):
     try:
         service = init_services('docs', 'v1')
         transfer_ownership(email_from, email_to, service)
     except Exception as e:
-        print(f'An error occurred while transferring document ownership: {e}')
+        error = f'An error occurred while transferring document ownership: {e}'
+        if stdscr is not None:
+            stdscr.addstr(f'\n{error}', curses.A_BOLD | curses.color_pair(3))
+        else:
+            print(error)

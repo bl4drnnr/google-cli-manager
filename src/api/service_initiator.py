@@ -30,8 +30,5 @@ def init_services(api_name, api_version, delegated_user=None):
             'service.json', scopes=SCOPES[api_name])
         creds = credentials.with_subject(delegated_user)
 
-    try:
-        service = build(api_name, api_version, credentials=creds)
-        return service
-    except Exception as e:
-        print(f'An error occurred: {e}')
+    service = build(api_name, api_version, credentials=creds)
+    return service

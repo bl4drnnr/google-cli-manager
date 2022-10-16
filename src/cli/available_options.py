@@ -44,7 +44,7 @@ def setup_available_options(argv):
                         action='store_true')
     parser.add_argument('-o', '--org-unit',
                         metavar='',
-                        help='Used for Google Admin Workspace. Organizational unit.')
+                        help='Used for Google Admin Workspace. Organizational unit. Set for --email-from')
     parser.add_argument('-c', '--client-id',
                         metavar='',
                         help='OAuth 2.0 client ID. Set only during first execution or if credentials were changed.')
