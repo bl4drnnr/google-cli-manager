@@ -46,9 +46,25 @@ just skip next steps, dedicated creating of project and go to [Service Account](
 4. At the top click `Create Credentials` and select `OAuth client ID`.
 5. There, if you didn't it before, you will be invited to configure `OAuth consent screen`. If you already did that, go to next steps.
    1. There, in `User Type` select `External` and click `Create`.
-6. 
+6. Then, you'll be provided to type the `App name`, `User support email` and `Developer email`. After you have done it, click `Save and Continue`.
+7. On the next page, **it will be very important** to set scopes, in order to make things work. Click `Add or Remove Scopes` and at the bottom, in **Manually add scopes** copy and paste next scopes.
+```
+https://www.googleapis.com/auth/admin.directory.user
+https://www.googleapis.com/auth/drive
+https://mail.google.com/
+https://www.googleapis.com/auth/apps.groups.migration
+https://www.googleapis.com/auth/drive.appdata
+https://www.googleapis.com/auth/userinfo.email
+https://www.googleapis.com/auth/calendar
+```
+8. Click `Update` and then, at the bottom, `Save and Continue`.
+9. Provide test users (**not necessary**)
+10. At the **Summary** page, at the bottom, click `Back to Dashboard`.
+11. On the left side bard click `APIs & Services` and then `Credentials` and select `OAuth client ID`.
+12. As the `Application type` set `Desktop app` and provide name for it.
+13. You have got your `Client ID` and `Client Sercret`. Copy it or download as `JSON` file.
 
-If you already have project on Google Cloud and you want to manage other users' data
+If you already have project on Google Cloud and you want to manage other users' data (within organization)
 what you need to do, is to create **Service Account**.
 
 **Service Account** - is a type of account, that allows administrators to manager
