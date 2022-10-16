@@ -39,42 +39,43 @@ def command_execution(stdscr, command):
             stdscr.getch()
             return
 
-        generate_credentials_file(client_id, client_secret, project_id)
+        stdscr.addstr('Generating file with credentials...', curses.A_BOLD)
+        generate_credentials_file(client_id, client_secret, project_id, stdscr)
 
     user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
     if command == 'Offboard user':
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit (leave empty if no need): ').strip()
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        suspend_user_activity(user_from)
-        change_ou(user_from, org_unit)
-        transfer_calendar_events(user_from, user_to)
-        transfer_drive_ownership(user_from, user_to)
-        transfer_documents_ownership(user_from, user_to)
-        email_backup(user_from, user_to)
+        suspend_user_activity(user_from, stdscr)
+        change_ou(user_from, org_unit, stdscr)
+        transfer_calendar_events(user_from, user_to, stdscr)
+        transfer_drive_ownership(user_from, user_to, stdscr)
+        transfer_documents_ownership(user_from, user_to, stdscr)
+        email_backup(user_from, user_to, stdscr)
     elif command == 'Suspend user activity':
-        suspend_user_activity(user_from)
+        suspend_user_activity(user_from, stdscr)
     elif command == 'Change user Organizational Unit':
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit (leave empty if no need): ').strip()
 
-        change_ou(user_from, org_unit)
+        change_ou(user_from, org_unit, stdscr)
     elif command == 'Transfer Google Drive ownership':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        transfer_documents_ownership(user_from, user_to)
+        transfer_documents_ownership(user_from, user_to, stdscr)
     elif command == 'Transfer Google Calendar events':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        transfer_calendar_events(user_from, user_to)
+        transfer_calendar_events(user_from, user_to, stdscr)
     elif command == 'Transfer Google Docs ownership':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        transfer_documents_ownership(user_from, user_to)
+        transfer_documents_ownership(user_from, user_to, stdscr)
     elif command == 'Create email backup (locally)':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        email_backup(user_from, user_to)
+        email_backup(user_from, user_to, stdscr)
     elif command == 'Create email backup (upload to Google Groups)':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        email_backup(user_from, user_to)
+        email_backup(user_from, user_to, stdscr)

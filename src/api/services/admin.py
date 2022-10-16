@@ -1,9 +1,9 @@
-import curses
-
 from src.api.service_initiator import init_services
 
 from src.api.actions.admin.suspend_user_activity import suspend_user
 from src.api.actions.admin.change_organizational_unit import change_organizational_unit
+
+from src.common.error_handler import print_error
 
 
 def suspend_user_activity(email, stdscr=None):
@@ -12,10 +12,7 @@ def suspend_user_activity(email, stdscr=None):
         suspend_user(email, service)
     except Exception as e:
         error = f'An error occurred while suspending user activity: {e}'
-        if stdscr is not None:
-            stdscr.addstr(f'\n{error}', curses.A_BOLD | curses.color_pair(3))
-        else:
-            print(error)
+        print_error(error, stdscr)
 
 
 def change_ou(email, ou, stdscr=None):
@@ -24,7 +21,4 @@ def change_ou(email, ou, stdscr=None):
         change_organizational_unit(email, service, ou)
     except Exception as e:
         error = f'An error occurred while changing organizational unit: {e}'
-        if stdscr is not None:
-            stdscr.addstr(f'\n{error}', curses.A_BOLD | curses.color_pair(3))
-        else:
-            print(error)
+        print_error(error, stdscr)

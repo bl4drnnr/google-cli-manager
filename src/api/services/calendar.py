@@ -1,8 +1,7 @@
-import curses
-
 from src.api.service_initiator import init_services
-
 from src.api.actions.calendar.merge_calendar import merge_calendar
+
+from src.common.error_handler import print_error
 
 
 def transfer_calendar_events(email_from, email_to, stdscr=None):
@@ -11,7 +10,4 @@ def transfer_calendar_events(email_from, email_to, stdscr=None):
         merge_calendar(email_from, email_to, service)
     except Exception as e:
         error = f'An error occurred while transferring calendar events: {e}'
-        if stdscr is not None:
-            stdscr.addstr(f'\n{error}', curses.A_BOLD | curses.color_pair(3))
-        else:
-            print(error)
+        print_error(error, stdscr)
