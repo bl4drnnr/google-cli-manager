@@ -56,16 +56,7 @@ just skip next steps, dedicated creating of project and go to [Creating service 
 5. There, if you didn't it before, you will be invited to configure `OAuth consent screen`. If you already did that, go to next steps.
    1. There, in `User Type` select `External` and click `Create`.
 6. Then, you'll be provided to type the `App name`, `User support email` and `Developer email`. After you have done it, click `Save and Continue`.
-7. On the next page, **it will be very important** to set scopes, in order to make things work. Click `Add or Remove Scopes` and at the bottom, in **Manually add scopes** copy and paste next scopes.
-```
-https://www.googleapis.com/auth/admin.directory.user
-https://www.googleapis.com/auth/drive
-https://mail.google.com/
-https://www.googleapis.com/auth/apps.groups.migration
-https://www.googleapis.com/auth/drive.appdata
-https://www.googleapis.com/auth/userinfo.email
-https://www.googleapis.com/auth/calendar
-```
+7. On the next page, **it will be very important** to set scopes, in order to make things work. Click `Add or Remove Scopes` and select scopes you need. If you think, that there are no scopes you need [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes).
 8. Click `Update` and then, at the bottom, `Save and Continue`.
 9. Provide test users (**not necessary**)
 10. At the **Summary** page, at the bottom, click `Back to Dashboard`.
@@ -103,10 +94,7 @@ To delegate domain-wide authority to a service account, a super administrator of
 2. In the **Domain wide delegation** pane, select **Manage Domain Wide Delegation**.
 3. Click **Add new**.
 4. In the **Client ID** field, enter the service account's **Client ID**. You can find your service account's client ID in the Service accounts page.
-5. In the **OAuth scopes (comma-delimited)** field, enter the list of scopes that your application should be granted access to.
-```
-https://www.googleapis.com/auth/admin.directory.user,https://www.googleapis.com/auth/drive,https://mail.google.com/,https://www.googleapis.com/auth/apps.groups.migration,https://www.googleapis.com/auth/drive.appdata,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/calendar
-```
+5. In the **OAuth scopes (comma-delimited)** field, enter the list of scopes that your application should be granted access to. For example, if your application needs domain-wide full access to the Google Drive API and the Google Calendar API, enter: `https://www.googleapis.com/auth/drive, https://www.googleapis.com/auth/calendar`.
 6. Click **Authorize**.
 
 For more information see [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account).
@@ -162,7 +150,8 @@ If you want to execute program in classic terminal application mode, it'll be en
 - [Google Drive API](https://developers.google.com/drive/api) - **Google Drive** for developers
 - [Google Docs API](https://developers.google.com/docs/api) - **Google Docs** for developers
 - [Google Workspace Admin SDK](https://developers.google.com/admin-sdk) - **Google Admin** for developers
-- [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account)
+- [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account) - how to create Service Account and delegate authority to it  
+- [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes) - list of all OAuth 2.0 scopes
 
 ---
 
