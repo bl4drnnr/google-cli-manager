@@ -67,7 +67,7 @@ just skip next steps, dedicated creating of project and go to [Creating service 
 #### Creating service account
 
 If you already have project on Google Cloud and you want to manage other users' data (within organization)
-what you need to do, is to create **Service Account**.
+what you need to do, is to create **Service Account** and then [delegate authority](#delegating-domain-wide-authority-to-the-service-account).
 
 **Service Account** - is a type of account, that allows administrators to manager
 other users' accounts (within same organization) without strict access to their account.
@@ -102,6 +102,8 @@ For more information see [Using OAuth 2.0 for Server to Server Applications](htt
 ---
 
 ### Installation
+
+For **MacOS** and **Linux** systems:
 
 To install `Google Manager CLI` on your computer, open terminal and paste next command:
 
