@@ -1,5 +1,10 @@
-def transfer_ownership(email_from, email_to, service):
-    print(f'Transferring Google Drive ownership from {email_from} to {email_to}...')
+from src.common.print_text import print_text
+
+
+def transfer_ownership(email_from, email_to, service, stdscr=None):
+    transferring = f'Transferring Google Drive ownership from {email_from} to {email_to}...'
+    print_text(transferring, stdscr)
+
     files = []
     page_token = None
     while True:
@@ -38,6 +43,8 @@ def transfer_ownership(email_from, email_to, service):
             transferOwnership=True
         ).execute()
 
-        print(f'Access to {file["name"]} has been successfully transferred.')
+        file_name_transfer = f'Access to {file["name"]} has been successfully transferred.'
+        print_text(file_name_transfer, stdscr)
 
-    print('Access to all files has been transferred successfully!')
+    success = 'Access to all files has been transferred successfully!'
+    print_text(success, stdscr)

@@ -1,6 +1,6 @@
 import os
 
-from src.common.error_handler import print_error
+from src.common.print_text import print_text
 
 
 def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):
@@ -27,4 +27,4 @@ def write_file(filename, data, stdscr=None, mode='wb'):
             f.write(data)
         return True
     except IOError as error:
-        print_error(error, stdscr)
+        print_text(error, stdscr)
