@@ -6,18 +6,18 @@ from src.api.actions.admin.change_organizational_unit import change_organization
 from src.common.print_text import print_text
 
 
-def suspend_user_activity(email, stdscr=None):
+def suspend_user_activity(email, delegated_user, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service = init_services('admin', 'directory_v1', delegated_user)
         suspend_user(email, service)
     except Exception as e:
         error = f'An error occurred while suspending user activity: {e}'
         print_text(error, stdscr, error=True)
 
 
-def change_ou(email, ou, stdscr=None):
+def change_ou(email, ou, delegated_user, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service = init_services('admin', 'directory_v1', delegated_user)
         change_organizational_unit(email, service, ou)
     except Exception as e:
         error = f'An error occurred while changing organizational unit: {e}'
