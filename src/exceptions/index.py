@@ -20,3 +20,7 @@ class NoCredentialsFile(Error):
 
 class NoOrganizationalUnitSet(Error):
     pass
+
+
+class NoGroupNameSet(Error):
+    pass

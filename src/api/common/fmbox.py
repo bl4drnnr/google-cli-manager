@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-# Optimized library for reading mbox files sequentially
-
 import os
 
 

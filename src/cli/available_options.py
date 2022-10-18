@@ -3,24 +3,23 @@ import argparse
 
 def setup_available_options(argv):
     parser = argparse.ArgumentParser(add_help=False)
-    required = parser.add_argument_group('required arguments')
 
     parser.add_argument('-h', '--help',
                         action='help',
                         help='Display this message.')
 
     parser.add_argument('-f', '--email-from',
-                          metavar='email-from',
-                          # required=True,
-                          help='Email of data sender user (offboarded user).')
+                        metavar='',
+                        help='Email of data sender user (offboarded user).')
     parser.add_argument('-t', '--email-to',
-                          metavar='email-to',
-                          # required=True,
-                          help='Email of data transfer receiver.')
+                        metavar='',
+                        help='Email of data transfer receiver.')
     parser.add_argument('-a', '--admin',
-                          metavar='admin',
-                          # required=True,
-                          help='Admin email. Used to use Service Account.')
+                        metavar='',
+                        help='Admin email. Used to use Service Account.')
+    parser.add_argument('-g', '--group',
+                        metavar='',
+                        help='Name of the group.')
 
     parser.add_argument('--offboard',
                         help='General user offboard. Triggers a couple of functions (see documentation).',
@@ -46,6 +45,10 @@ def setup_available_options(argv):
     parser.add_argument('--cebg',
                         help='Create email backup (upload to Google Groups)',
                         action='store_true')
+    parser.add_argument('--cg',
+                        help='Create Google Group (use "-g" or "--group" in order to set group name)',
+                        action='store_true')
+
     parser.add_argument('-o', '--org-unit',
                         metavar='',
                         help='Used for Google Admin Workspace. Organizational unit. Set for --email-from')

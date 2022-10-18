@@ -1,7 +1,7 @@
 from src.common.print_text import print_text
 
 
-def create_groups(stdscr=None):
+def create_groups(group_name, stdscr=None):
     try:
         pass
     except Exception as e:

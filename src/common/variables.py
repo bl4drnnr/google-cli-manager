@@ -40,7 +40,7 @@ SCOPES = {
     ]
 }
 
-CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo']
+CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo', 'cg']
 
 MENU = [
     'Start\n',
