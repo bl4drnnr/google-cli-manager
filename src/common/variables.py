@@ -4,6 +4,20 @@ LOGO = [
     '  +--------------------+\n\n'
 ]
 
+# if api == 'gmail':
+#     return ['https://mail.google.com/']
+# elif api == 'groupsmigration':
+#     return ['https://www.googleapis.com/auth/apps.groups.migration']
+# elif api == 'drive':
+#     return ['https://www.googleapis.com/auth/drive.appdata']
+
+#     'email': ['https://www.googleapis.com/auth/userinfo.email'],
+#     'drive': ['https://www.googleapis.com/auth/drive.appdata', ],
+#     'gmail': ['https://mail.google.com/', ],
+#     'groupsmigration': ['https://www.googleapis.com/auth/apps.groups.migration', ],
+# }
+
+
 SCOPES = {
     'admin': [
         'https://www.googleapis.com/auth/admin.directory.user'
@@ -14,9 +28,9 @@ SCOPES = {
     ],
     'gmail': [
         'https://mail.google.com/',
-        'https://www.googleapis.com/auth/apps.groups.migration',
-        'https://www.googleapis.com/auth/drive.appdata',
-        'https://www.googleapis.com/auth/userinfo.email'
+        # 'https://www.googleapis.com/auth/apps.groups.migration',
+        # 'https://www.googleapis.com/auth/drive.appdata',
+        # 'https://www.googleapis.com/auth/userinfo.email'
     ],
     'groupsmigration': [
         'https://www.googleapis.com/auth/apps.groups.migration'

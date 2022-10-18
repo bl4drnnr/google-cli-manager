@@ -32,3 +32,8 @@ def print_logo(stdscr, color_pair_id):
     for idx, row in enumerate(LOGO):
         x = w // 2 - len(row) // 2
         stdscr.addstr(idx, x, row, curses.color_pair(color_pair_id))
+
+
+def rewrite_line(mystring):
+    print(' ' * 80, end='\r')
+    print(mystring, end='\r')

@@ -9,17 +9,17 @@ def setup_available_options(argv):
                         action='help',
                         help='Display this message.')
 
-    required.add_argument('-f', '--email-from',
+    parser.add_argument('-f', '--email-from',
                           metavar='email-from',
-                          required=True,
+                          # required=True,
                           help='Email of data sender user (offboarded user).')
-    required.add_argument('-t', '--email-to',
+    parser.add_argument('-t', '--email-to',
                           metavar='email-to',
-                          required=True,
+                          # required=True,
                           help='Email of data transfer receiver.')
-    required.add_argument('-a', '--admin',
+    parser.add_argument('-a', '--admin',
                           metavar='admin',
-                          required=True,
+                          # required=True,
                           help='Admin email. Used to use Service Account.')
 
     parser.add_argument('--offboard',

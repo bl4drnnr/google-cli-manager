@@ -3,7 +3,7 @@ import sys
 
 from src.exceptions.index import WrongOption, NoCredentialsFile, NoOrganizationalUnitSet
 
-from src.api.services.email import email_backup
+from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
 from src.api.services.docs import transfer_documents_ownership
 from src.api.services.calendar import transfer_calendar_events
@@ -40,7 +40,7 @@ def cli_execute(operation, options):
             transfer_calendar_events(user_from, user_to, admin_user)
             transfer_drive_ownership(user_from, user_to, admin_user)
             transfer_documents_ownership(user_from, user_to, admin_user)
-            email_backup(user_from, user_to, admin_user)
+            email_backup_group(user_from, user_to, admin_user)
         elif operation == 'sua':
             suspend_user_activity(user_from, admin_user)
         elif operation == 'cou':
@@ -54,9 +54,9 @@ def cli_execute(operation, options):
         elif operation == 'tgdo':
             transfer_documents_ownership(user_from, user_to, admin_user)
         elif operation == 'cebl':
-            email_backup(user_from, user_to, admin_user)
+            email_backup_locally(user_from, user_to, admin_user)
         elif operation == 'cebg':
-            email_backup(user_from, user_to, admin_user)
+            email_backup_group(user_from, user_to, admin_user)
         else:
             raise WrongOption
     except WrongOption:
