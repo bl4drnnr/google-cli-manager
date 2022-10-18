@@ -12,6 +12,7 @@ from src.api.services.drive import transfer_drive_ownership
 from src.api.services.docs import transfer_documents_ownership
 from src.api.services.calendar import transfer_calendar_events
 from src.api.services.admin import suspend_user_activity, change_ou
+from src.api.services.groups import create_groups
 
 
 def command_execution(stdscr, command):
@@ -71,6 +72,10 @@ def command_execution(stdscr, command):
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
+    elif command == 'Create Google Group':
+        group_name = print_raw_input(stdscr, 'Please, provide the name of the group: ').strip()
+
+        create_groups(group_name, stdscr)
     elif command == 'Create email backup (locally)':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 

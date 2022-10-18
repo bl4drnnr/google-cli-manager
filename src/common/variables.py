@@ -55,6 +55,7 @@ AVAILABLE_FUNCTIONS = [
     'Transfer Google Drive ownership\n',
     'Transfer Google Calendar events\n',
     'Transfer Google Docs ownership\n\n',
+    'Create Google Group\n\n',
     'Create email backup (locally)\n',
     'Create email backup (upload to Google Groups)\n'
 ]
