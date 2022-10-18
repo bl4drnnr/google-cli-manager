@@ -7,6 +7,7 @@ import datetime
 from src.api.common.call_api import call_api_pages, call_api
 from src.api.common.database import message_is_backed_up
 
+from src.common.print_text import print_text
 from src.common.functions import rewrite_line
 
 global gmail, local_folder, sqlcur
@@ -50,7 +51,7 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
     messages_to_backup = []
     messages_to_refresh = []
 
-    print("GYB needs to examine %s messages" % len(messages_to_process))
+    print_text(f'Need to examine {len(messages_to_process)} messages', stdscr)
 
     for message_num in messages_to_process:
         if not new_db and message_is_backed_up(message_num['id'], sqlcur, sqlconn, local_folder):
@@ -58,9 +59,9 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
         else:
             messages_to_backup.append(message_num['id'])
 
-    print("GYB already has a backup of %s messages" % (len(messages_to_process) - len(messages_to_backup)))
+    print_text(f'Already has a backup of {len(messages_to_process) - len(messages_to_backup)} messages.', stdscr)
     backup_count = len(messages_to_backup)
-    print("GYB needs to backup %s messages" % backup_count)
+    print_text(f'Need to backup {backup_count} messages.', stdscr)
 
     backed_up_messages = 0
     gbatch = service.new_batch_http_request()
@@ -69,7 +70,7 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
         call_api(gbatch, None, soft_errors=True)
         gbatch = service.new_batch_http_request()
         sqlconn.commit()
-        rewrite_line("backed up %s of %s messages" % (backed_up_messages, backup_count))
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
 
         gbatch.add(service.users().messages().get(userId='me',
                                                   id=a_message, format='raw',
@@ -79,17 +80,17 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
     if len(gbatch._order) > 0:
         call_api(gbatch, None, soft_errors=True)
         sqlconn.commit()
-        rewrite_line("backed up %s of %s messages" %
-                     (backed_up_messages, backup_count))
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
     print("\n")
 
     messages_to_refresh = []
     refreshed_messages = 0
     refresh_count = len(messages_to_refresh)
-    print("GYB needs to refresh %s messages" % refresh_count)
-    sqlcur.executescript("""
-       CREATE TEMP TABLE current_labels (label TEXT);
-    """)
+
+    print_text(f'Need to refresh {refresh_count} messages.')
+
+    sqlcur.executescript("""CREATE TEMP TABLE current_labels (label TEXT);""")
+
     gbatch = service.new_batch_http_request()
     for a_message in messages_to_refresh:
         gbatch.add(service.users().messages().get(userId='me',
@@ -101,15 +102,12 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
             call_api(gbatch, None, soft_errors=True)
             gbatch = service.new_batch_http_request()
             sqlconn.commit()
-            rewrite_line("backed up %s of %s messages" %
-                         (backed_up_messages, backup_count))
+            rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
 
     if len(gbatch._order) > 0:
         call_api(gbatch, None, soft_errors=True)
         sqlconn.commit()
-        rewrite_line("backed up %s of %s messages" %
-                     (backed_up_messages, backup_count))
-
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
     print("\n")
 
     if return_objects:
@@ -143,31 +141,40 @@ def label_ids_to_labels(label_ids):
 
 def backup_message(request_id, response, exception):
     if exception is not None:
-        print(exception)
+        print_text(exception)
     else:
         label_ids = response.get('labelIds', [])
+
         if 'CHATS' in label_ids or 'CHAT' in label_ids:
             return
+
         labels = label_ids_to_labels(label_ids)
         message_file_name = "%s.eml" % (response['id'])
         message_time = int(response['internalDate']) / 1000
         message_date = time.gmtime(message_time)
+
         try:
             time_for_sqlite = datetime.datetime.fromtimestamp(message_time)
         except (OSError, IOError, OverflowError):
             time_for_sqlite = datetime.datetime.fromtimestamp(86400)
+
         message_rel_path = os.path.join(str(message_date.tm_year),
                                         str(message_date.tm_mon),
                                         str(message_date.tm_mday))
+
         message_rel_filename = os.path.join(message_rel_path, message_file_name)
         message_full_path = os.path.join(local_folder, message_rel_path)
         message_full_filename = os.path.join(local_folder, message_rel_filename)
+
         if not os.path.isdir(message_full_path):
             os.makedirs(message_full_path)
+
         raw_message = str(response['raw'])
         full_message = base64.urlsafe_b64decode(raw_message)
+
         with open(message_full_filename, 'wb') as f:
             f.write(full_message)
+
         sqlcur.execute("""
              INSERT INTO messages (
                          message_filename, 
@@ -175,9 +182,11 @@ def backup_message(request_id, response, exception):
                        (message_rel_filename,
                         time_for_sqlite))
         message_num = sqlcur.lastrowid
+
         sqlcur.execute("""
              REPLACE INTO uids (message_num, uid) VALUES (?, ?)""",
                        (message_num, response['id']))
+
         for label in labels:
             sqlcur.execute("""
            INSERT INTO labels (message_num, label) VALUES (?, ?)""",

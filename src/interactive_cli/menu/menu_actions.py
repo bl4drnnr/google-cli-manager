@@ -7,7 +7,7 @@ from src.common.functions import print_raw_input, print_logo
 from src.interactive_cli.menu.docs import commands_docs
 from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
 
-from src.api.services.email import email_backup
+from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
 from src.api.services.docs import transfer_documents_ownership
 from src.api.services.calendar import transfer_calendar_events
@@ -52,7 +52,7 @@ def command_execution(stdscr, command):
         transfer_calendar_events(user_from, user_to, admin_user, stdscr)
         transfer_drive_ownership(user_from, user_to, admin_user, stdscr)
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
-        email_backup(user_from, user_to, admin_user, stdscr)
+        email_backup_group(user_from, user_to, admin_user, stdscr)
     elif command == 'Suspend user activity':
         suspend_user_activity(user_from, admin_user, stdscr)
     elif command == 'Change user Organizational Unit':
@@ -74,8 +74,8 @@ def command_execution(stdscr, command):
     elif command == 'Create email backup (locally)':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        email_backup(user_from, user_to, admin_user, stdscr)
+        email_backup_locally(user_from, user_to, admin_user, stdscr)
     elif command == 'Create email backup (upload to Google Groups)':
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
 
-        email_backup(user_from, user_to, admin_user, stdscr)
+        email_backup_group(user_from, user_to, admin_user, stdscr)

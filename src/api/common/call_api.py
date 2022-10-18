@@ -119,7 +119,7 @@ def call_api_pages(service, function, items='items',
                                                         str(this_page[items][-1][message_attribute]))
                 except (IndexError, KeyError):
                     show_message = show_message.replace('%%first_item%%', '')
-                    show_message = show_message.replace('%%last_item%%', '')
+                    show_message.replace('%%last_item%%', '')
         try:
             all_pages += this_page[items]
             page_token = this_page[next_page_token]

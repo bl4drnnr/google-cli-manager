@@ -8,7 +8,7 @@ from src.common.print_text import print_text
 def email_backup_locally(email_from, email_to, delegated_user, stdscr=None):
     try:
         service = init_service_account_object('gmail', email_from, delegated_user)
-        create_email_backup(email_from, service, stdscr)
+        create_email_backup(email_from, service, stdscr=stdscr, return_objects=False)
     except Exception as e:
         error = f'An error occurred while creating locally email backup: {e}'
         print_text(error, stdscr, error=True)
