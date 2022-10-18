@@ -37,5 +37,9 @@ commands_docs = {
         'Creates backup of emails and uploads it as Google Group.\n',
         'Before using this option, you need to have already created group on Google Groups.\n',
         'Read Documentation or see README file in order to obtain more information.\n\n'
+    ],
+    'Create Google Group': [
+        'Creates Google Groups within organization.\n',
+        'Mostly used for creating email backups, but can be created as empty group.\n\n'
     ]
 }
