@@ -3,6 +3,8 @@ import argparse
 
 def setup_available_options(argv):
     parser = argparse.ArgumentParser(add_help=False)
+    first_execution = parser.add_argument_group('First execution credentials')
+    services = parser.add_argument_group('Service')
 
     parser.add_argument('-h', '--help',
                         action='help',
@@ -20,9 +22,12 @@ def setup_available_options(argv):
     parser.add_argument('-g', '--group',
                         metavar='',
                         help='Name of the group.')
+    parser.add_argument('-o', '--org-unit',
+                        metavar='',
+                        help='Used for Google Admin Workspace organizational unit.')
 
     parser.add_argument('--offboard',
-                        help='General user offboard. Triggers a couple of functions (see documentation).',
+                        help='General user offboard. See docs to know what is triggered.',
                         action='store_true')
     parser.add_argument('--sua',
                         help='Suspend user activity.',
@@ -49,17 +54,21 @@ def setup_available_options(argv):
                         help='Create Google Group (use "-g" or "--group" in order to set group name)',
                         action='store_true')
 
-    parser.add_argument('-o', '--org-unit',
-                        metavar='',
-                        help='Used for Google Admin Workspace. Organizational unit. Set for --email-from')
-    parser.add_argument('-c', '--client-id',
-                        metavar='',
-                        help='OAuth 2.0 client ID. Set only during first execution or if credentials were changed.')
-    parser.add_argument('-s', '--client-secret',
-                        metavar='',
-                        help='OAuth 2.0 client secret. Set only during first execution or if credentials were changed.')
-    parser.add_argument('-p', '--project-id',
-                        metavar='',
-                        help='Used for Google Admin Workspace. Set only during first execution or if credentials were changed.')
+    first_execution.add_argument('-c', '--client-id',
+                                 metavar='',
+                                 help='OAuth 2.0 client ID.')
+    first_execution.add_argument('-s', '--secret',
+                                 metavar='',
+                                 help='OAuth 2.0 client secret.')
+    first_execution.add_argument('-p', '--project-id',
+                                 metavar='',
+                                 help='Used for Google Admin Workspace.')
+    first_execution.add_argument('-d', '--delegate',
+                                 metavar='',
+                                 help='Email to delegate Google Service Account.')
+
+    services.add_argument('-i', '--init-cred',
+                          metavar='',
+                          help='Init or reinit credentials.')
 
     return parser.parse_args(argv)

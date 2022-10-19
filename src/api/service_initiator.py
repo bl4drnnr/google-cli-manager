@@ -116,3 +116,18 @@ def init_service_account_object(api, email, use_admin):
             e = e.args[0]
         print(e)
         sys.exit()
+
+
+def init_group_service():
+    credentials = service_account.Credentials.from_service_account_file(
+        'service.json', scopes=['https://www.googleapis.com/auth/cloud-identity.groups'])
+    delegated_credentials = credentials.with_subject('')
+
+    service_name = 'cloudidentity'
+    api_version = 'v1'
+    service = googleapiclient.discovery.build(
+        service_name,
+        api_version,
+        credentials=delegated_credentials)
+
+    return service

@@ -51,17 +51,13 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
     messages_to_backup = []
     messages_to_refresh = []
 
-    print_text(f'Need to examine {len(messages_to_process)} messages', stdscr)
-
     for message_num in messages_to_process:
-        if not new_db and message_is_backed_up(message_num['id'], sqlcur, sqlconn, local_folder):
+        if not new_db and message_is_backed_up(message_num['id'], sqlcur, local_folder):
             messages_to_refresh.append(message_num['id'])
         else:
             messages_to_backup.append(message_num['id'])
 
-    print_text(f'Already has a backup of {len(messages_to_process) - len(messages_to_backup)} messages.', stdscr)
     backup_count = len(messages_to_backup)
-    print_text(f'Need to backup {backup_count} messages.', stdscr)
 
     backed_up_messages = 0
     gbatch = service.new_batch_http_request()
@@ -85,9 +81,6 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
 
     messages_to_refresh = []
     refreshed_messages = 0
-    refresh_count = len(messages_to_refresh)
-
-    print_text(f'Need to refresh {refresh_count} messages.')
 
     sqlcur.executescript("""CREATE TEMP TABLE current_labels (label TEXT);""")
 

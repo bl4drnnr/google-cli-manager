@@ -3,7 +3,7 @@ import sys
 import sqlite3
 
 
-def message_is_backed_up(message_num, sqlcur, sqlconn, backup_folder):
+def message_is_backed_up(message_num, sqlcur, backup_folder):
     try:
         sqlcur.execute('''
          SELECT message_filename FROM uids NATURAL JOIN messages
