@@ -22,5 +22,5 @@ class NoOrganizationalUnitSet(Error):
     pass
 
 
-class NoGroupNameSet(Error):
+class GroupWrongData(Error):
     pass

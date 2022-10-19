@@ -36,8 +36,8 @@ def print_logo(stdscr, color_pair_id):
 
 def rewrite_line(mystring, stdscr=None):
     if stdscr is not None:
-        win = curses.newwin(3, 54, 17, 0)
-        win.addstr(f'{stdscr}')
+        win = curses.newwin(1, 54, 17, 0)
+        win.addstr(f'{mystring}')
         win.refresh()
     else:
         print(' ' * 80, end='\r')

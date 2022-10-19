@@ -79,7 +79,7 @@ def restore_group(email_from, service, local_folder, sqlcur, sqlconn, stdscr=Non
                 continue
             with open(os.path.join(local_folder, message_filename), 'rb') as f:
                 full_message = f.read()
-            group_id = email_from.split('@')[0] + 'backup' + email_from.split('@')[1]
+            group_id = email_from.split('@')[0] + 'backup@' + email_from.split('@')[1]
             restore_msg_to_group(service, full_message, message_num, sqlconn, group_id)
     else:
         sqlcur.execute('ATTACH ? as resume', (resume_db,))
@@ -122,7 +122,7 @@ def restore_group(email_from, service, local_folder, sqlcur, sqlconn, stdscr=Non
                     mbox_pct = percentage(mbox._mbox_position, mbox._mbox_size)
                     rewrite_line(f'Message {current} - {mbox_pct}%', stdscr)
                     full_message = message.as_bytes()
-                    group_id = email_from.split('@')[0] + 'backup' + email_from.split('@')[1]
+                    group_id = email_from.split('@')[0] + 'backup@' + email_from.split('@')[1]
                     restore_msg_to_group(service, full_message, request_id, sqlconn, group_id=group_id)
 
     sqlconn.commit()
