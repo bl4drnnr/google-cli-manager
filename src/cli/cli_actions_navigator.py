@@ -1,7 +1,7 @@
 import os
 import sys
 
-from src.exceptions.index import WrongOption, NoCredentialsFile, NoOrganizationalUnitSet, NoGroupNameSet
+from src.exceptions.index import WrongOption, NoCredentialsFile, NoOrganizationalUnitSet, GroupWrongData
 
 from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
@@ -69,10 +69,10 @@ def cli_execute(operation, options):
         elif operation == 'cebg':
             email_backup_group(options['email_from'], options['admin'])
         elif operation == 'cg':
-            if 'group' not in options:
-                raise NoGroupNameSet
+            if 'group' not in options and 'admin' not in options and 'customer_id' not in options:
+                raise GroupWrongData
 
-            create_groups(options['group'])
+            create_groups(options['group'], options['admin'], options['customer_id'])
         elif operation == 'init_cred':
             initiate_credentials_files(options)
         else:
@@ -87,6 +87,6 @@ def cli_execute(operation, options):
     except NoOrganizationalUnitSet:
         print('No organizational unit set!')
         sys.exit()
-    except NoGroupNameSet:
-        print('In order to create Google Groups, please set name using "-g" or "--group".')
+    except GroupWrongData:
+        print('In order to create Google Groups, please set all needed values.')
         sys.exit()

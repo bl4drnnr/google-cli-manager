@@ -25,6 +25,9 @@ def setup_available_options(argv):
     parser.add_argument('-o', '--org-unit',
                         metavar='',
                         help='Used for Google Admin Workspace organizational unit.')
+    parser.add_argument('-u', '--customer-id',
+                        metavar='',
+                        help='In order to obtain Customer ID see README docs.')
 
     parser.add_argument('--offboard',
                         help='General user offboard. See docs to know what is triggered.',

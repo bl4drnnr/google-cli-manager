@@ -118,10 +118,10 @@ def init_service_account_object(api, email, use_admin):
         sys.exit()
 
 
-def init_group_service():
+def init_group_service(delegated_user):
     credentials = service_account.Credentials.from_service_account_file(
         'service.json', scopes=['https://www.googleapis.com/auth/cloud-identity.groups'])
-    delegated_credentials = credentials.with_subject('')
+    delegated_credentials = credentials.with_subject(delegated_user)
 
     service_name = 'cloudidentity'
     api_version = 'v1'

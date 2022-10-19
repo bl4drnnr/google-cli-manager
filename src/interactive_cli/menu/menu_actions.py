@@ -91,8 +91,10 @@ def command_execution(stdscr, command):
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
     elif command == 'Create Google Group':
         group_name = print_raw_input(stdscr, 'Please, provide the name of the group: ').strip()
+        admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
+        customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
-        create_groups(group_name, stdscr)
+        create_groups(group_name, admin_user, customer_id, stdscr)
     elif command == 'Create email backup (locally)':
         backup_user = print_raw_input(stdscr, 'Please, provide email of user to backup: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
