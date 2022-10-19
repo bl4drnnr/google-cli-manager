@@ -14,6 +14,7 @@
    3. [Docs](#docs)
    4. [Drive](#drive)
    5. [Gmail](#gmail)
+   6. [Groups](#groups)
 6. [References](#references)
 7. [License](#license)
 
@@ -97,6 +98,8 @@ To delegate domain-wide authority to a service account, a super administrator of
 5. In the **OAuth scopes (comma-delimited)** field, enter the list of scopes that your application should be granted access to. For example, if your application needs domain-wide full access to the Google Drive API and the Google Calendar API, enter: `https://www.googleapis.com/auth/drive, https://www.googleapis.com/auth/calendar`.
 6. Click **Authorize**.
 
+**_The process of creating Service Account is already automized and build in application. The instruction above is a way to do it manually._** 
+
 For more information see [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account).
 
 ---
@@ -170,6 +173,11 @@ your **Google Admin** administrator in order to obtain credentials.
 
 - **Emails backup (locally)** - Creates backup of emails locally. Files saved as database and can be used as local backup, but also with purpose  the restoration and creating Google Group with backuped email.
 - **Email backup (upload to Google Groups)** - Creates backup of emails and uploads it as Google Group. Before using this option, you need to have already created group on Google Groups. In order to create group go to [Google Groups](https://groups.google.com/) and create groups. Created group's email will be used to upload backuped data.
+
+#### Groups
+
+- **Create Google Group** - creates Google Group. As input data waits for name, delegated used email, and customer ID. Used in order to back up emails using Google Group, but can be used as single operation.
+
 ---
 
 ### References

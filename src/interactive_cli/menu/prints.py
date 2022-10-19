@@ -89,15 +89,24 @@ def print_documentation(stdscr):
     pad.addstr('4. Transfer Google Calendar events ownership.\n')
     pad.addstr('5. Backup of user\'s email by creating Google Group.\n\n')
 
+    pad.addstr('Initiate credentials files ', curses.A_BOLD)
+    pad.addstr('- operation used with purpose of generation of regeneration credential files. ')
+    pad.addstr('Generates 2 files - personal OAuth 2.0 access file\nand for Service Account. ')
+    pad.addstr('Creates Service Account, if it doesn\'t exist, otherwise, file service.json')
+    pad.addstr('in the root of project, can be replaces to your own.\n\n')
+
     pad.addstr('Suspend user activity ', curses.A_BOLD)
-    pad.addstr('- changes user\'s account status to "suspended", \nbut doesn\'t archive it.\n\n')
+    pad.addstr('- changes user\'s account status to "suspended", \nbut doesn\'t archive it.\n')
+    pad.addstr('Therefore, there is always ability to activate account.\n\n')
 
     pad.addstr('Change user Organizational Unit ', curses.A_BOLD)
-    pad.addstr('- changes user\'s Organizational Unit (OU). \nOU should already exists in Workspace.\n\n')
+    pad.addstr('- changes user\'s Organizational Unit (OU). \nOU should already exists in Workspace.\n')
+    pad.addstr('Used as a part offboarding procedure, but can be used as single operation.\n\n')
 
     pad.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Transfer Google Drive ownership ', curses.A_BOLD)
-    pad.addstr('- transfers ownership of files on Google Drive, that\nhas been created by this user.\n\n')
+    pad.addstr('- transfers ownership of files on Google Drive, that\nhas been created by this user.\n')
+    pad.addstr('Other words, transfers ownership of files, that has "owner" permission.\n\n')
 
     pad.addstr('Calendar\n\n', curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Transfer Google Calendar events ', curses.A_BOLD)
@@ -107,15 +116,26 @@ def print_documentation(stdscr):
 
     pad.addstr('Docs\n\n', curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Transfer Google Docs ownership ', curses.A_BOLD)
-    pad.addstr('- transfers ownership of files on Google Docs, that\nhas been created by this user.\n\n')
+    pad.addstr('- transfers ownership of files on Google Docs, that\nhas been created by this user. ')
+    pad.addstr('The same situation as for Drive, transfers ownership of files, that has "owner" permission.\n\n')
 
     pad.addstr('Gmail\n\n', curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('Local email back up ', curses.A_BOLD)
-    pad.addstr('- creates backup of user\'s emails and saves it locally.\n\n')
+    pad.addstr('Create email backup (locally) ', curses.A_BOLD)
+    pad.addstr('- creates backup of user\'s emails and saves it locally.\n')
+    pad.addstr('Backup is saved as SQLite database, and mostly used in order to restore user\'s email\n')
+    pad.addstr('and upload backup as Google Group.\n\n')
 
-    pad.addstr('Google Groups email back up ', curses.A_BOLD)
-    pad.addstr('- creates backup of user\'s emails\nand uploads it in form of Google Group.\n\n')
+    pad.addstr('Create email backup (upload to Google Groups) ', curses.A_BOLD)
+    pad.addstr('- creates backup of user\'s emails\nand uploads it in form of Google Group.\n')
+    pad.addstr('Basically combines 2 operation - creating Google Group and uploading local backup.\n\n')
 
+    pad.addstr('Groups\n\n', curses.A_BOLD | curses.A_UNDERLINE)
+    pad.addstr('Create Google Group ', curses.A_BOLD)
+    pad.addstr('- creates Google Group. As input data waits for name,\n')
+    pad.addstr('delegated used email, and customer ID. Used in order to back up emails using Google Group,\n')
+    pad.addstr('but can be used as single operation.\n\n')
+
+    pad.addstr('------------------------------------------\n\n', curses.A_BOLD)
     pad.addstr('In case of any issues, don\'t hesitate to text me - ')
     pad.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_BOLD | curses.A_UNDERLINE)
 
