@@ -10,7 +10,6 @@ from src.interactive_cli.menu.prints import \
 from src.common.variables import MENU, AVAILABLE_FUNCTIONS
 
 
-# INIT INTERACTIVE CLI AND NAVIGATION
 def init_interactive_cli(stdscr):
     current_row_idx = 0
     menu_navigator(stdscr, current_row_idx)
@@ -42,7 +41,6 @@ def navigate_menu(stdscr, current_row_idx):
         stdscr.refresh()
 
 
-# INIT MENU WITH AVAILABLE FUNCTIONALITY
 def init_start(stdscr):
     current_row_idx = 0
     functions_menu_navigator(stdscr, current_row_idx)
