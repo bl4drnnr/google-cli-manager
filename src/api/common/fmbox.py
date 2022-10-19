@@ -4,11 +4,11 @@ import os
 
 
 class Error(Exception):
-    """Raised for module-specific errors."""
+    pass
 
 
 class NoSuchMailboxError(Error):
-    """The specified mailbox does not exist and won't be created."""
+    pass
 
 
 linesep = os.linesep.encode('ascii')
