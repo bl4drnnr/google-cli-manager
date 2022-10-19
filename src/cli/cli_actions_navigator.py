@@ -52,20 +52,21 @@ def cli_execute(operation, options):
         global required_options
 
         if operation == 'offboard':
-            required_options = ['email_from', 'email_to', 'admin', 'org_unit']
+            required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id']
             check_required_options(options)
 
             user_from = options['email_from']
             user_to = options['email_to']
             admin_user = options['admin']
             org_unit = options['org_unit']
+            customer_id = options['customer_id']
 
             suspend_user_activity(user_from, admin_user)
             change_ou(user_from, org_unit, admin_user)
             transfer_calendar_events(user_from, user_to, admin_user)
             transfer_drive_ownership(user_from, user_to, admin_user)
             transfer_documents_ownership(user_from, user_to, admin_user)
-            email_backup_group(user_from, user_to, admin_user)
+            email_backup_group(user_from, admin_user, customer_id)
         elif operation == 'sua':
             required_options = ['email_from', 'admin']
             check_required_options(options)
@@ -97,10 +98,10 @@ def cli_execute(operation, options):
 
             email_backup_locally(options['email_from'], options['admin'])
         elif operation == 'cebg':
-            required_options = ['email_from', 'admin']
+            required_options = ['email_from', 'admin', 'customer_id']
             check_required_options(options)
 
-            email_backup_group(options['email_from'], options['admin'])
+            email_backup_group(options['email_from'], options['admin'], options['customer_id'])
         elif operation == 'cg':
             required_options = ['group', 'admin', 'customer_id']
             check_required_options(options)

@@ -53,13 +53,14 @@ def command_execution(stdscr, command):
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit (leave empty if no need): ').strip()
+        customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
         suspend_user_activity(user_from, admin_user, stdscr)
         change_ou(user_from, org_unit, admin_user, stdscr)
         transfer_calendar_events(user_from, user_to, admin_user, stdscr)
         transfer_drive_ownership(user_from, user_to, admin_user, stdscr)
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
-        email_backup_group(user_from, admin_user, stdscr)
+        email_backup_group(user_from, admin_user, customer_id, stdscr)
     elif command == 'Suspend user activity':
         user_from = print_raw_input(stdscr, 'Please, provide email of account to suspend: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of admin or delegated user (leave empty if no need): ').strip()
@@ -103,8 +104,9 @@ def command_execution(stdscr, command):
     elif command == 'Create email backup (upload to Google Groups)':
         backup_user = print_raw_input(stdscr, 'Please, provide email of user to backup: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
+        customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
-        email_backup_group(backup_user, admin_user, stdscr)
+        email_backup_group(backup_user, admin_user, customer_id, stdscr)
     elif command == 'Initiate credentials files':
         initiate_credentials_files(stdscr)
 
