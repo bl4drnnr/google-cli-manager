@@ -1,7 +1,7 @@
 import os
 import sys
 
-from src.exceptions.index import WrongOption, NoCredentialsFile, NoOrganizationalUnitSet, GroupWrongData
+from src.exceptions.index import WrongOption, NoCredentialsFile, WrongAttributes
 
 from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
@@ -13,6 +13,18 @@ from src.api.services.groups import create_groups
 
 from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
 from src.common.credential_file import generate_credentials_file, generate_service_account
+
+
+required_options = []
+
+
+def check_required_options(set_options):
+    if len(set_options) == 0:
+        raise WrongAttributes
+
+    for option in set_options:
+        if option not in required_options:
+            raise WrongAttributes
 
 
 def initiate_credentials_files(options):
@@ -37,40 +49,62 @@ def cli_execute(operation, options):
         if not os.path.exists('credentials.json') or not os.path.exists('service.json'):
             initiate_credentials_files(options)
 
+        global required_options
+
         if operation == 'offboard':
-            if 'org_unit' not in options:
-                raise NoOrganizationalUnitSet
+            required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id']
+            check_required_options(options)
 
             user_from = options['email_from']
             user_to = options['email_to']
             admin_user = options['admin']
+            org_unit = options['org_unit']
+            customer_id = options['customer_id']
 
             suspend_user_activity(user_from, admin_user)
-            change_ou(user_from, options['org_unit'], admin_user)
+            change_ou(user_from, org_unit, admin_user)
             transfer_calendar_events(user_from, user_to, admin_user)
             transfer_drive_ownership(user_from, user_to, admin_user)
             transfer_documents_ownership(user_from, user_to, admin_user)
-            email_backup_group(user_from, user_to, admin_user)
+            email_backup_group(user_from, admin_user, customer_id)
         elif operation == 'sua':
+            required_options = ['email_from', 'admin']
+            check_required_options(options)
+
             suspend_user_activity(options['email_from'], options['admin'])
         elif operation == 'cou':
-            if 'org_unit' not in options:
-                raise NoOrganizationalUnitSet
+            required_options = ['email_from', 'org_unit', 'admin']
+            check_required_options(options)
 
             change_ou(options['email_from'], options['org_unit'], options['admin'])
         elif operation == 'tce':
+            required_options = ['email_from', 'email_to', 'admin']
+            check_required_options(options)
+
             transfer_calendar_events(options['email_from'], options['email_to'], options['admin'])
         elif operation == 'tdo':
+            required_options = ['email_from', 'email_to', 'admin']
+            check_required_options(options)
+
             transfer_drive_ownership(options['email_from'], options['email_to'], options['admin'])
         elif operation == 'tgdo':
+            required_options = ['email_from', 'email_to', 'admin']
+            check_required_options(options)
+
             transfer_documents_ownership(options['email_from'], options['email_to'], options['admin'])
         elif operation == 'cebl':
+            required_options = ['email_from', 'admin']
+            check_required_options(options)
+
             email_backup_locally(options['email_from'], options['admin'])
         elif operation == 'cebg':
-            email_backup_group(options['email_from'], options['admin'])
+            required_options = ['email_from', 'admin', 'customer_id']
+            check_required_options(options)
+
+            email_backup_group(options['email_from'], options['admin'], options['customer_id'])
         elif operation == 'cg':
-            if 'group' not in options and 'admin' not in options and 'customer_id' not in options:
-                raise GroupWrongData
+            required_options = ['group', 'admin', 'customer_id']
+            check_required_options(options)
 
             create_groups(options['group'], options['admin'], options['customer_id'])
         elif operation == 'init_cred':
@@ -84,9 +118,6 @@ def cli_execute(operation, options):
         print('No credentials were set!')
         print('Please, check manual with documentation ("-h" or "--help") in order to set them.')
         sys.exit()
-    except NoOrganizationalUnitSet:
-        print('No organizational unit set!')
-        sys.exit()
-    except GroupWrongData:
-        print('In order to create Google Groups, please set all needed values.')
+    except WrongAttributes:
+        print(f'Wrong attributes, please, make sure you have set next attributes: {required_options}')
         sys.exit()

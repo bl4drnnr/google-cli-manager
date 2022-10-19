@@ -18,13 +18,13 @@ def email_backup_locally(email_from, delegated_user, stdscr=None):
         print_text(error, stdscr, error=True)
 
 
-def email_backup_group(email_from, delegated_user, stdscr=None):
+def email_backup_group(email_from, delegated_user, customer_id, stdscr=None):
     try:
         service = init_service_account_object('gmail', email_from, delegated_user)
         backup_items = create_email_backup(email_from, service, stdscr=stdscr, return_objects=True)
 
         backup_group_name = email_from.split('@')[0] + 'backup@' + email_from.split('@')[1]
-        create_groups(backup_group_name, stdscr)
+        create_groups(backup_group_name, delegated_user, customer_id, stdscr)
 
         service = init_service_account_object('groupsmigration', email_from, delegated_user)
         restore_group(

@@ -16,11 +16,3 @@ class WrongAttributes(Error):
 
 class NoCredentialsFile(Error):
     pass
-
-
-class NoOrganizationalUnitSet(Error):
-    pass
-
-
-class GroupWrongData(Error):
-    pass
