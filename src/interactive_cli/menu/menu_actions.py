@@ -45,10 +45,12 @@ def command_execution(stdscr, command):
         else:
             stdscr.addstr(row)
 
+    credentials_files_generated = False
+    result = None
+
     if not os.path.exists('credentials.json') or not os.path.exists('service.json'):
-        res = initiate_credentials_files(stdscr)
-        if res == 0:
-            return
+        result = initiate_credentials_files(stdscr)
+        credentials_files_generated = True
 
     if command == 'Offboard user':
         user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
@@ -108,9 +110,12 @@ def command_execution(stdscr, command):
         customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
         email_backup_group(backup_user, admin_user, customer_id, stdscr)
-    elif command == 'Initiate credentials files':
+    elif command == 'Initiate credentials files' and not credentials_files_generated:
         initiate_credentials_files(stdscr)
 
-    stdscr.addstr('\n\nPress any key to get back...\n\n')
-    stdscr.addstr('#################################', curses.A_BOLD)
-    stdscr.getch()
+    if result != 0:
+        stdscr.addstr('\n\nPress any key to get back...\n\n')
+        stdscr.addstr('#################################', curses.A_BOLD)
+        stdscr.getch()
+    else:
+        return

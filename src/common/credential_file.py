@@ -44,30 +44,34 @@ def set_project_consent_screen(stdscr=None):
 
 
 def generate_service_account(project_id, admin_email, stdscr=None):
-    print_text('Generating service account...', stdscr)
-    service_account_file = os.path.join(os.getcwd(), 'service.json')
-    iam = init_services('iam', 'v1', None)
+    try:
+        print_text('Generating service account...', stdscr)
+        service_account_file = os.path.join(os.getcwd(), 'service.json')
+        iam = init_services('iam', 'v1', None)
 
-    username = admin_email.split("@")[0]
-    sa_body = {
-        'accountId': username,
-        'serviceAccount': {
-            'displayName': f'{username} Service Account'
+        username = admin_email.split("@")[0]
+        sa_body = {
+            'accountId': username,
+            'serviceAccount': {
+                'displayName': f'{username} Service Account'
+            }
         }
-    }
-    service_account = call_api(iam.projects().serviceAccounts(), 'create',
-                               name='projects/%s' % project_id,
-                               body=sa_body)
-    key_body = {
-        'privateKeyType': 'TYPE_GOOGLE_CREDENTIALS_FILE',
-        'keyAlgorithm': 'KEY_ALG_RSA_2048'
-    }
-    key = call_api(iam.projects().serviceAccounts().keys(), 'create',
-                   name=service_account['name'], body=key_body, retry_reasons=[404])
-    oauth2service_data = base64.b64decode(key['privateKeyData'])
-    write_file(service_account_file, oauth2service_data)
-    set_project_consent_screen(stdscr)
-    print_text('Service account has been successfully created!', stdscr)
+        service_account = call_api(iam.projects().serviceAccounts(), 'create',
+                                   name='projects/%s' % project_id,
+                                   body=sa_body)
+        key_body = {
+            'privateKeyType': 'TYPE_GOOGLE_CREDENTIALS_FILE',
+            'keyAlgorithm': 'KEY_ALG_RSA_2048'
+        }
+        key = call_api(iam.projects().serviceAccounts().keys(), 'create',
+                       name=service_account['name'], body=key_body, retry_reasons=[404])
+        oauth2service_data = base64.b64decode(key['privateKeyData'])
+        write_file(service_account_file, oauth2service_data)
+        set_project_consent_screen(stdscr)
+        print_text('Service account has been successfully created!', stdscr)
+
+    except Exception as e:
+        print_text(e, stdscr)
 
 
 def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):

@@ -60,9 +60,9 @@ def call_api(service, function, soft_errors=False, throw_reasons=None, retry_rea
         except googleapiclient.errors.HttpError as e:
             try:
                 error = json.loads(e.content.decode('utf-8'))
-                reason = error['error']['errors'][0]['reason']
+                reason = error['error']['status']
+                message = error['error']['message']
                 http_status = error['error']['code']
-                message = error['error']['errors'][0]['message']
             except (KeyError, json.decoder.JSONDecodeError):
                 http_status = int(e.resp['status'])
                 reason = http_status
@@ -79,7 +79,7 @@ def call_api(service, function, soft_errors=False, throw_reasons=None, retry_rea
                 sys.stderr.write(' - Giving up.\n')
                 return
             else:
-                sys.exit(int(http_status))
+                return
         except google.auth.exceptions.RefreshError as e:
             sys.stderr.write('Error: Authentication Token Error - %s' % e)
             sys.exit(403)
