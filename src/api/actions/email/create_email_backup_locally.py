@@ -43,7 +43,7 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
     page_message = 'Got %%total_items%% Message IDs'
     messages_to_process = call_api_pages(service.users().messages(),
                                          'list', items='messages', page_message=page_message, maxResults=500,
-                                         userId='me', includeSpamTrash=False, fields='nextPageToken,messages/id')
+                                         userId='me', includeSpamTrash=False, fields='nextPageToken,messages/id', stdscr=stdscr)
 
     backup_path = local_folder
     if not os.path.isdir(backup_path):

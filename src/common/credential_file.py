@@ -58,7 +58,7 @@ def generate_service_account(project_id, admin_email, stdscr=None):
         }
         service_account = call_api(iam.projects().serviceAccounts(), 'create',
                                    name='projects/%s' % project_id,
-                                   body=sa_body)
+                                   body=sa_body, stdscr=stdscr)
         key_body = {
             'privateKeyType': 'TYPE_GOOGLE_CREDENTIALS_FILE',
             'keyAlgorithm': 'KEY_ALG_RSA_2048'
@@ -70,8 +70,8 @@ def generate_service_account(project_id, admin_email, stdscr=None):
         set_project_consent_screen(stdscr)
         print_text('Service account has been successfully created!', stdscr)
 
-    except Exception as e:
-        print_text(e, stdscr)
+    except (Exception,):
+        pass
 
 
 def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):
@@ -89,7 +89,7 @@ def generate_credentials_file(client_id, client_secret, project_id, stdscr=None)
     }''' % (client_id, client_secret, project_id)
     client_secrets_file = 'credentials.json'
     write_file(client_secrets_file, cs_data, stdscr=stdscr)
-    print_text('Credentials file has been successfully generated!')
+    print_text('Credentials file has been successfully generated!', stdscr)
 
 
 def write_file(filename, data, stdscr=None, mode='wb'):

@@ -11,22 +11,32 @@ import googleapiclient
 import googleapiclient.discovery
 import googleapiclient.errors
 
+from src.common.print_text import print_text
+
 extra_args = {'prettyPrint': False}
 
 
-def _backoff(n, retries, reason):
+def _backoff(n, retries, reason, stdscr=None):
     wait_on_fail = (2 ** n) if (2 ** n) < 60 else 60
     randomness = float(random.randint(1, 1000)) / 1000
     wait_on_fail += randomness
     if n > 3:
-        sys.stderr.write('\nTemp error %s. Backing off %s seconds...'
-                         % (reason, int(wait_on_fail)))
+        print_text('\nTemp error %s. Backing off %s seconds...'
+                   % (reason, int(wait_on_fail)), stdscr)
     time.sleep(wait_on_fail)
     if n > 3:
-        sys.stderr.write('attempt %s/%s\n' % (n + 1, retries))
+        print_text('attempt %s/%s\n' % (n + 1, retries), stdscr)
 
 
-def call_api(service, function, soft_errors=False, throw_reasons=None, retry_reasons=None, **kwargs):
+def call_api(
+        service,
+        function,
+        soft_errors=False,
+        throw_reasons=None,
+        retry_reasons=None,
+        stdscr=None,
+        **kwargs
+):
     if retry_reasons is None:
         retry_reasons = []
     if throw_reasons is None:
@@ -44,9 +54,9 @@ def call_api(service, function, soft_errors=False, throw_reasons=None, retry_rea
 
             return method.execute()
         except googleapiclient.errors.MediaUploadSizeError as e:
-            sys.stderr.write('\nERROR: %s' % e)
+            print_text('ERROR: %s' % e, stdscr)
             if soft_errors:
-                sys.stderr.write(' - Giving up.\n')
+                print_text(' - Giving up.', stdscr)
                 return
             else:
                 sys.exit()
@@ -55,7 +65,7 @@ def call_api(service, function, soft_errors=False, throw_reasons=None, retry_rea
                 socket.gaierror,
                 ssl.SSLEOFError,
                 httplib2.error.ServerNotFoundError) as e:
-            _backoff(n, retries, e)
+            _backoff(n, retries, e, stdscr)
             continue
         except googleapiclient.errors.HttpError as e:
             try:
@@ -72,21 +82,21 @@ def call_api(service, function, soft_errors=False, throw_reasons=None, retry_rea
             if n != retries and (http_status >= 500 or
                                  reason in ['rateLimitExceeded', 'userRateLimitExceeded', 'backendError'] or
                                  reason in retry_reasons):
-                _backoff(n, retries, reason)
+                _backoff(n, retries, reason, stdscr)
                 continue
-            sys.stderr.write('\n%s: %s - %s\n' % (http_status, message, reason))
+            print_text('\n%s: %s - %s' % (http_status, message, reason), stdscr)
             if soft_errors:
-                sys.stderr.write(' - Giving up.\n')
+                print_text(' - Giving up.', stdscr)
                 return
             else:
                 return
         except google.auth.exceptions.RefreshError as e:
-            sys.stderr.write('Error: Authentication Token Error - %s' % e)
+            print_text('Error: Authentication Token Error - %s' % e, stdscr)
             sys.exit(403)
 
 
 def call_api_pages(service, function, items='items',
-                   next_page_token='nextPageToken', page_message=None, message_attribute=None,
+                   next_page_token='nextPageToken', page_message=None, message_attribute=None, stdscr=None,
                    **kwargs):
     page_token = None
     all_pages = list()
@@ -127,5 +137,5 @@ def call_api_pages(service, function, items='items',
                 return all_pages
         except (IndexError, KeyError):
             if page_message:
-                sys.stderr.write('\n')
+                print_text('\n', stdscr)
             return all_pages
