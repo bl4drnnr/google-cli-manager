@@ -7,7 +7,8 @@ from src.interactive_cli.menu.prints import \
     print_exit, \
     print_selected_command
 
-from src.common.variables import MENU, AVAILABLE_FUNCTIONS
+from src.common.variables import MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT
+from src.common.functions import pad_refresh, navigation_control
 
 
 def init_interactive_cli(stdscr):
@@ -42,29 +43,31 @@ def navigate_menu(stdscr, current_row_idx):
 
 
 def init_start(stdscr):
+    height, width = stdscr.getmaxyx()
+    y = 0
+    pad = curses.newpad(PAD_HEIGHT, width)
+
     current_row_idx = 0
-    functions_menu_navigator(stdscr, current_row_idx)
+
+    print_functions_menu(pad, y, current_row_idx, height, width)
+    navigate_functions_menu(stdscr, pad, y, current_row_idx, height, width)
+
+    pad_refresh(pad, y, height, width)
+
+    navigation_control(pad, y, height, width)
 
 
-def functions_menu_navigator(stdscr, current_row_idx):
-    print_functions_menu(stdscr, current_row_idx)
-    navigate_functions_menu(stdscr, current_row_idx)
-
-
-def navigate_functions_menu(stdscr, current_row_idx):
+def navigate_functions_menu(stdscr, pad, pad_pos, current_row_idx, height, width):
     while True:
         key = stdscr.getch()
-        stdscr.clear()
 
         if key == curses.KEY_UP and current_row_idx > 0:
             current_row_idx -= 1
         elif key == curses.KEY_DOWN and current_row_idx < len(AVAILABLE_FUNCTIONS) - 1:
             current_row_idx += 1
-        elif key == ord('q') or key == ord('Q'):
-            return
         elif key == curses.KEY_ENTER or key in [10, 13]:
             selected_command = AVAILABLE_FUNCTIONS[current_row_idx].split('\n')[0]
             print_selected_command(stdscr, selected_command)
 
-        print_functions_menu(stdscr, current_row_idx)
-        stdscr.refresh()
+        print_functions_menu(pad, pad_pos, current_row_idx, height, width)
+        pad_refresh(pad, current_row_idx, height, width)

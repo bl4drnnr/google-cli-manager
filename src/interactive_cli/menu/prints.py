@@ -182,7 +182,7 @@ def print_menu(stdscr, current_row_idx):
     stdscr.refresh()
 
 
-def print_functions_menu(stdscr, current_row_idx):
+def print_functions_menu(stdscr, pad_pos, current_row_idx, height, width):
     stdscr.clear()
 
     print_functions_introduction(stdscr)
@@ -193,7 +193,7 @@ def print_functions_menu(stdscr, current_row_idx):
         else:
             stdscr.addstr(row)
 
-    stdscr.refresh()
+    pad_refresh(stdscr, pad_pos, height, width)
 
 
 def print_selected_command(stdscr, command):
