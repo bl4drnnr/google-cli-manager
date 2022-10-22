@@ -49,9 +49,8 @@ def generate_service_account(project_id, admin_email, stdscr=None):
     iam = init_services('iam', 'v1', None)
 
     username = admin_email.split("@")[0]
-    account_id_username = username.split('.')[0] + username.split('.')[1]
     sa_body = {
-        'accountId': account_id_username,
+        'accountId': username,
         'serviceAccount': {
             'displayName': f'{username} Service Account'
         }

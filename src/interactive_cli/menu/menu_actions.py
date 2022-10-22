@@ -23,15 +23,15 @@ def initiate_credentials_files(stdscr):
 
     valid_credentials_error = check_client_id_and_secret(client_id, client_secret)
 
-    generate_credentials_file(client_id, client_secret, project_id, stdscr)
-    generate_service_account(project_id, admin_email, stdscr)
-
     if len(valid_credentials_error) != 0:
         stdscr.addstr(valid_credentials_error, curses.color_pair(3))
         stdscr.addstr('\n\nPress any key to get back...\n\n')
         stdscr.addstr('#################################', curses.A_BOLD)
         stdscr.getch()
-        return
+        return 0
+    else:
+        generate_credentials_file(client_id, client_secret, project_id, stdscr)
+        generate_service_account(project_id, admin_email, stdscr)
 
 
 def command_execution(stdscr, command):
@@ -46,7 +46,9 @@ def command_execution(stdscr, command):
             stdscr.addstr(row)
 
     if not os.path.exists('credentials.json') or not os.path.exists('service.json'):
-        initiate_credentials_files(stdscr)
+        res = initiate_credentials_files(stdscr)
+        if res == 0:
+            return
 
     if command == 'Offboard user':
         user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
