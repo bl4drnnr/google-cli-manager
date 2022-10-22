@@ -187,7 +187,6 @@ def print_functions_menu(stdscr, pad_pos, current_row_idx, height, width):
 
     print_functions_introduction(stdscr)
     for idx, row in enumerate(AVAILABLE_FUNCTIONS):
-
         if idx == current_row_idx:
             stdscr.addstr(f' > {row}', curses.color_pair(1))
         else:

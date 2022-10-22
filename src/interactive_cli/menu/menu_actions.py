@@ -52,6 +52,9 @@ def command_execution(stdscr, command):
         result = initiate_credentials_files(stdscr)
         credentials_files_generated = True
 
+    if result == 0:
+        return
+
     if command == 'Offboard user':
         user_from = print_raw_input(stdscr, 'Please, provide email of offboarded user: ').strip()
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
