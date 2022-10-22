@@ -16,6 +16,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from src.common.variables import SCOPES
+from src.api.common.read_file import read_file
 
 
 def get_api_version(api):
@@ -28,18 +29,6 @@ def get_api_version(api):
     elif api == 'drive':
         return 'v2'
     return 'v1'
-
-
-def read_file(filename, mode='r'):
-    try:
-        with open(os.path.expanduser(filename), mode) as f:
-            return f.read()
-    except IOError as e:
-        print(e)
-        sys.exit()
-    except (LookupError, UnicodeDecodeError, UnicodeError) as e:
-        print(e)
-        sys.exit()
 
 
 def get_service_acc_credentials(scopes, act_as):
@@ -82,7 +71,7 @@ def init_services(api_name, api_version, delegated_user=None):
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
 
-    if delegated_user is not None or len(str(delegated_user)) != 0:
+    if delegated_user is not None:
         credentials = service_account.Credentials.from_service_account_file(
             'service.json', scopes=SCOPES[api_name])
         creds = credentials.with_subject(delegated_user)

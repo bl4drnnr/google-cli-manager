@@ -14,7 +14,7 @@ class NoSuchMailboxError(Error):
 linesep = os.linesep.encode('ascii')
 
 
-class fmsg():
+class fmsg:
 
     def __init__(self, msg_bytes):
         self.msg_bytes = msg_bytes
@@ -70,7 +70,7 @@ class fmsg():
         return self.msg_bytes
 
 
-class fmbox():
+class fmbox:
 
     def __init__(self, path):
         try:

@@ -46,8 +46,11 @@ def initiate_credentials_files(options):
 
 def cli_execute(operation, options):
     try:
+        credentials_files_generated = False
+
         if not os.path.exists('credentials.json') or not os.path.exists('service.json'):
             initiate_credentials_files(options)
+            credentials_files_generated = True
 
         global required_options
 
@@ -93,10 +96,10 @@ def cli_execute(operation, options):
 
             transfer_documents_ownership(options['email_from'], options['email_to'], options['admin'])
         elif operation == 'cebl':
-            required_options = ['email_from', 'admin']
+            required_options = ['email_from']
             check_required_options(options)
 
-            email_backup_locally(options['email_from'], options['admin'])
+            email_backup_locally(options['email_from'])
         elif operation == 'cebg':
             required_options = ['email_from', 'admin', 'customer_id']
             check_required_options(options)
@@ -107,10 +110,11 @@ def cli_execute(operation, options):
             check_required_options(options)
 
             create_groups(options['group'], options['admin'], options['customer_id'])
-        elif operation == 'init_cred':
+        elif operation == 'init_cred' and not credentials_files_generated:
             initiate_credentials_files(options)
         else:
-            raise WrongOption
+            if operation != 'init_cred':
+                raise WrongOption
     except WrongOption:
         print('Wrong option!')
         sys.exit()

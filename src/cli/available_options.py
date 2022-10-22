@@ -71,7 +71,7 @@ def setup_available_options(argv):
                                  help='Email to delegate Google Service Account.')
 
     services.add_argument('-i', '--init-cred',
-                          metavar='',
-                          help='Init or reinit credentials.')
+                          help='Init or reinit credentials.',
+                          action='store_true')
 
     return parser.parse_args(argv)

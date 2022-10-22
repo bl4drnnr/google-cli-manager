@@ -1,19 +1,59 @@
 import os
+import sys
+import json
 import base64
 
 from src.common.print_text import print_text
 from src.api.common.call_api import call_api
-from src.api.service_initiator import init_service_account_object
+from src.api.service_initiator import init_services
+from src.api.common.read_file import read_file
+
+from src.common.variables import SCOPES
+
+
+def get_service_account_client_id():
+    try:
+        json_string = read_file(os.path.join(os.getcwd(), 'service.json'))
+        if not json_string:
+            sys.exit()
+        sa_info = json.loads(json_string)
+        client_id = sa_info.get('client_id')
+        if not client_id:
+            sys.exit()
+        return client_id
+    except (ValueError, KeyError):
+        sys.exit()
+
+
+def set_project_consent_screen(stdscr=None):
+    print_text(f'Checking service account DwD...', stdscr)
+    all_scopes = []
+
+    for item, value in SCOPES.items():
+        for scope in value:
+            all_scopes.append(scope)
+
+    all_scopes.sort()
+    client_id = get_service_account_client_id()
+    long_url = ('https://admin.google.com/ac/owl/domainwidedelegation'
+                f'?clientScopeToAdd={",".join(all_scopes)}'
+                f'&clientIdToAdd={client_id}&overwriteClientId=true')
+    print_text('\n\nPlease, go to this URL address, and click "Authorize":\n\n', stdscr)
+    print_text(long_url, stdscr)
+    print_text('\nThis is needed in order to allow you be able to manage data you want to manage.\n\n', stdscr)
 
 
 def generate_service_account(project_id, admin_email, stdscr=None):
     print_text('Generating service account...', stdscr)
     service_account_file = os.path.join(os.getcwd(), 'service.json')
-    iam = init_service_account_object('iam', None, admin_email)
+    iam = init_services('iam', 'v1', None)
+
+    username = admin_email.split("@")[0]
+    account_id_username = username.split('.')[0] + username.split('.')[1]
     sa_body = {
-        'accountId': project_id,
+        'accountId': account_id_username,
         'serviceAccount': {
-            'displayName': f'{admin_email.split("@")[0]} Service Account'
+            'displayName': f'{username} Service Account'
         }
     }
     service_account = call_api(iam.projects().serviceAccounts(), 'create',
@@ -27,7 +67,8 @@ def generate_service_account(project_id, admin_email, stdscr=None):
                    name=service_account['name'], body=key_body, retry_reasons=[404])
     oauth2service_data = base64.b64decode(key['privateKeyData'])
     write_file(service_account_file, oauth2service_data)
-    print_text('Service account has been successfully created! ', stdscr)
+    set_project_consent_screen(stdscr)
+    print_text('Service account has been successfully created!', stdscr)
 
 
 def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):

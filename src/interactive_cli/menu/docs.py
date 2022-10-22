@@ -43,7 +43,7 @@ commands_docs = {
         'Mostly used for creating email backups, but can be created as empty group.\n\n'
     ],
     'Initiate credentials files': [
-        'Allow to generate or regenerate credentials files (OAuth 2.0 for personal account and Service Account)',
+        'Allow to generate or regenerate credentials files (OAuth 2.0 for personal account and Service Account) ',
         'Use it in case if credentials were changed or wasn\'t generated at all.\n\n'
     ]
 }

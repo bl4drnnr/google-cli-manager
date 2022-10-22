@@ -98,12 +98,11 @@ def command_execution(stdscr, command):
         create_groups(group_name, admin_user, customer_id, stdscr)
     elif command == 'Create email backup (locally)':
         backup_user = print_raw_input(stdscr, 'Please, provide email of user to backup: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
 
-        email_backup_locally(backup_user, admin_user, stdscr)
+        email_backup_locally(backup_user, stdscr)
     elif command == 'Create email backup (upload to Google Groups)':
         backup_user = print_raw_input(stdscr, 'Please, provide email of user to backup: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
+        admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
         customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
         email_backup_group(backup_user, admin_user, customer_id, stdscr)

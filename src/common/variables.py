@@ -23,10 +23,10 @@ SCOPES = {
     ],
     'iam': [
         'https://www.googleapis.com/auth/cloud-platform'
-    ]
+    ],
 }
 
-CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo', 'cg']
+CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo', 'cg', 'init_cred']
 
 MENU = [
     'Start\n',
