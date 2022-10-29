@@ -1,161 +1,126 @@
 # Table of Contents
-1. [Introduction](#introduction)
+1. [Introduction and scope](#introduction-and-scope)
 2. [Requirements](#requirements)
-   1. [Creating project](#creating-project)
-   2. [Creating service account](#creating-service-account)
-   3. [Delegating domain-wide authority to the service account](#delegating-domain-wide-authority-to-the-service-account)
-3. [Installation](#installation)
-4. [Types of execution](#types-of-execution)
-   1. [Interactive CLI](#interactive-cli)
-   2. [Classic terminal application](#classic-terminal-application)
-5. [Available endpoints](#available-endpoints)
+3. [Installation and usage](#installation-and-usage)
+4. [Credentials](#credentials)
+5. [Available functions](#available-functions)
    1. [Admin workspace](#admin-workspace)
    2. [Calendar](#calendar)
    3. [Docs](#docs)
    4. [Drive](#drive)
    5. [Gmail](#gmail)
    6. [Groups](#groups)
-6. [References](#references)
-7. [License](#license)
+   7. [Initiate credentials](#initiate-credentials)
+6. [References and Contact](#references-and-contact)
 
 ---
 
-### Introduction
-**Google Manager** - is the simple _**Python application**_ that allows to manage Google account(s) via _**CLI**_. 
+### Introduction and scope
+**Google CLI Manager** - is the simple _Python terminal-based application_ 
+that allows to manage Google organizational account(s) via _CLI_. 
+Using this program allows to manage next Google services:
 
-The application is available in 2 versions:
-- Interactive **CLI**
-- Classic terminal application
+- **Google Admin workspace**
+- **Google Calendar**
+- **Google Drive**
+- **Google Docs**
+- **Gmail**
 
-Documentation for both of them will be written below. In order to obtain more information about 
-`Google API` (Python SDK, in this case) see [references](#references).
+Application allows to manage access for resources between different users, change Organizational Units, transfer Google Calendar 
+events and create local and remote (using [Google Groups](https://groups.google.com)) emails backups.
+
+Application is available in 2 versions - _interactive CLI_ and _classic terminal-based application_.
 
 ---
 
 ### Requirements 
 
-Depending on functionality you want to use, you'll have to provide different type of authentication data.
-Every action requires to be authenticated using `OAuth 2.0`.
-
-It's important to mention, that depending on what you want to do, you will have to create and
-provide different types of credentials.
-
-So, there are 2 options:
-- If you want to use **API** only for managing your own account, what you need to do, is just [create project](#creating-project) and get `OAuth 2.0` credentials.
-- If you want to access other users' data (within same organization) you need [create project](#creating-project), get `OAuth 2.0` credentials, [Create service account](#creating-service-account) and [delegate domain wide authority to the service account](#delegating-domain-wide-authority-to-the-service-account).
-
-#### Creating project
-
-In order to obtain those credentials you need to create project on [Google Cloud](https://console.cloud.google.com/).
-If you want to use functionality to manage users' accounts within **Google Workspace**,
-just skip next steps, dedicated creating of project and go to [Creating Service Account](#creating-service-account) section.
-
-1. Go to [Google Cloud project creation page](https://console.cloud.google.com/projectcreate).
-2. Provide project name and click `Create`.
-3. On the left side bard click `APIs & Services` and then `Credentials`.
-4. At the top click `Create Credentials` and select `OAuth client ID`.
-5. There, if you didn't it before, you will be invited to configure `OAuth consent screen`. If you already did that, go to next steps.
-   1. There, in `User Type` select `External` and click `Create`.
-6. Then, you'll be provided to type the `App name`, `User support email` and `Developer email`. After you have done it, click `Save and Continue`.
-7. On the next page, **it will be very important** to set scopes, in order to make things work. Click `Add or Remove Scopes` and select scopes you need. If you think, that there are no scopes you need [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes).
-8. Click `Update` and then, at the bottom, `Save and Continue`.
-9. Provide test users (**not necessary**)
-10. At the **Summary** page, at the bottom, click `Back to Dashboard`.
-11. On the left side bard click `APIs & Services` and then `Credentials` and select `OAuth client ID`.
-12. As the `Application type` set `Desktop app` and provide name for it.
-13. You have got your `Client ID` and `Client Sercret`. Copy it or download as `JSON` file.
-
-#### Creating service account
-
-If you already have project on Google Cloud and you want to manage other users' data (within organization)
-what you need to do, is to create **Service Account** and then [delegate authority](#delegating-domain-wide-authority-to-the-service-account).
-
-**Service Account** - is a type of account, that allows administrators to manager
-other users' accounts (within same organization) without strict access to their account.
-Purpose of **Service Account** is to be _"proxy"_ account, that will escalate and execute
-commands from administrator (through **API**, in this case).
-
-1. On the left side bard click `APIs & Services` and then `Credentials`.
-2. At the top click `Create Credentials` and select `Create service account`.
-3. At the next page grant `Owner` access.
-4. On the last page, provide email of user, who will have access for managing other users' data or **delegated user**.
-5. Click `Done`.
-6. Next, click the email address for the service account you created.
-7. Click the `Keys` tab.
-8. In the `Add key` drop-down list, select `Create new key`.
-9. Click `Create`.
-
-#### Delegating domain-wide authority to the service account
-
-If you have a Google Workspace account, an administrator of the organization can authorize an application to access user data on behalf of users in the Google Workspace domain. For example, an application that uses the Google Calendar API to add events to the calendars of all users in a Google Workspace domain would use a service account to access the Google Calendar API on behalf of users. Authorizing a service account to access data on behalf of users in a domain is sometimes referred to as "delegating domain-wide authority" to a service account.
-
-To delegate domain-wide authority to a service account, a super administrator of the Google Workspace domain must complete the following steps:
-
-1. From your Google Workspace domain's Admin console, go to **Main menu > Security > Access and data control > API Controls**.
-2. In the **Domain wide delegation** pane, select **Manage Domain Wide Delegation**.
-3. Click **Add new**.
-4. In the **Client ID** field, enter the service account's **Client ID**. You can find your service account's client ID in the Service accounts page.
-5. In the **OAuth scopes (comma-delimited)** field, enter the list of scopes that your application should be granted access to. For example, if your application needs domain-wide full access to the Google Drive API and the Google Calendar API, enter: `https://www.googleapis.com/auth/drive, https://www.googleapis.com/auth/calendar`.
-6. Click **Authorize**.
-
-**_The process of creating Service Account is already automized and build in application. The instruction above is a way to do it manually._** 
-
-For more information see [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account).
-
----
-
-### Installation
-
-For **MacOS** and **Linux** systems:
-
-To install `Google Manager CLI` on your computer, open terminal and paste next command:
-
+In order to use application, you need to have installed Python version 3+ on your computer. To check that, open terminal, type `python3 --version` and press `ENTER`. You should see next:
 ```
-bash <(curl -s -S -L https://raw.githubusercontent.com/bl4drnnr/google-cli-manager/master/install.sh)
+~ % python3 --version
+Python 3.9.6
 ```
-
-Then hit `ENTER`, and after installation is done, quit and reopen terminal.
-
-Type `gmcli -h` to check if everything was installed correctly. 
+If you don’t see such outcome, please, go to official Python programming language page, and, according to instructions, install it.
 
 ---
 
-### Types of execution
+### Installation and usage
 
-The program works in 2 modes. As Interactive terminal-based application and classic terminal application.
+- For **MacOS** and **Linux**:
 
-#### Interactive CLI
+To install Google CLI Manager on your computer open terminal, paste and execute next command:
+```
+bash <(curl -s -S -L "https://raw.githubusercontent.com/bl4drnnr/google-cli-manager/master/install.sh")
+```
+After installation is done, restart terminal.
 
-To execute program as Interactive CLI, type `gmcli`. Use arrows on a keyboard to navigate menu and `ENTER` to
-confirm select.
+Type `gmcli -h` to check if everything was installed correctly.
 
-#### Classic terminal application
+The usage of the program is available in 2 versions:
+- **Interactive CLI** - To execute program as Interactive CLI, type `gmcli`. Use arrows on a keyboard to navigate menu and `ENTER` to confirm select.
+- **Classic terminal application** - If you want to execute program in classic terminal application mode, it'll be enough to type `gmcli -h` to list all possible commands.
 
-If you want to execute program in classic terminal application mode, it'll be enough to type
-`gmcli -h` to list all possible commands.
+To use **Interactive CLI** use arrows on your keyboard for navigation and `ENTER` to confirm your choose.
+
+Here is how the main window look like. From here you can start, print documentation or exit.
+
+![0](media/0.png)
+
+By clicking `Start` you will be redirected to window with list of all available functions.
+This is the main window of the program, by choosing operation here, you will be ask to
+provide needed data.
+
+![1](media/1.png)
 
 ---
 
-### Available endpoints
+### Credentials
+
+In case of first execution of the application you will be asked (or you can do it
+on your own) to generate credentials in order to internal functionalities.
+
+First **"set"** of credentials that you need is:
+- Client ID
+- Client Secret
+- Project ID
+- Delegated user email (basically, your email)
+
+`Client ID` and `Client Secret` can be found [here](https://console.cloud.google.com/apis/credentials).
+Just click in `EDIT` button  for `Google CLI manager credentials` (right side) and copy out of there
+those credentials.
+
+This will only allow you to use services, that don't require **Service Account**, but, if
+you did everything correctly, on step with generating credentials, you will get a
+link. Click in it, and click **Authorize** button.
+
+This will generate **Service Account**. And that's it, **you are ready to go now!**
+
+**_In case, if you don't have access to this functionality, please, contact your Google Workspace administrator in order to obtain those accesses. Otherwise, functions won’t be available to use!_**
+
+---
+
+### Available functions
 
 Remember, **some endpoints are available only within organization**, therefore,
-if you want to access them, you need to use [Service Account](#creating-service-account) and
-[Delegate Authority](#delegating-domain-wide-authority-to-the-service-account) in **Google Admin**.
+if you want to access them, you need to use Service Account and
+Delegate Authority in **Google Admin**.
 
 In case, if you don't have access to this functionality, please, contact
 your **Google Admin** administrator in order to obtain credentials.
 
 #### Admin workspace
 
-- **User offboarding** - general procedure (organizations only), that deactivates user's account by doing next:
+- **Offboard user** - general procedure (organizations only), that deactivates user's account by doing next:
   1. Suspend user's activity.
   2. Change user Organizational Unit.
   3. Transfer Google Drive ownership.
   4. Transfer Google Calendar events.
   5. Create emails backup using Google Groups.
 
-- **Suspending user's activity** - Suspends user's activity. Account isn't archiving, therefor activity can be restored at any moment.
-- **Changing user Organizational Unit** - Changes Organizational Unit user belongs to. Can be used from pool of existing ones.
+- **Suspend user activity** - Suspends user's activity. Account isn't archiving, therefor activity can be restored at any moment.
+- **Archive user** - archive user's account.
+- **Change user Organizational Unit** - Changes Organizational Unit user belongs to. Can be used from pool of existing ones.
+- **Get user by email** - allows to get information about user in format of JSON file.
 
 #### Calendar
 
@@ -171,16 +136,20 @@ your **Google Admin** administrator in order to obtain credentials.
 
 #### Gmail
 
-- **Emails backup (locally)** - Creates backup of emails locally. Files saved as database and can be used as local backup, but also with purpose  the restoration and creating Google Group with backuped email.
-- **Email backup (upload to Google Groups)** - Creates backup of emails and uploads it as Google Group. Before using this option, you need to have already created group on Google Groups. In order to create group go to [Google Groups](https://groups.google.com/) and create groups. Created group's email will be used to upload backuped data.
+- **Create email backup (locally)** - Creates backup of emails locally. Files saved as database and can be used as local backup, but also with purpose  the restoration and creating Google Group with backuped email.
+- **Create email backup (upload to Google Groups)** - Creates backup of emails and uploads it as Google Group. Before using this option, you need to have already created group on Google Groups. In order to create group go to [Google Groups](https://groups.google.com/) and create groups. Created group's email will be used to upload backuped data.
 
 #### Groups
 
-- **Create Google Group** - creates Google Group. As input data waits for name, delegated used email, and customer ID. Used in order to back up emails using Google Group, but can be used as single operation.
+- **Create Google Group** - creates Google Group. As input data waits for name, delegated used email, and [Customer ID](https://support.google.com/a/answer/10070793?product_name=UnuFlow&hl=en&visit_id=638025357933773524-789296966&rd=1&src=supportwidget0&hl=en). Used in order to back up emails using Google Group, but can be used as single operation.
+
+#### Initiate credentials
+
+- **Initiate credentials files** - allows to generate or generate credentials files. Use in case of first execution or if credentials were changed. **Service account will be overwritten!**
 
 ---
 
-### References
+### References and contact
 
 - Developer contact - [mikhail.bahdashych@protonmail.com](mailto:mikhail.bahdashych@protonmail.com)
 - [Google Developers](https://developers.google.com/) - Official SDKs by Google
@@ -189,11 +158,9 @@ your **Google Admin** administrator in order to obtain credentials.
 - [Google Drive API](https://developers.google.com/drive/api) - **Google Drive** for developers
 - [Google Docs API](https://developers.google.com/docs/api) - **Google Docs** for developers
 - [Google Workspace Admin SDK](https://developers.google.com/admin-sdk) - **Google Admin** for developers
+- [Google Customer ID](https://support.google.com/a/answer/10070793?product_name=UnuFlow&hl=en&visit_id=638025357933773524-789296966&rd=1&src=supportwidget0&hl=en) - how you can find your customer ID.
 - [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account) - how to create Service Account and delegate authority to it  
 - [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes) - list of all OAuth 2.0 scopes
-
----
-
-### License
-
-Licensed by [MIT License](LICENSE).
+- [Using OAuth 2.0 for Server to Server Applications](https://developers.google.com/identity/protocols/oauth2/service-account) - how to create **Service Account** and **delegate authority to it**
+- [OAuth 2.0 Scopes for Google APIs](https://developers.google.com/identity/protocols/oauth2/scopes) - list of all **OAuth 2.0 scopes**
+- [Python](https://www.python.org/downloads/) - Download and install `Python`

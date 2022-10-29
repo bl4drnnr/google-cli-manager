@@ -35,6 +35,9 @@ def setup_available_options(argv):
     parser.add_argument('--sua',
                         help='Suspend user activity.',
                         action='store_true')
+    parser.add_argument('--aua',
+                        help='Archive user account.',
+                        action='store_true')
     parser.add_argument('--cou',
                         help='Change user organizational unit.',
                         action='store_true')
@@ -55,6 +58,9 @@ def setup_available_options(argv):
                         action='store_true')
     parser.add_argument('--cg',
                         help='Create Google Group (use "-g" or "--group" in order to set group name)',
+                        action='store_true')
+    parser.add_argument('--get-user',
+                        help='Get and print information about user.',
                         action='store_true')
 
     first_execution.add_argument('-c', '--client-id',

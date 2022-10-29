@@ -8,7 +8,7 @@ from src.interactive_cli.menu.prints import \
     print_selected_command
 
 from src.common.variables import MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT
-from src.common.functions import pad_refresh, navigation_control
+from src.common.functions import pad_refresh
 
 
 def init_interactive_cli(stdscr):
@@ -48,21 +48,12 @@ def init_start(stdscr):
     pad = curses.newpad(PAD_HEIGHT, width)
 
     current_row_idx = 0
-    owners_set = False
 
-    while not owners_set:
-        print_functions_menu(pad, y, current_row_idx, height, width)
-        res = navigate_functions_menu(stdscr, pad, y, current_row_idx, height, width)
+    print_functions_menu(pad, y, current_row_idx, height, width)
+    res = navigate_functions_menu(stdscr, pad, y, current_row_idx, height, width)
 
-        stdscr.clear()
-
-        if res == 0:
-            return
-
-    if not owners_set:
-        pad_refresh(pad, y, height, width)
-
-    navigation_control(pad, y, height, width)
+    if res == 0:
+        return
 
 
 def navigate_functions_menu(stdscr, pad, pad_pos, current_row_idx, height, width):
@@ -70,7 +61,7 @@ def navigate_functions_menu(stdscr, pad, pad_pos, current_row_idx, height, width
     while True:
         key = stdscr.getch()
 
-        if key == ord('q'):
+        if key == ord('q') or key == ord('Q'):
             return 0
 
         if key == curses.KEY_UP and current_row_idx > 0:

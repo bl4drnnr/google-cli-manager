@@ -1,6 +1,8 @@
-vevn
 __pycache__
-.idea
+vevn/
 .DS_Store
+.idea/
 
 *.json
+
+gmcli-gmail-backup-*/

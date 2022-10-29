@@ -2,11 +2,13 @@ import os
 import sys
 import json
 import base64
+import curses
 
 from src.common.print_text import print_text
 from src.api.common.call_api import call_api
 from src.api.service_initiator import init_services
 from src.api.common.read_file import read_file
+from src.common.functions import pad_refresh
 
 from src.common.variables import SCOPES
 
@@ -43,17 +45,26 @@ def set_project_consent_screen(stdscr=None):
     print_text('\nThis is needed in order to allow you be able to manage data you want to manage.\n\n', stdscr)
 
 
-def generate_service_account(project_id, admin_email, stdscr=None):
+def generate_service_account(
+        project_id,
+        admin_email,
+        stdscr=None,
+        pad_pos=None,
+        height=None,
+        width=None
+):
     try:
+        if stdscr is not None:
+            stdscr.clear()
         print_text('Generating service account...', stdscr)
         service_account_file = os.path.join(os.getcwd(), 'service.json')
         iam = init_services('iam', 'v1', None)
 
-        username = admin_email.split("@")[0]
+        username = ''.join(admin_email.split("@")[0].replace('.', ''))
         sa_body = {
             'accountId': username,
             'serviceAccount': {
-                'displayName': f'{username} Service Account'
+                'displayName': f'{admin_email.split("@")[0]} Service Account'
             }
         }
         service_account = call_api(iam.projects().serviceAccounts(), 'create',
@@ -70,11 +81,24 @@ def generate_service_account(project_id, admin_email, stdscr=None):
         set_project_consent_screen(stdscr)
         print_text('Service account has been successfully created!', stdscr)
 
+        if stdscr is not None:
+            stdscr.addstr('\n\nPress Q to get back and start use application!', curses.A_BOLD)
+            pad_refresh(stdscr, pad_pos, height, width)
     except (Exception,):
         pass
 
 
-def generate_credentials_file(client_id, client_secret, project_id, stdscr=None):
+def generate_credentials_file(
+        client_id,
+        client_secret,
+        project_id,
+        stdscr=None,
+        pad_pos=None,
+        height=None,
+        width=None
+):
+    if stdscr is not None:
+        stdscr.clear()
     print_text('Generating file with credentials...', stdscr)
     cs_data = '''{
         "installed": {
@@ -90,6 +114,8 @@ def generate_credentials_file(client_id, client_secret, project_id, stdscr=None)
     client_secrets_file = 'credentials.json'
     write_file(client_secrets_file, cs_data, stdscr=stdscr)
     print_text('Credentials file has been successfully generated!', stdscr)
+    if stdscr is not None:
+        pad_refresh(stdscr, pad_pos, height, width)
 
 
 def write_file(filename, data, stdscr=None, mode='wb'):

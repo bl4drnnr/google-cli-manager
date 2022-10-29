@@ -21,11 +21,11 @@ def _backoff(n, retries, reason, stdscr=None):
     randomness = float(random.randint(1, 1000)) / 1000
     wait_on_fail += randomness
     if n > 3:
-        print_text('\nTemp error %s. Backing off %s seconds...'
+        print_text('Temp error %s. Backing off %s seconds...'
                    % (reason, int(wait_on_fail)), stdscr)
     time.sleep(wait_on_fail)
     if n > 3:
-        print_text('attempt %s/%s\n' % (n + 1, retries), stdscr)
+        print_text('attempt %s/%s' % (n + 1, retries), stdscr)
 
 
 def call_api(

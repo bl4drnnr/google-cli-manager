@@ -11,6 +11,10 @@ commands_docs = {
         'Suspends user\'s activity\n',
         'Account isn\'t archiving, therefor activity can be restored at any moment.\n\n'
     ],
+    'Archive user': [
+        'Archives user account\n',
+        'Used mostly in order to offboard user with suspending activity before.\n\n'
+    ],
     'Change user Organizational Unit': [
         'Changes Organizational Unit user belongs to.\n',
         'Can be used from pool of existing ones.\n\n'
@@ -41,6 +45,10 @@ commands_docs = {
     'Create Google Group': [
         'Creates Google Groups within organization.\n',
         'Mostly used for creating email backups, but can be created as empty group.\n\n'
+    ],
+    'Get user by email': [
+        'Allows to get information about user by email.\n',
+        'Option is available only for delegated users and requires proper accesses.\n\n'
     ],
     'Initiate credentials files': [
         'Allow to generate or regenerate credentials files (OAuth 2.0 for personal account and Service Account) ',

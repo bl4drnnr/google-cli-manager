@@ -34,9 +34,9 @@ def print_logo(stdscr, color_pair_id):
         stdscr.addstr(idx, x, row, curses.color_pair(color_pair_id))
 
 
-def rewrite_line(mystring, stdscr=None):
+def rewrite_line(mystring, h, stdscr=None):
     if stdscr is not None:
-        win = curses.newwin(1, 54, 17, 0)
+        win = curses.newwin(1, 54, h + 1, 0)
         win.addstr(f'{mystring}')
         win.refresh()
     else:

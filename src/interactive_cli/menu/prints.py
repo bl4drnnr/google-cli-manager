@@ -58,7 +58,7 @@ def print_documentation(stdscr):
     pad.addstr('you will need in order to obtain access to different endpoints.\n\n')
 
     pad.addstr('### CREDENTIALS ###\n\n', curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
-    pad.addstr('Every action requires user to have proper access. ')
+    pad.addstr('Almost every action requires user to have proper access. ')
     pad.addstr('In every case, in order to obtain access to functions, you will ')
     pad.addstr('need to provide ')
     pad.addstr('OAuth 2.0 credentials.\n\n', curses.A_BOLD)
@@ -100,8 +100,12 @@ def print_documentation(stdscr):
     pad.addstr('Therefore, there is always ability to activate account.\n\n')
 
     pad.addstr('Change user Organizational Unit ', curses.A_BOLD)
-    pad.addstr('- changes user\'s Organizational Unit (OU). OU should already exists in Workspace.  ')
+    pad.addstr('- changes user\'s Organizational Unit (OU). OU should already exists in Workspace.')
     pad.addstr('Used as a part offboarding procedure, but can be used as single operation.\n\n')
+
+    pad.addstr('Get user by email ', curses.A_BOLD)
+    pad.addstr('- allows to get information in JSON format about user with provided email. ')
+    pad.addstr('Option is available only for users with delegated credentials.\n\n')
 
     pad.addstr('Drive\n\n', curses.A_BOLD | curses.A_UNDERLINE)
     pad.addstr('Transfer Google Drive ownership ', curses.A_BOLD)

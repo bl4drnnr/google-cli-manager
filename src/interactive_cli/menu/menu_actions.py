@@ -11,8 +11,12 @@ from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
 from src.api.services.docs import transfer_documents_ownership
 from src.api.services.calendar import transfer_calendar_events
-from src.api.services.admin import suspend_user_activity, change_ou
+from src.api.services.admin import suspend_user_activity, change_ou, get_user_by_email, archive_user
 from src.api.services.groups import create_groups
+
+from src.common.functions import pad_refresh
+
+from src.common.variables import PAD_HEIGHT
 
 
 def initiate_credentials_files(stdscr):
@@ -30,8 +34,26 @@ def initiate_credentials_files(stdscr):
         stdscr.getch()
         return 0
     else:
-        generate_credentials_file(client_id, client_secret, project_id, stdscr)
-        generate_service_account(project_id, admin_email, stdscr)
+        height, width = stdscr.getmaxyx()
+        y = 0
+        current_row_idx = 0
+        pad = curses.newpad(PAD_HEIGHT, width)
+
+        generate_credentials_file(client_id, client_secret, project_id, pad, y, height, width)
+        generate_service_account(project_id, admin_email, pad, y, height, width)
+
+        while True:
+            key = stdscr.getch()
+
+            if key == ord('q') or key == ord('Q'):
+                return 0
+
+            if key == curses.KEY_UP and current_row_idx > 0:
+                current_row_idx -= 1
+            elif key == curses.KEY_DOWN:
+                current_row_idx += 1
+
+            pad_refresh(pad, current_row_idx, height, width)
 
 
 def command_execution(stdscr, command):
@@ -73,6 +95,10 @@ def command_execution(stdscr, command):
         admin_user = print_raw_input(stdscr, 'Provide email of admin or delegated user (leave empty if no need): ').strip()
 
         suspend_user_activity(user_from, admin_user, stdscr)
+    elif command == 'Archive user':
+        user_from = print_raw_input(stdscr, 'Please, provide email of account to suspend: ').strip()
+
+        archive_user(user_from, stdscr)
     elif command == 'Change user Organizational Unit':
         user_from = print_raw_input(stdscr, 'Please, provide email of account to change OU: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
@@ -113,12 +139,19 @@ def command_execution(stdscr, command):
         customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
         email_backup_group(backup_user, admin_user, customer_id, stdscr)
+    elif command == 'Get user by email':
+        user_email = print_raw_input(stdscr, 'Please, provide email of user you want to get: ').strip()
+
+        result = get_user_by_email(user_email, stdscr)
     elif command == 'Initiate credentials files' and not credentials_files_generated:
-        initiate_credentials_files(stdscr)
+        result = initiate_credentials_files(stdscr)
 
     if result != 0:
-        stdscr.addstr('\n\nPress any key to get back...\n\n')
+        stdscr.addstr('\n\nPress Q to get back...\n\n')
         stdscr.addstr('#################################', curses.A_BOLD)
-        stdscr.getch()
+        while True:
+            key = stdscr.getch()
+            if key == ord('q') or key == ord('Q'):
+                return
     else:
         return

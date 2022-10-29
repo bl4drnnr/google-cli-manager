@@ -7,9 +7,12 @@ from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
 from src.api.services.docs import transfer_documents_ownership
 from src.api.services.calendar import transfer_calendar_events
-from src.api.services.admin import suspend_user_activity
-from src.api.services.admin import change_ou
 from src.api.services.groups import create_groups
+from src.api.services.admin import \
+    archive_user, \
+    get_user_by_email, \
+    suspend_user_activity, \
+    change_ou
 
 from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
 from src.common.credential_file import generate_credentials_file, generate_service_account
@@ -75,6 +78,11 @@ def cli_execute(operation, options):
             check_required_options(options)
 
             suspend_user_activity(options['email_from'], options['admin'])
+        elif operation == 'aua':
+            required_options = ['email_from']
+            check_required_options(options)
+
+            archive_user(options['email_from'])
         elif operation == 'cou':
             required_options = ['email_from', 'org_unit', 'admin']
             check_required_options(options)
@@ -112,6 +120,11 @@ def cli_execute(operation, options):
             create_groups(options['group'], options['admin'], options['customer_id'])
         elif operation == 'init_cred' and not credentials_files_generated:
             initiate_credentials_files(options)
+        elif operation == 'get_user':
+            required_options = ['email_from']
+            check_required_options(options)
+
+            get_user_by_email(options['email_from'])
         else:
             if operation != 'init_cred':
                 raise WrongOption

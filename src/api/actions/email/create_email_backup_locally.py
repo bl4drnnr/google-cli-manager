@@ -3,6 +3,7 @@ import sqlite3
 import time
 import base64
 import datetime
+import curses
 
 from src.api.common.call_api import call_api_pages, call_api
 from src.api.common.database import message_is_backed_up
@@ -14,6 +15,11 @@ global gmail, local_folder, sqlcur
 
 
 def create_email_backup(email_from, service, stdscr=None, return_objects=False):
+    if stdscr is not None:
+        h, w = curses.getsyx()
+    else:
+        h = None
+
     global gmail
     gmail = service
 
@@ -41,9 +47,17 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
     sqlcur = sqlconn.cursor()
 
     page_message = 'Got %%total_items%% Message IDs'
-    messages_to_process = call_api_pages(service.users().messages(),
-                                         'list', items='messages', page_message=page_message, maxResults=500,
-                                         userId='me', includeSpamTrash=False, fields='nextPageToken,messages/id', stdscr=stdscr)
+    messages_to_process = call_api_pages(
+        service.users().messages(),
+        'list',
+        items='messages',
+        page_message=page_message,
+        maxResults=500,
+        userId='me',
+        includeSpamTrash=False,
+        fields='nextPageToken,messages/id',
+        stdscr=stdscr
+    )
 
     backup_path = local_folder
     if not os.path.isdir(backup_path):
@@ -66,17 +80,20 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
         call_api(gbatch, None, soft_errors=True)
         gbatch = service.new_batch_http_request()
         sqlconn.commit()
-        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', h, stdscr)
 
-        gbatch.add(service.users().messages().get(userId='me',
-                                                  id=a_message, format='raw',
-                                                  fields='id,labelIds,internalDate,raw'), callback=backup_message)
+        gbatch.add(service.users().messages().get(
+            userId='me',
+            id=a_message,
+            format='raw',
+            fields='id,labelIds,internalDate,raw'
+        ), callback=backup_message)
         backed_up_messages += 1
 
     if len(gbatch._order) > 0:
         call_api(gbatch, None, soft_errors=True)
         sqlconn.commit()
-        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', h, stdscr)
     print("\n")
 
     messages_to_refresh = []
@@ -86,21 +103,24 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
 
     gbatch = service.new_batch_http_request()
     for a_message in messages_to_refresh:
-        gbatch.add(service.users().messages().get(userId='me',
-                                                  id=a_message, format='minimal',
-                                                  fields='id,labelIds'), callback=refresh_message)
+        gbatch.add(service.users().messages().get(
+            userId='me',
+            id=a_message,
+            format='minimal',
+            fields='id,labelIds'
+        ), callback=refresh_message)
         refreshed_messages += 1
 
         if len(gbatch._order) == 0:
             call_api(gbatch, None, soft_errors=True)
             gbatch = service.new_batch_http_request()
             sqlconn.commit()
-            rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
+            rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', h, stdscr)
 
     if len(gbatch._order) > 0:
         call_api(gbatch, None, soft_errors=True)
         sqlconn.commit()
-        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', stdscr)
+        rewrite_line(f'Backed up {backed_up_messages} of {backup_count} messages.', h, stdscr)
     print("\n")
 
     if return_objects:
