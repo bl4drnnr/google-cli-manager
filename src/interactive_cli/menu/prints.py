@@ -37,7 +37,7 @@ def print_functions_introduction(stdscr):
     stdscr.addstr(' to confirm your choice.\n\n')
 
     stdscr.addstr('Press Q to get back to main menu...\n\n', curses.A_BOLD)
-    stdscr.addstr('###################################\n\n', curses.A_BOLD)
+    stdscr.addstr('#################################\n\n', curses.A_BOLD)
 
 
 def print_documentation(stdscr):
