@@ -60,7 +60,7 @@ def generate_service_account(
         service_account_file = os.path.join(os.getcwd(), 'service.json')
         iam = init_services('iam', 'v1', None)
 
-        username = ''.join(admin_email.split("@")[0].replace('.', ''))
+        username = ''.join(admin_email.split("@")[0].split('.'))
         sa_body = {
             'accountId': username,
             'serviceAccount': {

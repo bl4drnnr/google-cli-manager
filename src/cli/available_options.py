@@ -25,9 +25,12 @@ def setup_available_options(argv):
     parser.add_argument('-o', '--org-unit',
                         metavar='',
                         help='Used for Google Admin Workspace organizational unit.')
-    parser.add_argument('-u', '--customer-id',
+    parser.add_argument('-r', '--customer-id',
                         metavar='',
                         help='In order to obtain Customer ID see README docs.')
+    parser.add_argument('-u', '--users',
+                        metavar='',
+                        help='List of users. who has access to group in next format: user1@domain.com,user2@domain.com')
 
     parser.add_argument('--offboard',
                         help='General user offboard. See docs to know what is triggered.',
@@ -45,7 +48,7 @@ def setup_available_options(argv):
                         help='Transfer Google Drive ownership.',
                         action='store_true')
     parser.add_argument('--tce',
-                        help='Transfer calendar events.',
+                        help='Transfer Google Calendar events.',
                         action='store_true')
     parser.add_argument('--tgdo',
                         help='Transfer Google Docs ownership',

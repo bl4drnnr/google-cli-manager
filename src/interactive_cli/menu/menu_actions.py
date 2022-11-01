@@ -84,43 +84,44 @@ def command_execution(stdscr, command):
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit (leave empty if no need): ').strip()
         customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
 
-        suspend_user_activity(user_from, admin_user, stdscr)
-        change_ou(user_from, org_unit, admin_user, stdscr)
+        stdscr.addstr('Provide list users email in next format: user1@domain.com,user2@domain.com\n')
+        users = print_raw_input(stdscr, 'Emails: ').strip().split(',')
+
+        suspend_user_activity(user_from, stdscr)
+        change_ou(user_from, org_unit, stdscr)
         transfer_calendar_events(user_from, user_to, admin_user, stdscr)
         transfer_drive_ownership(user_from, user_to, admin_user, stdscr)
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
-        email_backup_group(user_from, admin_user, customer_id, stdscr)
+        email_backup_group(user_from, admin_user, customer_id, users, stdscr)
     elif command == 'Suspend user activity':
         user_from = print_raw_input(stdscr, 'Please, provide email of account to suspend: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of admin or delegated user (leave empty if no need): ').strip()
 
-        suspend_user_activity(user_from, admin_user, stdscr)
+        suspend_user_activity(user_from, stdscr)
     elif command == 'Archive user':
         user_from = print_raw_input(stdscr, 'Please, provide email of account to suspend: ').strip()
 
         archive_user(user_from, stdscr)
     elif command == 'Change user Organizational Unit':
         user_from = print_raw_input(stdscr, 'Please, provide email of account to change OU: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
         org_unit = print_raw_input(stdscr, 'Provide Organizational Unit: ').strip()
 
-        change_ou(user_from, org_unit, admin_user, stdscr)
+        change_ou(user_from, org_unit, stdscr)
     elif command == 'Transfer Google Drive ownership':
         user_from = print_raw_input(stdscr, 'Please, provide email of data sender: ').strip()
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
+        admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
 
-        transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
+        transfer_drive_ownership(user_from, user_to, admin_user, stdscr)
     elif command == 'Transfer Google Calendar events':
         user_from = print_raw_input(stdscr, 'Please, provide email of data sender: ').strip()
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
+        admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
 
         transfer_calendar_events(user_from, user_to, admin_user, stdscr)
     elif command == 'Transfer Google Docs ownership':
         user_from = print_raw_input(stdscr, 'Please, provide email of data sender: ').strip()
         user_to = print_raw_input(stdscr, 'Please, provide email of data receiver: ').strip()
-        admin_user = print_raw_input(stdscr, 'Provide email of delegated user (leave empty if no need): ').strip()
+        admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
 
         transfer_documents_ownership(user_from, user_to, admin_user, stdscr)
     elif command == 'Create Google Group':
@@ -137,6 +138,9 @@ def command_execution(stdscr, command):
         backup_user = print_raw_input(stdscr, 'Please, provide email of user to backup: ').strip()
         admin_user = print_raw_input(stdscr, 'Provide email of delegated user: ').strip()
         customer_id = print_raw_input(stdscr, 'Provide customer ID: ').strip()
+
+        stdscr.addstr('Provide list users email in next format: user1@domain.com,user2@domain.com\n')
+        users = print_raw_input(stdscr, 'Emails: ').strip().split(',')
 
         email_backup_group(backup_user, admin_user, customer_id, stdscr)
     elif command == 'Get user by email':

@@ -15,7 +15,7 @@ def print_introduction(stdscr):
     stdscr.addstr('prepare all needed accesses and files with credentials.\n\n')
 
     stdscr.addstr('If you have any issues with access (you\'ve got an error)\n')
-    stdscr.addstr('contact your Google Admin Workspace administrator to obtain proper accesses.\n\n')
+    stdscr.addstr('contact your Google Workspace administrator to obtain proper accesses.\n\n')
 
     stdscr.addstr('Use ')
     stdscr.addstr('ARROWS', curses.A_BOLD)
@@ -37,7 +37,7 @@ def print_functions_introduction(stdscr):
     stdscr.addstr(' to confirm your choice.\n\n')
 
     stdscr.addstr('Press Q to get back to main menu...\n\n', curses.A_BOLD)
-    stdscr.addstr('#################################\n\n', curses.A_BOLD)
+    stdscr.addstr('###################################\n\n', curses.A_BOLD)
 
 
 def print_documentation(stdscr):
@@ -72,7 +72,7 @@ def print_documentation(stdscr):
     pad.addstr('This type of account allows you to get access to other users\' data ')
     pad.addstr('by escalating privileges from you to this account.\n\n')
     pad.addstr('If you got any access error, please, ')
-    pad.addstr('contact your Google Admin Workspace administrator.\n\n', curses.A_BOLD)
+    pad.addstr('contact your Google Workspace administrator.\n\n', curses.A_BOLD)
 
     pad.addstr('### DESCRIPTION OF AVAILABLE FUNCTIONS ###\n\n',
                curses.color_pair(2) | curses.A_BOLD | curses.A_UNDERLINE)
@@ -156,6 +156,9 @@ def print_exit(stdscr):
     stdscr.addstr('In order to obtain more information about Google API\n')
     stdscr.addstr('or other SDKs see - ')
     stdscr.addstr('https://developers.google.com\n\n', curses.A_UNDERLINE)
+
+    stdscr.addstr('Contact email - ')
+    stdscr.addstr('mikhail.bahdashych@protonmail.com\n\n', curses.A_UNDERLINE)
 
     stdscr.addstr('Press any key to exit...')
     stdscr.getch()

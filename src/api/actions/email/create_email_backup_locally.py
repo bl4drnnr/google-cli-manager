@@ -52,7 +52,7 @@ def create_email_backup(email_from, service, stdscr=None, return_objects=False):
         'list',
         items='messages',
         page_message=page_message,
-        maxResults=500,
+        maxResults=200,
         userId='me',
         includeSpamTrash=False,
         fields='nextPageToken,messages/id',

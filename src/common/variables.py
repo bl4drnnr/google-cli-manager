@@ -6,7 +6,8 @@ LOGO = [
 
 SCOPES = {
     'admin': [
-        'https://www.googleapis.com/auth/admin.directory.user'
+        'https://www.googleapis.com/auth/admin.directory.user',
+        'https://www.googleapis.com/auth/admin.directory.group'
     ],
     'drive': [
         'https://www.googleapis.com/auth/drive',

@@ -58,7 +58,7 @@ def cli_execute(operation, options):
         global required_options
 
         if operation == 'offboard':
-            required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id']
+            required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id', 'users']
             check_required_options(options)
 
             user_from = options['email_from']
@@ -66,28 +66,29 @@ def cli_execute(operation, options):
             admin_user = options['admin']
             org_unit = options['org_unit']
             customer_id = options['customer_id']
+            users = options['users'].split(',')
 
-            suspend_user_activity(user_from, admin_user)
-            change_ou(user_from, org_unit, admin_user)
+            suspend_user_activity(user_from)
+            change_ou(user_from, org_unit)
             transfer_calendar_events(user_from, user_to, admin_user)
             transfer_drive_ownership(user_from, user_to, admin_user)
             transfer_documents_ownership(user_from, user_to, admin_user)
-            email_backup_group(user_from, admin_user, customer_id)
+            email_backup_group(user_from, admin_user, customer_id, users)
         elif operation == 'sua':
-            required_options = ['email_from', 'admin']
+            required_options = ['email_from']
             check_required_options(options)
 
-            suspend_user_activity(options['email_from'], options['admin'])
+            suspend_user_activity(options['email_from'])
         elif operation == 'aua':
             required_options = ['email_from']
             check_required_options(options)
 
             archive_user(options['email_from'])
         elif operation == 'cou':
-            required_options = ['email_from', 'org_unit', 'admin']
+            required_options = ['email_from', 'org_unit']
             check_required_options(options)
 
-            change_ou(options['email_from'], options['org_unit'], options['admin'])
+            change_ou(options['email_from'], options['org_unit'])
         elif operation == 'tce':
             required_options = ['email_from', 'email_to', 'admin']
             check_required_options(options)
@@ -109,10 +110,11 @@ def cli_execute(operation, options):
 
             email_backup_locally(options['email_from'])
         elif operation == 'cebg':
-            required_options = ['email_from', 'admin', 'customer_id']
+            required_options = ['email_from', 'admin', 'customer_id', 'users']
             check_required_options(options)
+            users = options['users'].split(',')
 
-            email_backup_group(options['email_from'], options['admin'], options['customer_id'])
+            email_backup_group(options['email_from'], options['admin'], options['customer_id'], users)
         elif operation == 'cg':
             required_options = ['group', 'admin', 'customer_id']
             check_required_options(options)

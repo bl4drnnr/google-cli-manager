@@ -4,7 +4,7 @@ from src.api.service_initiator import init_service_account_object
 from src.api.actions.email.create_email_backup_locally import create_email_backup
 from src.api.actions.email.create_email_backup_groups import restore_group
 
-from src.api.services.groups import create_groups
+from src.api.services.groups import create_groups, gain_group_access
 
 from src.common.print_text import print_text
 
@@ -18,13 +18,14 @@ def email_backup_locally(email_from, stdscr=None):
         print_text(error, stdscr, error=True)
 
 
-def email_backup_group(email_from, delegated_user, customer_id, stdscr=None):
+def email_backup_group(email_from, delegated_user, customer_id, users, stdscr=None):
     try:
         service = init_service_account_object('gmail', email_from, None)
         backup_items = create_email_backup(email_from, service, stdscr=stdscr, return_objects=True)
 
         backup_group_name = email_from.split('@')[0] + '.backup@' + email_from.split('@')[1]
         create_groups(backup_group_name, delegated_user, customer_id, stdscr)
+        gain_group_access(backup_group_name, users, stdscr)
 
         service = init_service_account_object('groupsmigration', email_from, delegated_user)
         restore_group(

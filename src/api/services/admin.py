@@ -8,18 +8,18 @@ from src.api.actions.admin.archive_user_account import archive_user_account
 from src.common.print_text import print_text
 
 
-def suspend_user_activity(email, delegated_user, stdscr=None):
+def suspend_user_activity(email, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1', delegated_user)
+        service = init_services('admin', 'directory_v1')
         suspend_user(email, service)
     except Exception as e:
         error = f'An error occurred while suspending user activity: {e}'
         print_text(error, stdscr, error=True)
 
 
-def change_ou(email, ou, delegated_user, stdscr=None):
+def change_ou(email, ou, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1', delegated_user)
+        service = init_services('admin', 'directory_v1')
         change_organizational_unit(email, service, ou, stdscr)
     except Exception as e:
         error = f'An error occurred while changing organizational unit: {e}'
