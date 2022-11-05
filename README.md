@@ -13,6 +13,9 @@
    7. [Initiate credentials](#initiate-credentials)
 6. [References and Contact](#references-and-contact)
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Google](https://img.shields.io/badge/google-4285F4?style=for-the-badge&logo=google&logoColor=white)
+
 ---
 
 ### Introduction and scope
