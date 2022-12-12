@@ -1,4 +1,4 @@
-from src.api.service_initiator import init_services
+from src.api.service_initiator import ServiceInitiator
 
 from src.api.actions.admin.suspend_user_activity import suspend_user
 from src.api.actions.admin.change_organizational_unit import change_organizational_unit
@@ -10,7 +10,8 @@ from src.common.functions import print_text
 
 def suspend_user_activity(email, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service_initiator = ServiceInitiator('admin')
+        service = service_initiator.init_services()
         suspend_user(email, service)
     except Exception as e:
         error = f'An error occurred while suspending user activity: {e}'
@@ -19,7 +20,8 @@ def suspend_user_activity(email, stdscr=None):
 
 def change_ou(email, ou, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service_initiator = ServiceInitiator('admin')
+        service = service_initiator.init_services()
         change_organizational_unit(email, service, ou, stdscr)
     except Exception as e:
         error = f'An error occurred while changing organizational unit: {e}'
@@ -28,7 +30,8 @@ def change_ou(email, ou, stdscr=None):
 
 def get_user_by_email(email, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1', None)
+        service_initiator = ServiceInitiator('admin')
+        service = service_initiator.init_services()
         res = get_user(email, service, stdscr)
         return res
     except Exception as e:
@@ -39,7 +42,8 @@ def get_user_by_email(email, stdscr=None):
 
 def archive_user(email, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service_initiator = ServiceInitiator('admin')
+        service = service_initiator.init_services()
         archive_user_account(email, service, stdscr)
     except Exception as e:
         error = f'An error occurred while archiving user account: {e}'

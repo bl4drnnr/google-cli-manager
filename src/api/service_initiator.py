@@ -19,7 +19,12 @@ from src.common.variables import SCOPES
 from src.api.common.read_file import read_file
 
 
-def get_api_version(api):
+def _create_http_object(cache=None, timeout=600):
+    http_args = {'cache': cache, 'timeout': timeout}
+    return httplib2.Http(**http_args)
+
+
+def _get_api_version(api):
     if api == 'oauth2':
         return 'v2'
     elif api == 'gmail':
@@ -27,8 +32,48 @@ def get_api_version(api):
     elif api == 'groupsmigration':
         return 'v1'
     elif api == 'drive':
-        return 'v2'
+        return 'v3'
+    elif api == 'calendar':
+        return 'v3'
+    elif api == 'admin':
+        return 'directory_v1'
+    elif api == 'docs':
+        return 'v1'
+    elif api == 'iam':
+        return 'v1'
     return 'v1'
+
+
+class ServiceInitiator:
+    def __init__(self, api_name, delegated_user=None):
+        self._api_name = api_name
+        self._delegated_user = delegated_user
+
+    def init_services(self):
+        os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+        creds = None
+
+        api_scope = SCOPES[self._api_name]
+        if os.path.exists('token.json'):
+            creds = Credentials.from_authorized_user_file('token.json', api_scope)
+
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', api_scope)
+                creds = flow.run_local_server()
+
+            with open('token.json', 'w') as token:
+                token.write(creds.to_json())
+
+        if self._delegated_user is not None:
+            credentials = service_account.Credentials.from_service_account_file(
+                'service.json', scopes=api_scope)
+            creds = credentials.with_subject(self._delegated_user)
+
+        service = build(self._api_name, _get_api_version(self._api_name), credentials=creds)
+        return service
 
 
 def get_service_acc_credentials(scopes, act_as):
@@ -49,37 +94,6 @@ def get_service_acc_credentials(scopes, act_as):
         sys.exit()
 
 
-def _create_http_object(cache=None, timeout=600):
-    http_args = {'cache': cache, 'timeout': timeout}
-    return httplib2.Http(**http_args)
-
-
-def init_services(api_name, api_version, delegated_user=None):
-    os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
-    creds = None
-
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES[api_name])
-
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES[api_name])
-            creds = flow.run_local_server()
-
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
-
-    if delegated_user is not None:
-        credentials = service_account.Credentials.from_service_account_file(
-            'service.json', scopes=SCOPES[api_name])
-        creds = credentials.with_subject(delegated_user)
-
-    service = build(api_name, api_version, credentials=creds)
-    return service
-
-
 def init_service_account_object(api, email, use_admin):
     auth_as = use_admin if use_admin else email
     scopes = SCOPES[api]
@@ -87,7 +101,7 @@ def init_service_account_object(api, email, use_admin):
     httpc = _create_http_object()
     request = google_auth_httplib2.Request(httpc)
     credentials.refresh(request)
-    version = get_api_version(api)
+    version = _get_api_version(api)
     try:
         service = googleapiclient.discovery.build(
             api,

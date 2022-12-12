@@ -6,7 +6,7 @@ import curses
 
 from src.common.functions import print_text
 from src.api.common.call_api import call_api
-from src.api.service_initiator import init_services
+from src.api.service_initiator import ServiceInitiator
 from src.api.common.read_file import read_file
 from src.common.functions import pad_refresh
 
@@ -58,7 +58,8 @@ def generate_service_account(
             stdscr.clear()
         print_text('Generating service account...', stdscr)
         service_account_file = os.path.join(os.getcwd(), 'service.json')
-        iam = init_services('iam', 'v1', None)
+        service_initiator = ServiceInitiator('iam')
+        iam = service_initiator.init_services()
 
         username = ''.join(admin_email.split("@")[0].split('.'))
         sa_body = {

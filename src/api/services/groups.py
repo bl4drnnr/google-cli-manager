@@ -1,4 +1,4 @@
-from src.api.service_initiator import init_group_service, init_services
+from src.api.service_initiator import init_group_service, ServiceInitiator
 
 from src.api.actions.groups.create_group import create_google_group
 from src.api.actions.groups.get_group_by_email import get_group_by_email
@@ -18,7 +18,8 @@ def create_groups(group_name, delegated_user, customer_id, stdscr=None):
 
 def gain_group_access(group_key, users, stdscr=None):
     try:
-        service = init_services('admin', 'directory_v1')
+        service_initiator = ServiceInitiator('admin')
+        service = service_initiator.init_services()
         group = get_group_by_email(group_key, service)
         gain_access_to_group(group['id'], users, service, stdscr)
     except Exception as e:
