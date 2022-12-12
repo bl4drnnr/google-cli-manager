@@ -11,7 +11,7 @@ import googleapiclient
 import googleapiclient.discovery
 import googleapiclient.errors
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 extra_args = {'prettyPrint': False}
 

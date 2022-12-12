@@ -2,10 +2,7 @@ import os
 import curses
 
 from src.common.credential_file import generate_credentials_file, generate_service_account
-from src.common.functions import print_raw_input, print_logo
-
-from src.interactive_cli.menu.docs import commands_docs
-from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
+from src.common.functions import print_raw_input, print_logo, check_client_id_and_secret
 
 from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership
@@ -16,7 +13,7 @@ from src.api.services.groups import create_groups
 
 from src.common.functions import pad_refresh
 
-from src.common.variables import PAD_HEIGHT
+from src.common.variables import PAD_HEIGHT, COMMAND_DOCS
 
 
 def initiate_credentials_files(stdscr):
@@ -59,7 +56,7 @@ def initiate_credentials_files(stdscr):
 def command_execution(stdscr, command):
     print_logo(stdscr, 4)
 
-    command_instructions = commands_docs[command]
+    command_instructions = COMMAND_DOCS[command]
 
     for idx, row in enumerate(command_instructions):
         if idx == 0:

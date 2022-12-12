@@ -1,9 +1,8 @@
 import json
 import curses
 
-from src.common.print_text import print_text
 from src.common.variables import PAD_HEIGHT
-from src.common.functions import pad_refresh
+from src.common.functions import pad_refresh, print_text
 
 user = None
 

@@ -1,4 +1,4 @@
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def gain_access_to_group(group_key, users, service, stdscr=None):
