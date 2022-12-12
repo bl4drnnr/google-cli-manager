@@ -1,19 +1,18 @@
 import sys
+import curses
 
 from curses import wrapper
 
-from src.interactive_cli.curses_settings.init_curses_settings import init_curses_settings
-from src.interactive_cli.menu.menu_navigator import init_interactive_cli
+from src.interactive_cli.menu_navigator import init_interactive_cli
 
-from src.cli.available_options import setup_available_options
-from src.cli.cli_actions_navigator import cli_execute
+from src.cli.cli_actions_navigator import CliExecutor
 
 from src.exceptions.index import SingleArgument
 from src.common.variables import CLI_OPERATIONS
 
 
 def cli(argv):
-    options = setup_available_options(argv)
+    options = CliExecutor.setup_available_options(argv)
     operation = []
     set_options = {}
 
@@ -31,13 +30,20 @@ def cli(argv):
         print('One operation argument is expected.')
         sys.exit()
 
-    cli_execute(operation[0], set_options)
+    cli_executor = CliExecutor(operation[0], set_options)
+    cli_executor.cli_execute()
 
     sys.exit()
 
 
 def interactive_cli(stdscr):
-    init_curses_settings()
+    curses.curs_set(0)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+    curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
+
     init_interactive_cli(stdscr)
 
 

@@ -2,10 +2,9 @@ import os
 import curses
 
 from src.common.credential_file import generate_credentials_file, generate_service_account
-from src.common.functions import print_raw_input, print_logo
+from src.common.functions import print_raw_input, print_logo, check_client_id_and_secret
 
-from src.interactive_cli.menu.docs import commands_docs
-from src.oauth2_service.check_client_id_and_secret import check_client_id_and_secret
+from src.interactive_cli.docs import commands_docs
 
 from src.api.services.email import email_backup_locally, email_backup_group
 from src.api.services.drive import transfer_drive_ownership

@@ -8,8 +8,7 @@ import curses
 from src.api.common.call_api import call_api_pages, call_api
 from src.api.common.database import message_is_backed_up
 
-from src.common.print_text import print_text
-from src.common.functions import rewrite_line
+from src.common.functions import rewrite_line, print_text
 
 global gmail, local_folder, sqlcur
 

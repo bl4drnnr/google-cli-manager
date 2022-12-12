@@ -1,4 +1,4 @@
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def change_organizational_unit(email, service, ou, stdscr=None):

@@ -6,8 +6,7 @@ from io import BytesIO
 
 from src.api.common import fmbox
 from src.api.common.call_api import call_api
-from src.common.print_text import print_text
-from src.common.functions import rewrite_line
+from src.common.functions import rewrite_line, print_text
 
 mbox_extensions = ['mbx', 'mbox', 'eml']
 suffixes = ['b', 'kb', 'mb', 'gb', 'tb', 'pb']

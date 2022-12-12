@@ -3,7 +3,7 @@ import curses
 
 from src.common.variables import MENU, AVAILABLE_FUNCTIONS, PAD_HEIGHT
 from src.common.functions import pad_refresh, navigation_control, print_logo
-from src.interactive_cli.menu.menu_actions import command_execution
+from src.interactive_cli.menu_actions import command_execution
 
 
 def print_introduction(stdscr):

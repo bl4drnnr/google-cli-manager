@@ -5,7 +5,7 @@ from src.api.actions.admin.change_organizational_unit import change_organization
 from src.api.actions.admin.get_user import get_user
 from src.api.actions.admin.archive_user_account import archive_user_account
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def suspend_user_activity(email, stdscr=None):

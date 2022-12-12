@@ -6,7 +6,7 @@ from src.api.actions.email.create_email_backup_groups import restore_group
 
 from src.api.services.groups import create_groups, gain_group_access
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def email_backup_locally(email_from, stdscr=None):

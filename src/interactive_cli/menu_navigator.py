@@ -1,6 +1,6 @@
 import curses
 
-from src.interactive_cli.menu.prints import \
+from src.interactive_cli.prints import \
     print_menu, \
     print_functions_menu, \
     print_documentation, \

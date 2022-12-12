@@ -4,7 +4,7 @@ import json
 import base64
 import curses
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 from src.api.common.call_api import call_api
 from src.api.service_initiator import init_services
 from src.api.common.read_file import read_file

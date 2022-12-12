@@ -4,7 +4,7 @@ from src.api.actions.groups.create_group import create_google_group
 from src.api.actions.groups.get_group_by_email import get_group_by_email
 from src.api.actions.groups.gain_access_to_group import gain_access_to_group
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def create_groups(group_name, delegated_user, customer_id, stdscr=None):

@@ -1,4 +1,4 @@
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def create_google_group(group_name, customer_id, service, stdscr=None):

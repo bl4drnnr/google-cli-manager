@@ -1,7 +1,7 @@
 from src.api.service_initiator import init_services
 from src.api.actions.calendar.merge_calendar import transfer_events
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def transfer_calendar_events(email_from, email_to, delegated_user, stdscr=None):

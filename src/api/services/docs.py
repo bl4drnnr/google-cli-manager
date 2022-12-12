@@ -1,7 +1,7 @@
 from src.api.service_initiator import init_services
 from src.api.actions.docs.tranfer_ownership import transfer_ownership
 
-from src.common.print_text import print_text
+from src.common.functions import print_text
 
 
 def transfer_documents_ownership(email_from, email_to, delegated_user, stdscr=None):
