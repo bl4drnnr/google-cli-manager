@@ -26,6 +26,9 @@ SCOPES = {
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/cloud-identity.groups'
     ],
+    'cloudidentity': [
+        'https://www.googleapis.com/auth/cloud-identity.groups'
+    ]
 }
 
 CLI_OPERATIONS = ['offboard', 'sua', 'cou', 'tce', 'tdo', 'cebl', 'cebg', 'tgdo', 'cg', 'init_cred', 'get_user', 'aua']

@@ -41,6 +41,8 @@ def _get_api_version(api):
         return 'v1'
     elif api == 'iam':
         return 'v1'
+    elif api == 'cloudidentity':
+        return 'v1'
     return 'v1'
 
 
@@ -75,62 +77,57 @@ class ServiceInitiator:
         service = build(self._api_name, _get_api_version(self._api_name), credentials=creds)
         return service
 
+    def init_service_account_object(self, email, use_admin):
+        def get_service_acc_credentials(service_scopes, act_as):
+            try:
+                json_string = read_file(os.path.join(os.getcwd(), 'service.json'))
+                if not json_string:
+                    print('There is no credentials file.')
+                    sys.exit()
+                sa_info = json.loads(json_string)
+                service_credentials = google.oauth2.service_account.Credentials.from_service_account_info(sa_info)
+                service_credentials = service_credentials.with_scopes(service_scopes)
+                service_credentials = service_credentials.with_subject(act_as)
+                service_request = google_auth_httplib2.Request(_create_http_object())
+                service_credentials.refresh(service_request)
+                return service_credentials
+            except (ValueError, KeyError):
+                print('Wrong credential file.')
+                sys.exit()
 
-def get_service_acc_credentials(scopes, act_as):
-    try:
-        json_string = read_file(os.path.join(os.getcwd(), 'service.json'))
-        if not json_string:
-            print('There is no credentials file.')
-            sys.exit()
-        sa_info = json.loads(json_string)
-        credentials = google.oauth2.service_account.Credentials.from_service_account_info(sa_info)
-        credentials = credentials.with_scopes(scopes)
-        credentials = credentials.with_subject(act_as)
-        request = google_auth_httplib2.Request(_create_http_object())
+        auth_as = use_admin if use_admin else email
+        scopes = SCOPES[self._api_name]
+        credentials = get_service_acc_credentials(scopes, auth_as)
+        httpc = _create_http_object()
+        request = google_auth_httplib2.Request(httpc)
         credentials.refresh(request)
-        return credentials
-    except (ValueError, KeyError):
-        print('Wrong credential file.')
-        sys.exit()
+        version = _get_api_version(self._api_name)
+        try:
+            service = googleapiclient.discovery.build(
+                self._api_name,
+                version,
+                http=httpc,
+                cache_discovery=False,
+                static_discovery=False)
+            service._http = google_auth_httplib2.AuthorizedHttp(credentials, http=httpc)
+            return service
+        except (httplib2.ServerNotFoundError, RuntimeError) as e:
+            print(e)
+            sys.exit()
+        except google.auth.exceptions.RefreshError as e:
+            if isinstance(e.args, tuple):
+                e = e.args[0]
+            print(e)
+            sys.exit()
 
+    def init_group_service(self):
+        credentials = service_account.Credentials.from_service_account_file(
+            'service.json', scopes=SCOPES[self._api_name])
+        delegated_credentials = credentials.with_subject(self._delegated_user)
 
-def init_service_account_object(api, email, use_admin):
-    auth_as = use_admin if use_admin else email
-    scopes = SCOPES[api]
-    credentials = get_service_acc_credentials(scopes, auth_as)
-    httpc = _create_http_object()
-    request = google_auth_httplib2.Request(httpc)
-    credentials.refresh(request)
-    version = _get_api_version(api)
-    try:
         service = googleapiclient.discovery.build(
-            api,
-            version,
-            http=httpc,
-            cache_discovery=False,
-            static_discovery=False)
-        service._http = google_auth_httplib2.AuthorizedHttp(credentials, http=httpc)
+            self._api_name,
+            _get_api_version(self._api_name),
+            credentials=delegated_credentials)
+
         return service
-    except (httplib2.ServerNotFoundError, RuntimeError) as e:
-        print(e)
-        sys.exit()
-    except google.auth.exceptions.RefreshError as e:
-        if isinstance(e.args, tuple):
-            e = e.args[0]
-        print(e)
-        sys.exit()
-
-
-def init_group_service(delegated_user):
-    credentials = service_account.Credentials.from_service_account_file(
-        'service.json', scopes=['https://www.googleapis.com/auth/cloud-identity.groups'])
-    delegated_credentials = credentials.with_subject(delegated_user)
-
-    service_name = 'cloudidentity'
-    api_version = 'v1'
-    service = googleapiclient.discovery.build(
-        service_name,
-        api_version,
-        credentials=delegated_credentials)
-
-    return service

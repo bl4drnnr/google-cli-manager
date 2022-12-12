@@ -1,4 +1,4 @@
-from src.api.service_initiator import init_group_service, ServiceInitiator
+from src.api.service_initiator import ServiceInitiator
 
 from src.api.actions.groups.create_group import create_google_group
 from src.api.actions.groups.get_group_by_email import get_group_by_email
@@ -9,7 +9,8 @@ from src.common.functions import print_text
 
 def create_groups(group_name, delegated_user, customer_id, stdscr=None):
     try:
-        service = init_group_service(delegated_user)
+        service_initiator = ServiceInitiator('cloudidentity', delegated_user)
+        service = service_initiator.init_group_service()
         create_google_group(group_name, customer_id, service, stdscr)
     except Exception as e:
         error = f'An error occurred while creating groups: {e}'
