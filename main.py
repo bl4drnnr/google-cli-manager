@@ -3,8 +3,7 @@ import curses
 
 from curses import wrapper
 
-from src.interactive_cli.menu_navigator import init_interactive_cli
-
+from src.interactive_cli.menu_navigator import InteractiveCliExecutor
 from src.cli.cli_actions_navigator import CliExecutor
 
 from src.exceptions.index import SingleArgument
@@ -44,7 +43,8 @@ def interactive_cli(stdscr):
     curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
-    init_interactive_cli(stdscr)
+    interactive_cli_executor = InteractiveCliExecutor(stdscr)
+    interactive_cli_executor.init_interactive_cli()
 
 
 def main(argv):
