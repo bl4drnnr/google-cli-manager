@@ -23,8 +23,10 @@ def cli(argv):
                 set_options[i] = options.__dict__[i]
 
     try:
-        if len(operation) != 1:
+        if len(operation) != 1 and set_options != {'delete': True}:
             raise SingleArgument
+        if set_options == {'delete': True}:
+            operation = ['']
     except SingleArgument:
         print('One operation argument is expected.')
         sys.exit()

@@ -55,7 +55,7 @@ class CliExecutor:
         try:
             credentials_files_generated = False
 
-            if not os.path.exists('credentials.json') or not os.path.exists('service.json'):
+            if (not os.path.exists('credentials.json') or not os.path.exists('service.json')) and 'delete' not in self._options:
                 initiate_credentials_files(self._options)
                 credentials_files_generated = True
 
@@ -140,9 +140,8 @@ class CliExecutor:
                 check_required_options(self._options)
 
                 get_user_by_email(self._options['email_from'])
-            elif self._operation == 'delete':
-                # Execute delete script
-                pass
+            elif 'delete' in self._options:
+                return
             else:
                 if self._operation != 'init_cred':
                     raise WrongOption
