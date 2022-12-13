@@ -140,6 +140,9 @@ class CliExecutor:
                 check_required_options(self._options)
 
                 get_user_by_email(self._options['email_from'])
+            elif self._operation == 'delete':
+                # Execute delete script
+                pass
             else:
                 if self._operation != 'init_cred':
                     raise WrongOption
@@ -238,6 +241,9 @@ class CliExecutor:
 
         services.add_argument('-i', '--init-cred',
                               help='Init or reinit credentials.',
+                              action='store_true')
+        services.add_argument('--delete',
+                              help='Uninstall application from the computer.',
                               action='store_true')
 
         return parser.parse_args(argv)
