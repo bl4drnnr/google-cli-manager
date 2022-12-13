@@ -16,18 +16,6 @@ from src.common.functions import print_text
 extra_args = {'prettyPrint': False}
 
 
-def _backoff(n, retries, reason, stdscr=None):
-    wait_on_fail = (2 ** n) if (2 ** n) < 60 else 60
-    randomness = float(random.randint(1, 1000)) / 1000
-    wait_on_fail += randomness
-    if n > 3:
-        print_text('Temp error %s. Backing off %s seconds...'
-                   % (reason, int(wait_on_fail)), stdscr)
-    time.sleep(wait_on_fail)
-    if n > 3:
-        print_text('attempt %s/%s' % (n + 1, retries), stdscr)
-
-
 def call_api(
         service,
         function,
@@ -65,7 +53,6 @@ def call_api(
                 socket.gaierror,
                 ssl.SSLEOFError,
                 httplib2.error.ServerNotFoundError) as e:
-            _backoff(n, retries, e, stdscr)
             continue
         except googleapiclient.errors.HttpError as e:
             try:
@@ -82,7 +69,6 @@ def call_api(
             if n != retries and (http_status >= 500 or
                                  reason in ['rateLimitExceeded', 'userRateLimitExceeded', 'backendError'] or
                                  reason in retry_reasons):
-                _backoff(n, retries, reason, stdscr)
                 continue
             print_text('\n%s: %s - %s' % (http_status, message, reason), stdscr)
             if soft_errors:

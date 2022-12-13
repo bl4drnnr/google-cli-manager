@@ -33,7 +33,7 @@ class CliExecutor:
                 raise WrongAttributes
 
             for option in set_options:
-                if option not in required_options:
+                if option not in required_options and f"{option}/optional" not in required_options:
                     raise WrongAttributes
 
         def initiate_credentials_files(options):
@@ -62,7 +62,7 @@ class CliExecutor:
             global required_options
 
             if self._operation == 'offboard':
-                required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id', 'users']
+                required_options = ['email_from', 'email_to', 'admin', 'org_unit', 'customer_id', 'users', 'backup_group/optional']
                 check_required_options(self._options)
 
                 user_from = self._options['email_from']
@@ -72,12 +72,16 @@ class CliExecutor:
                 customer_id = self._options['customer_id']
                 users = self._options['users'].split(',')
 
+                backup_group_name = self._options['backup_group'] if \
+                    'backup_group' in self._options else \
+                    user_from.split('@')[0] + '.backup@' + user_from.split('@')[1]
+
                 suspend_user_activity(user_from)
                 change_ou(user_from, org_unit)
                 transfer_calendar_events(user_from, user_to, admin_user)
                 transfer_drive_ownership(user_from, user_to, admin_user)
                 transfer_documents_ownership(user_from, user_to, admin_user)
-                email_backup_group(user_from, admin_user, customer_id, users)
+                email_backup_group(user_from, admin_user, customer_id, backup_group_name, users)
             elif self._operation == 'sua':
                 required_options = ['email_from']
                 check_required_options(self._options)
@@ -114,13 +118,18 @@ class CliExecutor:
 
                 email_backup_locally(self._options['email_from'])
             elif self._operation == 'cebg':
-                required_options = ['email_from', 'admin', 'customer_id', 'users']
+                required_options = ['email_from', 'admin', 'customer_id', 'users', 'backup_group/optional']
                 check_required_options(self._options)
                 users = self._options['users'].split(',')
 
-                email_backup_group(self._options['email_from'], self._options['admin'], self._options['customer_id'], users)
+                email_from = self._options['email_from']
+                backup_group_name = self._options['backup_group'] if \
+                    'backup_group' in self._options else \
+                    email_from.split('@')[0] + '.backup@' + email_from.split('@')[1]
+
+                email_backup_group(email_from, self._options['admin'], self._options['customer_id'], backup_group_name, users)
             elif self._operation == 'cg':
-                required_options = ['group', 'admin', 'customer_id']
+                required_options = ['group', 'admin', 'customer_id', 'backup_group/optional']
                 check_required_options(self._options)
 
                 create_groups(self._options['group'], self._options['admin'], self._options['customer_id'])
@@ -167,6 +176,9 @@ class CliExecutor:
         parser.add_argument('-g', '--group',
                             metavar='',
                             help='Name of the group.')
+        parser.add_argument('-b', '--backup-group',
+                            metavar='',
+                            help='Name of the backup group. Default: *.backup@*')
         parser.add_argument('-o', '--org-unit',
                             metavar='',
                             help='Used for Google Admin Workspace organizational unit.')

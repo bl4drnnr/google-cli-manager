@@ -44,7 +44,7 @@ def restore_msg_to_group(gmig, full_message, message_num, sqlconn, group_id, std
     sqlconn.commit()
 
 
-def restore_group(email_from, service, local_folder, sqlcur, sqlconn, stdscr=None):
+def restore_group(email_from, service, backup_group_name, local_folder, sqlcur, sqlconn, stdscr=None):
     max_message_size = service._rootDesc['resources']['archive']['methods']['insert']['mediaUpload']['maxSize']
     print_text(f'Groups supports restore of messages up to {max_message_size}', stdscr)
     resume_db = os.path.join(local_folder, "%s-restored.sqlite" % email_from)
@@ -78,8 +78,7 @@ def restore_group(email_from, service, local_folder, sqlcur, sqlconn, stdscr=Non
                 continue
             with open(os.path.join(local_folder, message_filename), 'rb') as f:
                 full_message = f.read()
-            group_id = email_from.split('@')[0] + '.backup@' + email_from.split('@')[1]
-            restore_msg_to_group(service, full_message, message_num, sqlconn, group_id)
+            restore_msg_to_group(service, full_message, message_num, sqlconn, backup_group_name)
     else:
         sqlcur.execute('ATTACH ? as resume', (resume_db,))
         sqlcur.executescript('''CREATE TABLE IF NOT EXISTS resume.restored_messages (message_num TEXT PRIMARY KEY)''')
@@ -121,8 +120,7 @@ def restore_group(email_from, service, local_folder, sqlcur, sqlconn, stdscr=Non
                     mbox_pct = percentage(mbox._mbox_position, mbox._mbox_size)
                     rewrite_line(f'Message {current} - {mbox_pct}%', stdscr)
                     full_message = message.as_bytes()
-                    group_id = email_from.split('@')[0] + '.backup@' + email_from.split('@')[1]
-                    restore_msg_to_group(service, full_message, request_id, sqlconn, group_id=group_id)
+                    restore_msg_to_group(service, full_message, request_id, sqlconn, group_id=backup_group_name)
 
     sqlconn.commit()
     sqlconn.execute('DETACH resume')
