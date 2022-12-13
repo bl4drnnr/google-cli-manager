@@ -16,7 +16,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from src.common.variables import SCOPES
-from src.api.common.read_file import read_file
+from src.common.functions import read_file
 
 
 def _create_http_object(cache=None, timeout=600):

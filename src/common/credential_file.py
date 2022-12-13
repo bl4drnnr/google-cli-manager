@@ -7,8 +7,7 @@ import curses
 from src.common.functions import print_text
 from src.api.common.call_api import call_api
 from src.api.service_initiator import ServiceInitiator
-from src.api.common.read_file import read_file
-from src.common.functions import pad_refresh
+from src.common.functions import pad_refresh, read_file
 
 from src.common.variables import SCOPES
 
