@@ -44,8 +44,7 @@ def rewrite_line(mystring, h, stdscr=None):
         win.addstr(f'{mystring}')
         win.refresh()
     else:
-        print(' ' * 80, end='\r')
-        print(mystring, end='\r')
+        print(mystring)
 
 
 def check_client_id_and_secret(client_id, client_secret):

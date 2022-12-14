@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import subprocess
 
 from src.exceptions.index import WrongOption, NoCredentialsFile, WrongAttributes
 
@@ -141,7 +142,11 @@ class CliExecutor:
 
                 get_user_by_email(self._options['email_from'])
             elif 'delete' in self._options:
-                return
+                uninstall_file_path = f'{os.path.dirname(__file__)}/uninstall.sh'
+                os.chmod(uninstall_file_path, 0o777)
+                with open(uninstall_file_path, 'rb') as file:
+                    script = file.read()
+                subprocess.call(script, shell=True)
             else:
                 if self._operation != 'init_cred':
                     raise WrongOption
