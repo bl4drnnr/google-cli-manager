@@ -56,7 +56,9 @@ class CliExecutor:
         try:
             credentials_files_generated = False
 
-            if (not os.path.exists('credentials.json') or not os.path.exists('service.json')) and 'delete' not in self._options:
+            credential_file = f'{os.path.dirname(__file__)}/credentials.json'
+            service_file = f'{os.path.dirname(__file__)}/service.json'
+            if (not credential_file or not service_file) and 'delete' not in self._options:
                 initiate_credentials_files(self._options)
                 credentials_files_generated = True
 
